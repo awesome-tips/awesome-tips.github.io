@@ -3,10 +3,53 @@ list: {
   des: "App启动速度、包大小、内存、网络、电量、流量监控、IO",
   datas: [
      {
-        title: "在线工具 VIP",
-        tag: "好多好多工具",
-        href: "https://atool.vip/#/",
-        des: "看了不后悔，很多很多工具"
+        title: "iOS启动优化？看下这个清单吧",
+        tag: "启动优化",
+        href: "https://mp.weixin.qq.com/s/mD1eVJKfgT1paDFZGxZ4kQ",
+        des: "过去两年多的时间里，我写了一些iOS应用启动性能优化的文章，这篇文章整理个简单的目录。"
     },
+    {
+        title: "App 网络连接优化",
+        tag: "网络",
+        href: "https://mp.weixin.qq.com/s/ZObLVTOaPgJE4bSMBVSsyw",
+        des: "在系列《一》里大家了解到网络优化一般会首选优化DNS，而接下来的HTTP协议成为优化的重点，一般优化者会选择协议切换，合并请求，精简数据包大小等手段来对HTTP协议进行优化，严谨的说这都不属于网络优化的范畴。"
+    },
+    {
+        title: "App 网络 DNS 优化",
+        tag: "DNS 优化",
+        href: "https://mp.weixin.qq.com/s/Z2K0Qpesd_bS9ZLM7-xmvQ",
+        des: "网络优化是客户端几大技术方向中公认的一个深度领域，所以百度App给大家带来网络深度优化系列文章，其中包含系列《一》DNS优化，系列《二》连接优化，系列《三》弱网优化，希望对大家在网络方向的学习和实践有所帮助。"
+    },
+    {
+        title: "Crash优化与建议",
+        tag: "Crash",
+        href: "https://mp.weixin.qq.com/s/srG0xXvWGEfGt9nHN4YOjQ",
+        des: "本文对iOS应用上经常遇到的Crash（常规signal触发的闪退）进行分析，并结合笔者的优化经验，给出Crash分析和建议。"
+    },
+    {
+        title: "深入理解iOS Crash Log",
+        tag: "Crash",
+        href: "https://mp.weixin.qq.com/s/MIirQu2HH9hrI631dxBNHg",
+        des: "Crash Log的主要来源有两种：Apple提供的，可以从用户设备中直接拷贝，或者从iTunes Connect（XCode）下载
+三方或者自研Framework统计，三方服务包括Fabric，Bugly等。"
+    },
+    {
+        title: "iOS启动时间优化",
+        tag: "启动时间",
+        href: "https://mp.weixin.qq.com/s/zeWfmAi0YnoQowcPpFhHUA",
+        des: "一个项目做的时间长了，启动流程往往容易杂乱，库也用的越来越多，APP 的启动时间也会慢慢变长。本次将针对 iOS APP 的启动时间优化一波。"
+    },
+    # {
+    #     title: "深入理解iOS Crash Log",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
+    # {
+    #     title: "深入理解iOS Crash Log",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
   ]
 }

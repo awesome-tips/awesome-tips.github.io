@@ -3,10 +3,172 @@ list: {
   des: "关于 Flutter 中高质的内容",
   datas: [
      {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代 iOS 系统发布（2007 年）已经过去 11 年，这 11 年中移动端日益成熟，Web 端的时代逐步转移到了移动端。各种跨平台技术层出不穷，很多公司采取了 Hybrid 方案，这就涉及到 JS 和端（Android 和 iOS）进行交互。"
+        title: "Flutter必备 | Flex布局完全解读",
+        tag: "FlexBox布局",
+        href: "https://mp.weixin.qq.com/s/_Sy_hmugpJBV1AdI5M-Naw",
+        des: "Flutter作为一个跨平台的框架，最能展现它实力的当属界面了，一套界面可以同时运用在多个终端，这是一件非常令人兴奋的事。进入Flutter的世界，你的第一道拦路虎当属布局了，庞大的组件家族让你望而却步，但将他们进行梳理之后你就会发现，这是非常友善的。你可以在需要的时候使用相应的单体组件，需要排布的时候也会有众多的布局组件为你做后盾。 "
     },
+    {
+        title: "教育App Flutter点播组件实战",
+        tag: "组件实战",
+        href: "https://mp.weixin.qq.com/s/9pKUYBQmDadLp5N6Ukowew",
+        des: "Flutter的框架主要包括Framework和Engine两层，应用是基于Framework层开发的，Framework负责渲染中的Build，Layout，Paint，生成Layer等。Engine层是C++实现的渲染引擎，负责把Framework生成的Layer组合，生成纹理，然后通过OpenGL接口向GPU提交渲染数据。"
+    },
+    {
+        title: "有赞 Flutter 混编方案",
+        tag: "混编方案",
+        href: "https://mp.weixin.qq.com/s/gZQPF41PszJNqaSoTlhCCg",
+        des: "以上比较全面的描述了有赞的 Flutter 混编方案，目前有赞已经在内部使用的App上使用 Flutter 开发了一些页面作为试点。后续会考虑在线上 App 试点，目前正在进行 Flutter 基础库的搭建，之后会专门有文章分享。"
+    },
+    {
+        title: "基于Flutter的架构演进与创新",
+        tag: "架构演进与创新",
+        href: "https://mp.weixin.qq.com/s/Vy6r_P6N8C37p_RlrCFe2g",
+        des: "Flutter是Google开源的跨端便携UI工具包，除了具有非常优秀的跨端渲染一致性，还具备非常高效的研发体验，丰富的开箱即用的UI组件，以及跟Native媲美的性能体验。由于它的众多优势，也使得Flutter成为了近些年来热门的新技术。"
+    },
+    {
+        title: "深入理解Flutter多线程",
+        tag: "多线程",
+        href: "https://mp.weixin.qq.com/s/yRATozGD92CLNaF7vSmcIQ",
+        des: "Flutter默认是单线程任务处理的，如果不开启新的线程，任务默认在主线程中处理。和iOS应用很像，在Dart的线程中也存在事件循环和消息队列的概念，但在Dart中线程叫做isolate。应用程序启动后，开始执行main函数并运行main isolate。"
+    },
+    {
+        title: "Flutter 1.7 来了，看看有什么新变化",
+        tag: "Flutter 1.7",
+        href: "https://mp.weixin.qq.com/s/bFZaSmRrGT5o53mxa70rjw",
+        des: "Google 官方正式发布了 Flutter 1.7 版本，这是 Google I/O 之后一次小版本迭代，主要包含了对 AndroidX 的支持和 Play Store 的一些更新，一些新的和增强的组件，以及一些问题的修复。下面我们简单看看这些更新。"
+    },
+    {
+        title: "GMTC2019演讲实录|闲鱼基于Flutter的架构演进与创新",
+        tag: "GMTC2019",
+        href: "https://mp.weixin.qq.com/s/evidVtEeBk142wILHq5_Iw",
+        des: "“Flutter是Google开源的跨端便携UI工具包，除了具有非常优秀的跨端渲染一致性，还具备非常高效的研发体验，丰富的开箱即用的UI组件，以及跟Native媲美的性能体验。由于它的众多优势，也使得Flutter成为了近些年来热门的新技术。"
+    },
+     {
+        title: "Flutter移动端实战手册",
+        tag: "实战手册",
+        href: "https://mp.weixin.qq.com/s/xdBbishBSd77_5uZMpDDSA",
+        des: "在进行iOS和Flutter的混编时，iOS比Android的接入方式略复杂，但也还好。现在市面上有不少接入Flutter的方案，但大多数都是千篇一律相互抄的，没什么意义。"
+    },
+     {
+        title: "SwiftUI vs. Flutter",
+        tag: "SwiftUI Flutter",
+        href: "https://mp.weixin.qq.com/s/0RcW35J9NbmkXang-d4zyg",
+        des: "相信每一个见到 SwiftUI 的开发者，都会立刻将这门船新的 UI 框架和 Flutter 联系到一起。是的，它们身上有太多太多相似的地方，相似的声明语法、实时热更新、跨平台（SwiftUI 仅仅跨 Apple 平台）等等，让羡慕了前端技术爆发的移动开发圈子也热闹了一回。那么 SwiftUI 和 Flutter 到底有什么相似和不同？它们又各有什么优缺点？以及最后，单就技术方向而言，谁才是未来跨平台方案的赢家呢？"
+    },
+     {
+        title: "给 iOS 开发者的 Flutter 指南（上）",
+        tag: "指南",
+        href: "https://mp.weixin.qq.com/s/Nvm2nZP8OdAchTnd3pW97A",
+        des: "这篇文章是为那些想将已有的 iOS 开发经验运用到 Flutter 开发中的 iOS 开发者所作。 如果你理解 iOS framework 的基本原理，那么你可以将这篇文章作为学习 Flutter 开发的起点。"
+    },
+     {
+        title: "给 iOS 开发者的 Flutter 指南（下）",
+        tag: "指南",
+        href: "https://mp.weixin.qq.com/s/pWzk5gfjWNGE4Gxlbkmajw",
+        des: "这篇文章是为那些想将已有的 iOS 开发经验运用到 Flutter 开发中的 iOS 开发者所作。 如果你理解 iOS framework 的基本原理，那么你可以将这篇文章作为学习 Flutter 开发的起点。"
+    },
+     {
+        title: "十分钟带你入坑Flutter",
+        tag: "入坑",
+        href: "https://mp.weixin.qq.com/s/DzwfR7_cGc00u0I0OG90gA",
+        des: "Flutter是Google开发的新一代跨平台方案，Flutter可以实现写一份代码同时运行在iOS和Android设备上，并且提供很好的性能体验。Flutter使用Dart作为开发语言，这是一门简洁、强类型的编程语言。Flutter对于iOS和Android设备，提供了两套视觉库，可以针对不同的平台有不同的展示效果。"
+    },
+     {
+        title: "Flutter 实现原理及在马蜂窝的跨平台开发实践",
+        tag: "马蜂窝 实践",
+        href: "https://mp.weixin.qq.com/s/IKt3XXzc5fjTNw8dHKbUUQ",
+        des: "在马蜂窝旅游 App 很多业务场景里，我们尝试过一些主流的跨平台开发解决方案， 比如WebView 和 React Native，来提升开发效率和用户体验。但这两种方式也带来了新的问题。"
+    },
+     {
+        title: "Flutter 状态管理之 Scoped Model & Redux",
+        tag: "状态管理",
+        href: "https://mp.weixin.qq.com/s/2aWWgHa7uDRu7f8XzyOrNw",
+        des: "可能作为一个前端，在学习 Flutter 的过程中，总感觉非常非常相似 React Native，甚至于，其中还是有state的概念 setState，所以在 Flutter 中，也当然会存在非常多的解决方案，比如 redux 、RxDart 还有 Scoped Model等解决方案。今天，我们主要介绍下常用的两种 State 管理解决方案：redux、scoped model。"
+    },
+    {
+        title: "使用 Flutter 开发 Google Translate 程序",
+        tag: "Google Translate",
+        href: "https://mp.weixin.qq.com/s/41Ip8Q9Mmw4CwIs-__7HsQ",
+        des: "在本教程中，我们将使用 Flutter 来开发适用于 Android 和 iOS 的谷歌翻译应用程序。下面是程序的基本界面。"
+    },
+    {
+        title: "2019 Flutter 心愿单",
+        tag: "Flutter",
+        href: "https://mp.weixin.qq.com/s/5ghu1YkFwV-ECjMdVsVP7A",
+        des: "我非常期望看到它在移动平台之外能蓬勃发展并更加成熟。看看 React Native 在过去几年里的发展，我坚信 Flutter 可以达到同样的成果，并坚信 Dart 成为最好的客户端语言的梦想将会实现。"
+    },
+    {
+        title: "热修复、生态、混合工程 | Flutter 2019 产品路线图正式公布",
+        tag: "产品路线图",
+        href: "https://mp.weixin.qq.com/s/QN6BQrk1js0NJTeg9s7MfQ",
+        des: "本月 18 号，Flutter 的产品经理 Tim Sneath 在官方的 Wiki 页面更新了这份 Roadmap 文档，小编编冒着上班迟到的风险为大家翻译了本文。"
+    },
+    {
+        title: "Flutter Live 2018 Flutter1.0 发布",
+        tag: "Flutter1.0",
+        href: "https://mp.weixin.qq.com/s/ojCLd0MRes8VtQImQr7i5w",
+        des: "Flutter Live 2018 在 12 月 4 日 晚上进行全球同步直播，知识小集团队一直关注着 Flutter 的发展，并在公众号中多次推送 Flutter 相关的文章。如果你对 Flutter 或移动端开发感兴趣，可以关注我们的公众号【知识小集】。"
+    },
+     {
+        title: "闲鱼 Fultter 混合工程持续集成的最佳实践",
+        tag: "混合工程",
+        href: "https://mp.weixin.qq.com/s/nyLt3piAP30t91hBiPDdeA",
+        des: "在之前的文章《Flutter 混合工程改造实践》中，有些同学留言想了解抽取 Flutter 依赖到远程的一些实现细节，所以本文重点来讲一讲 Flutter 混合工程中的 Flutter 直接依赖解除的一些具体实现。"
+    },
+     {
+        title: "用 Flutter 开发一个 Github 客户端",
+        tag: "Github 客户端",
+        href: "https://mp.weixin.qq.com/s/ntFodSK6GUYoSCIFgr_2FQ",
+        des: "Gitme 是 Flutter 中文网 https://flutterchina.club/ 开发的一款 Github 客户端，本文和大家分享一下我们使用 Flutter 从开始设计 Gitme 到动手开发，再到最后上线的整个过程中的一些思考、经验、以及趟过的坑。在阅读本文前，您可以先去我们的官网安装一下 Gitme ，然后再对比本文中提到的点，才会有一个清晰的认识。"
+    },
+     {
+        title: "Release Flutter 的最后一公里",
+        tag: "介绍",
+        href: "https://mp.weixin.qq.com/s/NF_6xq5K_fcTDe1hO_Iz0g",
+        des: "Flutter 是一个使用 Dart 语言开发的跨平台移动 UI 框架，通过自建绘制引擎，能高性能、高保真地进行 Android 和 iOS 开发。在业界还未出现过 Base Flutter 的大型商业应用实战验证的情况下，闲鱼技术团队在最复杂且重要的商品详情页作了相关的技术实践并取得良好的结果。现尝试通过本文向有兴趣进行类似实践的开发者或团队分享过程中的思考/实践过程。"
+    },
+    {
+        title: "Flutter 混合工程改造实践",
+        tag: "混合工程",
+        href: "https://mp.weixin.qq.com/s/qiFKruk43KfWyGvligYmdA",
+        des: "闲鱼技术团队于 2018 年上半年率先引入了 Flutter 技术尝试实现客户端开发的统一，并成功改造和上线了复杂的商品详情业务。这一过程中，由于原有的 iOS 和 Android 工程都已相当庞大，如何将 Flutter 无缝桥接到这些大工程并保证开发效率不受影响成为优先要解决的问题"
+    },
+    {
+        title: "React Native vs. Flutter 评测",
+        tag: "React Native vs. Flutter",
+        href: "https://mp.weixin.qq.com/s/Or28Gf71wuJrCUP0lKGpGg",
+        des: "我在对比评测中提供了尽可能多的数据，并不是想证明 Flutter 和原生比有多烂，而是想告诉你如果选择了 Flutter 你的 App 包会增长多少倍、对 App 启动速度的影响会有多少秒，好让大家将来在定技术栈的时候能够尽量心中有数。"
+    },
+    {
+        title: "深入理解 flutter 的编译原理与优化",
+        tag: "编译原理",
+        href: "https://mp.weixin.qq.com/s/W2RfmXYrqPYoGcu4g2nqtA",
+        des: "对于开发者而言，什么是 Flutter？它是用什么语言编写的，包含哪几部分，是如何被编译，运行到设备上的呢？Flutter 如何做到 Debug 模式 Hot Reload 快速生效变更，Release 模式原生体验的呢？"
+    },
+    {
+        title: "Flutter 简易入门（没有放弃）",
+        tag: "入门",
+        href: "https://mp.weixin.qq.com/s/0V5HU_kN6umlzv-9-NIp7w",
+        des: "Flutter 目前还是 Beta 3 版本，1.0 版本还在路上。不过它在 React Native/weex等跨平台方案之外，又为我们提供了一种跨平台的方案。而且其自身的许多特性，也为我们扩展了新的视野。如果 Fuchsia 系统最终能和 iOS、Android 成三足鼎立之式，甚至于取代 Android，那么 Flutter 就能为我们带来更多的可能。所以现在了解一下还是有必要的。"
+    },
+    {
+        title: "深入了解 Flutter 界面开发",
+        tag: "界面",
+        href: "https://mp.weixin.qq.com/s/BGYUIR1cNrhZZ3QHEF8jFA",
+        des: "本文不是 Flutter 界面开发入门文章，而是一篇深入介绍 Flutter framework关于视图树的创建与管理机制、布局、渲染的原理、以及 Flutter 布局与渲染相关性能优化的设计思路的文章。同时介绍在使用 Flutter 开发过程中，遇到的一些坑和相应的解决方案。"
+    },
+    {
+        title: "Flutter Beta 3 新特性概览",
+        tag: "Beta 3",
+        href: "https://mp.weixin.qq.com/s/uQx-50mNZvOmTsJPaOTMMQ",
+        des: "自从 Google 在 2017 年的 Google I/O 上推出 Flutter 以来，Flutter 团队投入了大量的精力来不断完善 Flutter。包括重写引擎的主要部分、发布支持 Android Studio 和 Visual Studio Code 的插件、集成 Dart 2 ，增加更多 Firebase API 的支持等等。"
+    },
+    # {
+    #     title: "Release Flutter 的最后一公里",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

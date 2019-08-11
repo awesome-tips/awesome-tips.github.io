@@ -1,12 +1,26 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "CocoaPods —— 包管理",
+  des: "更方面使用第三方库",
   datas: [
-     {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+    {
+        title: "你们要的 CocoaPods 1.8 Beta 版来了！",
+        tag: "1.8 Beta",
+        href: "https://mp.weixin.qq.com/s/fkbqvsIkjwbRun5acxsRZg",
+        des: "CDN 支持最初是在 1.7 版本中引入的，最终在 1.7.2 中完成。它旨在大大加快初始化设置和依赖性分析。使用 1.8，CocoaPods 不再需要拷贝现在庞大的 master specs repo 才能运行，用户几乎可以立即将他们的项目与 CocoaPods 集成。"
     },
+    {
+        title: "开启 Cocoapods 新选项，加快项目索引速度",
+        tag: "索引速度",
+        href: "https://mp.weixin.qq.com/s/R4KQWpdMgsnx918AhgXxCg",
+        des: "前几天 Cocoapods 1.7.0 正式版发布了，我最期待的一个功能是 Multiple Pod Projects，昨天顺手就给接入了，项目解析和索引效率有了非常明显的提升，过程中踩了些坑，这次一起把之前 debug 的经验分享一下。"
+    },
+    {
+        title: "Pod 中资源引入方式对比",
+        tag: "资源引入",
+        href: "https://mp.weixin.qq.com/s/26iiNvJgWL-KeMxqfw7LHQ",
+        des: "写这篇博客起因是由于上周四在知识小集发了一个 Tip ：「 应用 icon 被 Cocoapods “吃掉”的解决方式 」，讲 Pod 里面使用了 .xcassets 会导致 Xcode 9 打出来的包没有 icon 的解决方案。然后和 @Damonwong 展开了一下讨论。"
+    },
+
+    
 ]
 }
