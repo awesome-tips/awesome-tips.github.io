@@ -1,7 +1,11 @@
 <header class="site-header">
   <div class="site-nav-box">
       {%- for item in site.data.nav.nav.datas -%}
+      {% if item.title == '前端' %}
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="{{item.href}}">{{item.title}}</a></p>
+      {% else %}
       <p class="site-nav-item"><a class="site-nav-item" href="{{item.href}}">{{item.title}}</a></p>
+      {% endif %}
       {%- endfor -%}
   </div>
 </header>

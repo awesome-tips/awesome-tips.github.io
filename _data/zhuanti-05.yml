@@ -1,12 +1,12 @@
-tool: {
-  title: "性能优化资源 —— 提升App体验",
-  des: "App启动速度、包大小、内存、网络、电量、流量监控、IO",
+list: {
+  title: "Flutter —— 跨平台解决方案",
+  des: "关于 Flutter 中高质的内容",
   datas: [
      {
-        title: "在线工具 VIP",
-        tag: "好多好多工具",
-        href: "https://atool.vip/#/",
-        des: "看了不后悔，很多很多工具"
+        title: "一本走心的 JS-Native 交互电子书",
+        tag: "JS-Native 交互",
+        href: "https://github.com/lefex/DSA/issues/16",
+        des: "2018 年距离第一代"
     },
-  ]
+]
 }
