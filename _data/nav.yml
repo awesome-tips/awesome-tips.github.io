@@ -13,16 +13,16 @@ nav: {
       href: "/flutter/"
     },
     {
-      title: "前端",
-      href: "https://lefex.github.io/fe/"
-    },
-    {
       title: "资源推荐",
       href: "/resource/"
     },
     {
       title: "团队",
       href: "/about/"
+    },
+    {
+      title: "前端",
+      href: "https://lefex.github.io/fe/"
     },
   ]
 }

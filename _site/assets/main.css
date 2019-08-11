@@ -78,10 +78,10 @@ h1, h2, h3, h4, h5, h6 {
  * Links
  */
 a {
-  color: #222222;
+  color: #2a7ae2;
   text-decoration: none; }
   a:visited {
-    color: #222222; }
+    color: #2a7ae2; }
   a:hover {
     color: #2a7ae2;
     text-decoration: underline; }
@@ -310,12 +310,12 @@ site content
 .site-list-item-title {
   font-size: 20px;
   font-weight: 900;
-  color: #2e3135;
+  color: #2e3135 !important;
   margin-top: 15px; }
 
 .site-list-item-des {
   font-size: 17px;
-  color: #444444;
+  color: #444444 !important;
   letter-spacing: 1.5px; }
 
 .site-list-item-tag {
