@@ -1,0 +1,41 @@
+#main3 p3 {
+    color: red;
+    .redbox {
+        color: yellow;
+    }
+}
+
+a2 {
+    color: #222222;
+    text-decoration: none;
+  
+    &:visited {
+      color: #222222;
+    }
+  
+    &:hover {
+      color: blue;
+      text-decoration: underline;
+    }
+  
+    .social-media-list &:hover {
+      text-decoration: none;
+  
+      .username {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .funky {
+    font: {
+      family: fantasy;
+      size: 30em;
+      weight: bold;
+    }
+  }
+
+  $text-color3: red !default;
+  #var3 {
+      color: $text-color;
+  }

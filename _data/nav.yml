@@ -1,0 +1,28 @@
+nav: {
+  datas: [
+    {
+      title: "知识小集",
+      href: "/"
+    },
+    {
+      title: "#iOS小集",
+      href: "/iostip/"
+    },
+    {
+      title: "Flutter",
+      href: "/flutter/"
+    },
+    {
+      title: "前端",
+      href: "/fe/"
+    },
+    {
+      title: "资源推荐",
+      href: "/resource/"
+    },
+    {
+      title: "团队",
+      href: "/about/"
+    },
+  ]
+}

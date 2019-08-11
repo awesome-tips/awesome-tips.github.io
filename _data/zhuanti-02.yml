@@ -1,0 +1,12 @@
+tool: {
+  title: "性能优化资源 —— 提升App体验",
+  des: "App启动速度、包大小、内存、网络、电量、流量监控、IO",
+  datas: [
+     {
+        title: "在线工具 VIP",
+        tag: "好多好多工具",
+        href: "https://atool.vip/#/",
+        des: "看了不后悔，很多很多工具"
+    },
+  ]
+}

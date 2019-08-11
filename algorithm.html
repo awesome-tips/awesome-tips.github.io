@@ -1,0 +1,22 @@
+---
+layout: nav-page
+title: 
+permalink: /algorithm/
+---
+
+<div class="page-top-box">
+    <p class="site-item-title">{{site.algorithm.title}}</p>
+    <p class="site-item-subtitle">{{site.algorithm.des}}</p>
+</div>
+
+<div class="site-list-box">
+
+    {%- for item in site.algorithm.datas -%}
+    <div class="site-list-item">
+        <p class="site-list-item-title"><a target="_black" href="{{item.href}}">{{item.title}}</a><span class="site-list-item-tag">
+            {{item.tag}}
+        </span></p>
+        <p class="site-list-item-des"> <a target="_black" href="{{item.href}}">{{item.des}}</a></p>
+    </div>
+    {%- endfor -%}
+</div>

@@ -1,0 +1,26 @@
+---
+layout: home-page
+title: 知识小集
+permalink: /home/
+---
+<div class="site-banner">
+    <p class="site-banner-title">知识小集公众号，天天高质 iOS 内容</p>
+    <a  class="site-banner-btn" href="/about/">立即关注 ></a>
+</div>
+<div>
+  <div class="site-content">
+      {%- for item in site.data.home.home.datas -%}
+      <div class="site-item-box">
+          <div class="site-item-top">
+            <div class="site-item-right">
+              <p class="site-item-title">{{item.title}}</p>
+              <p class="site-item-subtitle">{{item.des}}</p>
+            </div>
+          </div>
+          <div class="site-item-bottom">
+            <a class="site-item-btn" href="{{item.href}}">{{item.link-title}}</a>
+          </div>
+        </div>
+      {%- endfor -%}
+    <!-- end -->
+  </div>

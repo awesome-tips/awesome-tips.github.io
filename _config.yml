@@ -1,0 +1,446 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: 知识小集
+description: >- # this means to ignore newlines until "baseurl:"
+  iOS高质量内容推送。
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://lefex.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
+github_username:  awesome-tips
+
+# Build settings
+markdown: kramdown
+# theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
+
+# {
+#         title: "",
+#         tag: "",
+#         href: "",
+#         des: ""
+# },
+
+
+tool: {
+  title: "资源 —— 提升效率的武器",
+  des: "好用的工具汇总，比较好的资源推荐",
+  datas: [
+     {
+        title: "在线工具 VIP",
+        tag: "好多好多工具",
+        href: "https://atool.vip/#/",
+        des: "看了不后悔，很多很多工具"
+    },
+  ]
+}
+
+common: {
+  title: "计算机通用技术 —— 那些不变的技术",
+  des: "很多技术思想是一样的",
+  datas: [
+     {
+        title: " 分析一个App需要的技术手段 ",
+        tag: "逆序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484391&idx=1&sn=7684c851bc3a9f9ebd234014baffe706&chksm=fabb0374cdcc8a62b1ae5f469e9aac5a1a35853627296f47da18e24216036cbc56887bf12cfb&token=2045356700&lang=zh_CN#rd",
+        des: "通过逆序技术分析微信"
+    },
+    {
+        title: "程序中如何更好地处理状态",
+        tag: "设计模式",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484358&idx=1&sn=3937392ae19589f6dfcd3ffc36a41735&chksm=fabb0355cdcc8a4333f6e5efa6f06bb2ebfe5ad761d41bc1bfa50c3b741963706d9984b6913d&token=2045356700&lang=zh_CN#rd",
+        des: "最近看了《JavaScript设计模式与开发实践》这本书，它是我看过把设计模式讲的最好的书，书中通过具体的业务来讲解「设计模式」，好多时候都会与作者产生共鸣。今天我们的目的是如何通过「状态模式」来实现一个下载状态的管理。"
+    },
+    {
+        title: "2019 年新开源的 JavaScript 引擎 QuickJS ",
+        tag: "QuickJS",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484354&idx=1&sn=00688645ad4dc5a96778f1918aa51d33&chksm=fabb0351cdcc8a4779346925e4344d375b901bf892ddf2b47b7b2ffc3c30c9fb9bb123620fa9&token=2045356700&lang=zh_CN#rd",
+        des: "QuickJS 2019年7月9日 Fabrice Bellard 开源了一款 JavaScript 引擎，使用 MIT 协议。Fabrice Bellard 是一位计算机奇才，著名的多媒体播放器 FFmpeg 就是由他发起，一生中开源了很多项目，比如 QEMU 等。"
+    },
+    {
+        title: "如何学懂正则表达式 ",
+        tag: "正则表达式",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484289&idx=1&sn=6692ffd18e4e5f4cf010aeb500518c5e&chksm=fabb0312cdcc8a0425b3519be14fd2082b7c24b8c965c08ad475738789eee6a3c39cb84c3175&token=2045356700&lang=zh_CN#rd",
+        des: "有时候一个正则表达式能「少写100行代码」，工作中经常会用到，我们需要学懂它，本文介绍如何「学懂」正则表达式，并推荐GitHub上最火的正则表达式项目和可视化正则表达式。"
+    },
+    {
+        title: "我原来不懂递归",
+        tag: "递归",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484175&idx=1&sn=97c2c47f12cd6c9ab0f280290f6eab4f&chksm=fabb039ccdcc8a8a876558ed96ca2e1370bcebe756fe6b349b56cd0fbdaaa08d973c03a09b21&token=2045356700&lang=zh_CN#rd",
+        des: "理解递归可以通过画图的方式把整个流程画出来，理解起来就会清晰很多，也可以通过打印的方式，打印每一步执行的值。"
+    },
+    {
+        title: "你知道 Base64 编码中的 64 指的是什么吗？",
+        tag: "Base64",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484215&idx=1&sn=3e9348a291fc4c04ab042223e504eb82&chksm=fabb03a4cdcc8ab29b5869945eb7bef0fd9104617baaa8acca6944698745147617806d759c11&token=2045356700&lang=zh_CN#rd",
+        des: "base64 编码总位数为 4 的倍数，若不够用以 “=” 补全。这就是为什么总会看到base64编码后有时会多出几个“=”号的原因。满足 3*8 = 4*6 原则。"
+    },
+    {
+        title: "8D85-8D8A-6280-672F ？ ",
+        tag: "UTF8 Unicode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484176&idx=1&sn=b710a3947595838e765b5e678852afa2&chksm=fabb0383cdcc8a956b84f5b8d815c0c7b8d84b70e6f97767e7306857b27bd75069f5e31c8be9&token=2045356700&lang=zh_CN#rd",
+        des: "计算机能够很容易理解 8D85-8D8A-6280-672F 这串数字的含义，而对于人类却很难知道其具体意义。这串编码是 Unicode 编码，转换成汉子就是本公众号的名字：知识小集。"
+    },
+  ]
+}
+
+ios: {
+  title: "iOS —— 过去5年走过的路",
+  des: "iOS是我的本职工作，这里记录我以往经验",
+  datas: [
+     {
+        title: "一本走心的 JS-Native 交互电子书",
+        tag: "JS-Native 交互",
+        href: "https://github.com/lefex/DSA/issues/16",
+        des: "2018 年距离第一代 iOS 系统发布（2007 年）已经过去 11 年，这 11 年中移动端日益成熟，Web 端的时代逐步转移到了移动端。各种跨平台技术层出不穷，很多公司采取了 Hybrid 方案，这就涉及到 JS 和端（Android 和 iOS）进行交互。"
+    },
+    {
+        title: "以不一样的方式理解SDWebImage",
+        tag: "SDWebImage",
+        href: "https://github.com/lefex/LefexWork/blob/master/blog/iOS/%E4%BB%A5%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84%E6%96%B9%E5%BC%8F%E7%90%86%E8%A7%A3SDWebImage.md",
+        des: "本文不会教你咋么使用SD，而是要告诉你如何读懂SD，掌握SD的原理及架构。"
+    },
+    {
+        title: "读懂「 唱吧 KTVHTTPCache 」设计思想",
+        tag: "KTVHTTPCache",
+        href: "https://github.com/lefex/LefexWork/blob/master/blog/iOS/%E8%AF%BB%E6%87%82%E3%80%8C-%E5%94%B1%E5%90%A7KTVHTTPCache-%E3%80%8D%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3.md",
+        des: "最近看到各大V转发关于 唱吧音视频框架 KTVHTTPCache 的开源消息，首先我非常感谢唱吧 iOS 团队能够无私地把自己的成果开源。"
+    },
+    {
+        title: "iWeChat 利用逆序分析App需要掌握的技术手段",
+        tag: "逆向",
+        href: "https://github.com/lefex/iWeChat",
+        des: "希望通过 iWeChat 这个项目能过勾勒出微信的设计，使用到的技术手段等"
+    },
+    {
+        title: "如何把国际化时需要3天的工作量缩减到10分钟",
+        tag: "国际化",
+        href: "https://github.com/lefex/LefexWork/blob/master/blog/iOS/%E3%80%90iOS-%E5%9B%BD%E9%99%85%E5%8C%96%E3%80%91%E5%A6%82%E4%BD%95%E6%8A%8A%E5%9B%BD%E9%99%85%E5%8C%96%E6%97%B6%E9%9C%80%E8%A6%813%E5%A4%A9%E7%9A%84%E5%B7%A5%E4%BD%9C%E9%87%8F%E7%BC%A9%E5%87%8F%E5%88%B010%E5%88%86%E9%92%9F.md",
+        des: "利用 Python 脚本做一些有意义的事情"
+    },
+]
+}
+
+
+
+algorithm: {
+  title: "图解算法 —— 让算法活起来",
+  des: "LeetCode、十大排序算法、算法思想",
+  datas: [
+    {
+        title: "图解排序 1/10 - 冒泡排序",
+        tag: "冒泡排序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483822&idx=1&sn=ff5b8abd13ac4e89953dd07f16eca8d3&chksm=fabb013dcdcc882be39d9aad8c462de93eb7bcf49234caa5dd7403cc67bb84f4d2168a1952a5&token=263194275&lang=zh_CN#rd",
+        des: "冒泡排序是通过比较两个相邻元素的大小实现排序，如果前一个元素大于后一个元素，就交换这两个元素。这样就会让每一趟冒泡都能找到最大一个元素并放到最后。"
+    },
+    {
+        title: "图解排序 2/10 - 插入排序",
+        tag: "插入排序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483828&idx=1&sn=d8f0675f4e54e3b273c90c59be54eaeb&chksm=fabb0127cdcc883158bb0791f26cae1ea8494b496744f802b22babb4c03eaaef25e98dfbff57&token=263194275&lang=zh_CN#rd",
+        des: "插入排序的核心思想是把一个待排序序列，分成 2 部分，前半部分为有序序列，后半部分为无序序列，遍历后半部分数据，插入到前半部分已经排序好的序列，最终得到一个有序序列。"
+    },
+    {
+        title: "图解排序 3/10 - 希尔排序",
+        tag: "希尔排序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483834&idx=1&sn=d91d9d354d765da8bece9c06510f3a5d&chksm=fabb0129cdcc883f5c48e76a7690b4fe698415827c82c8ef4c8482a8618fdff05258f13eff03&token=263194275&lang=zh_CN#rd",
+        des: "希尔排序，它是由 D.L.Shell 于1959 年提出而得名。根据它的名字很难想象算法的核心思想。[ 所以只能死记硬背了，面试官问：希尔排序的思想是什么？]。它的核心思想是把一个序列分组，对分组后的内容进行插入排序，这里的分组只是逻辑上的分组，不会重新开辟存储空间。它其实是插入排序的优化版，插入排序对基本有序的序列性能好，希尔排序利用这一特性把原序列分组，对每个分组进行排序，逐步完成排序。"
+    },
+    {
+        title: "图解排序 4/10 - 快速排序",
+        tag: "快速排序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483843&idx=1&sn=0d0e23585aacaa4a291c201a155f7617&chksm=fabb0150cdcc88464eacf4f6b60a0562171658cb4e0c6262b2fb9ecd02c194e58faae777ab0f&token=263194275&lang=zh_CN#rd",
+        des: "快速排序的核心思想是对待排序序列通过一个「支点」（支点就是序列中的一个元素，别把它想的太高大上）进行拆分，使得左边的数据小于支点，右边的数据大于支点。然后把左边和右边再做一次递归，直到递归结束。支点的选择也是一门大学问，我们以 （左边index + 右边index）/ 2 来选择支点。一图胜千言，看图吧。"
+    },
+    {
+        title: "图解排序 5/10 - 归并排序",
+        tag: "归并排序 ",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483848&idx=1&sn=35145839503cf88a88fdd6e964a6c90d&chksm=fabb015bcdcc884d06dccf879889abed4f680cbb62e07aae65a82ce7f7a28de9a0c29d0c0cce&token=263194275&lang=zh_CN#rd",
+        des: "归并排序，采用分治思想，先把待排序序列拆分成一个个子序列，直到子序列只有一个元素，停止拆分，然后对每个子序列进行边排序边合并。其实，从名字「归并」可以看出一丝「拆、合」的意思（妄加猜测）。"
+    },
+    {
+        title: "图解排序 6/10 - 堆排序 ",
+        tag: "堆排序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483889&idx=1&sn=4c92c6d9fdb9b0fbc3cc99ee1a2fcadf&chksm=fabb0162cdcc8874bb601ed836f996dcd849f50993960d07e34539f6779b2dc295fcad0d4d63&token=263194275&lang=zh_CN#rd",
+        des: "堆排序需要借助于一种数据结构「堆」，注意下文说的都是 「大根堆」。排序的过程中需要不断进行重组堆（heapify 阶段）。关于堆这种数据结构在上一篇文章已经讲过了。"
+    },
+    {
+        title: "图解排序 7/10 - 计数排序",
+        tag: "计数排序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483892&idx=1&sn=2af95b49be0ac263a9fa16444c06a360&chksm=fabb0167cdcc8871c15cf1bb85ef625cc4395e91cbe8f81bdbcb1e47a3d8af30310b0adb4f79&token=263194275&lang=zh_CN#rd",
+        des: "计数排序的核心思想是把一个无序序列 A 转换成另一个有序序列 B，从 B 中逐个“取出”所有元素，取出的元素即为有序序列「没看明白，不急，后面来张图就搞明白了」。这种算法比快速排序还要快「特定条件下」，它适用于待排序序列中元素的取值范围比较小。比如对某大型公司员工按年龄排序，年龄的取值范围很小，大约在（10-100）之间。"
+    },
+    {
+        title: "图解排序 8/10 - 桶排序 ",
+        tag: "桶排序 ",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483894&idx=1&sn=050c2d219cc16021db0f6cec83045257&chksm=fabb0165cdcc88737c673df3424b615e0e64cc5a0501d9c97cd26bfcff651a60a2d19a43f585&token=263194275&lang=zh_CN#rd",
+        des: "桶排序的核心思想是把数据分到若干个“桶”中，对“桶”中的元素进行排序，最终把“桶”中已排序好的数据合并为一个有序序列。"
+    },
+    {
+        title: "图解排序 9/10 - 基数排序 ",
+        tag: "基数排序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483895&idx=1&sn=0c3097272d4587963a026cf699d10ce0&chksm=fabb0164cdcc88724dfaebd98087baa914f33253bd9278c95f48859529f34943185e83ee2f62&token=263194275&lang=zh_CN#rd",
+        des: "基数排序是从待排序序列找出可以作为排序的「关键字」，按照「关键字」进行多次排序，最终得到有序序列。比如对 100 以内的序列 arr =  [ 3,  9,  489,  1,  5, 10, 2, 7, 6, 204 ]进行排序，排序关键字为「个位数」、「十位数」和「百位数」这 3 个关键字，分别对这 3 个关键字进行排序，最终得到一个有序序列。"
+    },
+    {
+        title: "图解排序 10/10 - 选择排序",
+        tag: "选择排序",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483897&idx=1&sn=8fd337d568a9f56fd1e926fb1012565c&chksm=fabb016acdcc887ce4f0e438a4fb2704c62cf4996a0abda2f2f2f6a629d52aef3be01df46010&token=263194275&lang=zh_CN#rd",
+        des: "选择排序的思想是，依次从「无序列表」中找到一个最小的元素放到「有序列表」的最后面。以 arr = [ 8, 1, 4, 6, 2, 3, 5, 4 ] 为例，排序开始时把 arr 分为有序列表 A = [ ], 无序列表 B = [ 8, 1, 4, 6, 2, 3, 5, 4 ]，依次从 B 中找出最小的元素放到 A 的最后面。这种排序也是逻辑上的分组，实际上不会创建 A 和 B，只是用下标来标记 A 和 B。"
+    },
+    {
+        title: "图解 LeetCode 链表: 83. Remove Duplicates from Sorted List ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483939&idx=1&sn=5e68e353c5216ff197b8403152d03c02&chksm=fabb02b0cdcc8ba6fab84dca5b239dd44f0d1924fa5c559b681688c46ca885e00f0b93b9fe9a&token=263194275&lang=zh_CN#rd",
+        des: "给定一个「有序」的链表，去掉重复的节点，每个节点只能出现一次，假定为单链表。开始之前需要补充一下单链表数据结构，学完链表相关的算法后，链表这个数据结构你也就掌握了，一箭双雕。"
+    },
+    {
+        title: "图解 LeetCode 链表: 82. Remove Duplicates from Sorted List II ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483940&idx=1&sn=0f71bdcf10b28e523770b8d7d10acbd8&chksm=fabb02b7cdcc8ba1a00c9018834d480bddeeac837d57e7c2940619aafd5b418f1ebfa564c2dd&token=263194275&lang=zh_CN#rd",
+        des: "Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list."
+    },
+    {
+        title: "图解 LeetCode 链表: 21. Merge Two Sorted Lists ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483973&idx=1&sn=391969ed5f3f7dea26f19358d96e7ae1&chksm=fabb02d6cdcc8bc0a4cd73187ee23b8fd6e6fc58ac9032ab2c28b9b8d80558beb29e1e0afd3c&token=263194275&lang=zh_CN#rd",
+        des: "Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists."
+    },
+    {
+        title: "图解 LeetCode 链表: 2. Add Two Numbers ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483981&idx=1&sn=d2a9a9a59f6c80e3ccc923dd3b804a6a&chksm=fabb02decdcc8bc8a3e1e0c3f800e208ea966eb3721bb701b4a5a52b1aacdf1be6ff3120c714&token=263194275&lang=zh_CN#rd",
+        des: "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list."
+    },
+    {
+        title: "图解 LeetCode 链表: 206. Reverse Linked List 反转单链表",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483982&idx=1&sn=7a93eeede708ec1dcd265ed373153f00&chksm=fabb02ddcdcc8bcb83a357709da2858521c9b2d5e7eaa3c32fe81d63e85abd17c9485a4b18ce&token=263194275&lang=zh_CN#rd",
+        des: "今天的题目是反转单链表，这道题面试被问到的几率很大，网上有些资料解释的不太清楚，我今天给你把它讲明白了。"
+    },
+    {
+        title: " 图解 LeetCode 链表: 92. Reverse Linked List II ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483983&idx=1&sn=7835498ed44036b840b4a152510d086e&chksm=fabb02dccdcc8bca3feed368151e7eb702c7d27e948075b5910d144ad7496442c2cc5b489898&token=263194275&lang=zh_CN#rd",
+        des: "反转单链表中某个范围的链表，也就是只对部分节点进行反转。"
+    },
+    {
+        title: "图解 LeetCode 链表: 237. Delete Node in a Linked List ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483984&idx=1&sn=c619a0fbbb9e085fbe43bc826828b748&chksm=fabb02c3cdcc8bd55f61e249162b8c96a85f9959cc280c6701a04e34d6de49f0021ce9d836f2&token=263194275&lang=zh_CN#rd",
+        des: "Write a function to delete a node (except the tail) in a singly linked list,given only access to that node. "
+    },
+    {
+        title: "图解 LeetCode 链表: 203. Remove Linked List Elements ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483985&idx=1&sn=46d8a2a42afd21dbf4a8acbeff445cff&chksm=fabb02c2cdcc8bd49ee7419849da9f08b55e72003dad1f8bcbbe75f584a5d7e0dae7894ad37d&token=263194275&lang=zh_CN#rd",
+        des: "Remove all elements from a linked list of integers that have value val."
+    },
+    {
+        title: "图解 LeetCode 链表: 328. Odd Even Linked List ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483986&idx=1&sn=9fdf4c5f2c9c5c93cbf38007bb51125c&chksm=fabb02c1cdcc8bd7ecf74a89a7374bdfa42c0a7a7c18bc317e335a2f6be1da5a7df5b8413ae1&token=263194275&lang=zh_CN#rd",
+        des: "把单链表按奇偶的顺序进行重新组合，奇偶指的是节点的下标而不是节点的值。"
+    },
+    {
+        title: " 图解 LeetCode 链表: 61. Rotate List ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483993&idx=1&sn=243a6f90e32e4ea3d6668fcecae74609&chksm=fabb02cacdcc8bdcfd10287ef598f47a28ea86d400b1b4f066cf07d15a2c671521d0aa3bcb77&token=263194275&lang=zh_CN#rd",
+        des: "对链表倒数 k 个节点后进行旋转。"
+    },
+    {
+        title: "图解 LeetCode 链表: 141. Linked List Cycle ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484004&idx=1&sn=9c30bb22e971d21a1528f6671737c967&chksm=fabb02f7cdcc8be1f0afb4bd4bab0c62281d364e5043609f7c8779b00d8d3215716562f4de59&token=263194275&lang=zh_CN#rd",
+        des: "链表是否有环，题目的解释可能会把你绕晕，我就不引用原文了。存在环，也就是说链表的 next 指针永远不为空，总会指向链表中某个节点。"
+    },
+    {
+        title: "图解 LeetCode 链表: 142. Linked List Cycle II ",
+        tag: "链表 LeetCode",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484012&idx=1&sn=cdf6c67d335a8e7f44b44d6d1b692a10&chksm=fabb02ffcdcc8be960bd052dda6fd134c8a9b75f66ce60a7dd24155eb9864c97a8ac142b2173&token=263194275&lang=zh_CN#rd",
+        des: "Given a linked list, return the node where the cycle begins. If there is no cycle, return null."
+    },
+    {
+        title: "图解 LRU 算法 ",
+        tag: "LRU 算法",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484061&idx=1&sn=eb1938dcf969ccfa4c606362fe9b8130&chksm=fabb020ecdcc8b183d45faa8d7f824265d6df375f4ff5e78b3ca704f44abb3502b3901f8707e&token=263194275&lang=zh_CN#rd",
+        des: "设计一个使用 LRU 算法的缓存，有容量限制，如果达到容量的最大值，淘汰最不经常使用的数据，可以根据某个唯一的 key 值来存取数据，要求时间复杂度为 O(1) 。"
+    },
+    {
+        title: "图解 LFU cache ",
+        tag: "LFU cache",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484112&idx=1&sn=a1713476d55cd3b3f7d2b5a285de61e9&chksm=fabb0243cdcc8b55cac4d779d868bc1cfa43c6a2a8a96d8971b71bbd01fdccf92d29689cac53&token=263194275&lang=zh_CN#rd",
+        des: "LFU cache 与 LRU 类似，也是一种可用作缓存策略的算法。LFU（ Least Frequently Used ）最近最常使用算法，使用频次越高被淘汰的机会就越小，如果使用频次相同，按使用先后顺序进行淘汰。"
+    },
+    {
+        title: "图解一道面试题 - 大数相加减乘除 ",
+        tag: "大数相加减乘除",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484043&idx=1&sn=3c1a8e25dbd06bad48eb95c38303cb10&chksm=fabb0218cdcc8b0e023d003fd2b0e0fe3c2e3755d19cd55d1ed709a579762db857777c06ac75&token=263194275&lang=zh_CN#rd",
+        des: "大数的加、减、乘、除的算法题，大数算术运算的关键是「大数」，比如 123456789990 + 832768934332 = ？这道题不能用普通算术运算求解。"
+    },
+    {
+        title: " 图解字节跳动 4 道算法面试题 ",
+        tag: "面试",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484147&idx=1&sn=a71eaa5af352bd113c27cbc1f3cc3c2b&chksm=fabb0260cdcc8b760318aba355b44abfd6cc5931c2b208cf68095b2c6316b64a9c034a728510&token=263194275&lang=zh_CN#rd",
+        des: "1.HashMap的实现原理，如何解决哈希冲突；2.识别一个字符串是否是 ipv4 地址；3.O(n) 复杂度实现偶数递增奇数递减单向链表排序；4.单向链表逆序；"
+    },
+]
+}
+
+data_structures: {
+  title: "图解数据结构专题 —— 用最通俗易懂的方式来学习",
+  des: "链表、二叉树、AVL 树、二分搜索树、红黑树、线段树、B树、数组、HashMap、堆、队列、优先队列等数据结构",
+  datas: [
+    {
+        title: "图解红黑树的 5 大特征",
+        tag: "红黑树",
+        href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484371&idx=1&sn=8d1058a4c92781c4273ded7315180965&chksm=fabb0340cdcc8a56eae8736a8b17f2b6dd7c43fc8387623e12df582f72ad32ef6e75d7867d8d&token=263194275&lang=zh_CN#rd",
+        des: "红黑树其实是一颗平衡二叉树，与 AVL 树类似，只是它实现平衡的的规则不同。解释下这 5 个特征：1. 节点要么是红色的要么是黑色的，图中只有红色和黑色的节点；2. 根节点是黑色的；3. 所有的叶子节点都是黑色的（图中标记为 NIL 的节点）；4. 每个红色节点的孩子节点是黑色的，这里并没有强调黑色节点的孩子节点的颜色；5. 给定一个节点，从这个节点到其任意的叶子节点都包含了同样个数的黑色节点。图中从根节点 26 出发，到达叶子节点，经过的黑色节点的个数都是 2。"
+    },
+    {
+      title: " 画一颗 Trie 树 ",
+      tag: "Trie 树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484359&idx=1&sn=a55e6e1a2a2449809c1a21fcb442cd11&chksm=fabb0354cdcc8a42a37d539d09eeaf7f6a03afb1502b6546ea3704d31ca89830c4d84a5681b4&token=263194275&lang=zh_CN#rd",
+      des: "Trie 树也称前缀树、字典树。它主要为了解决字符串查找效率问题，与数据量大小无关，只与字符串长度有关。也就是从 20 个字符串中和 100万个字符串中查找某个字符串的效率是一样的。我们以英文单词 lefe、love、leetcode、cat、leet、dog 为例一起画一颗 Trie 树，画完后，你就会完全理解 Trie 树。"
+    },
+    {
+      title: "图解线段树（segment tree） ",
+      tag: "线段树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484302&idx=1&sn=b4bb91a3c6749ebe5da299329811a64e&chksm=fabb031dcdcc8a0b41cb0615d1332a8a4bd3410dfd2077f49968aa7b0d46b546dbfade264a64&scene=21#wechat_redirect",
+      des: "有些「区间问题」使用线段树这种数据结构，可以使得算法的时间复杂度从 O( n ) 降低到 O（log n），但是它会需要额外的存储空间。线段树的作用其实就是解决一些「区间问题」，通过使用额外的空间来记录某个区间的值，通过「平衡二叉树」存储对应的数据，使得查询时间复杂度降低到 O（logn）。线段树可以使用数组来实现，你还记得堆的实现吗？"
+    },
+    {
+      title: "今天不学数据结构，学画画 ",
+      tag: "线段树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484315&idx=1&sn=492031c65fb39b83b6ce77c1c4178392&chksm=fabb0308cdcc8a1efa42355d68a46711d8b03a53c5c60b6d554ec77e5f062175c3b353da19d8&token=263194275&lang=zh_CN#rd",
+      des: "昨天我们简单介绍了下什么是线段树，以及线段树的作用，但是我直接画了一颗线段树，并没有告诉你这个线段树是咋么「画」的。今天，突发奇想，我们一起画一画这颗线段树吧，画完你就会理解线段树的创建过程了。"
+    },
+    {
+      title: "画一画线段树的更新操作 ",
+      tag: "线段树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484325&idx=1&sn=1f9c429e749e76da83efc5adcba33c25&chksm=fabb0336cdcc8a2003d642a33530b75801f9d2cf5d40ea324acfa2edef3686870af98b1aea2c&token=263194275&lang=zh_CN#rd",
+      des: "昨天我们一起画了线段树的创建过程 今天不学数据结构，学画画，今天我们一起画一画线段树的更新操作。"
+    },
+    {
+      title: "用代码实现一颗线段树",
+      tag: "线段树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484357&idx=1&sn=9742dd278655c840bf369f41621364eb&chksm=fabb0356cdcc8a403e4029d1446957824692ec8daf71f5cd3495bf5415e6757352b3f97a8d82&token=263194275&lang=zh_CN#rd",
+      des: "前面连续三篇文章，我们介绍了线段树的创建、查找和更新操作 图解线段树（segment tree），今天不学数据结构学画画, 画一画线段树的更新操作。今天我们一起用 Swift 来实现一颗线段树。线段树可以使用「数组」表示。"
+    },
+    {
+      title: "什么是 AVL 树？",
+      tag: "AVL 树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484263&idx=1&sn=db0d7bef0d1bb6aa27b364f33272dce0&chksm=fabb03f4cdcc8ae2c58ec5d394909d451535f648cba1598dd6316b8261e83a327539ba59aba0&token=263194275&lang=zh_CN#rd",
+      des: "前面我们有学过 BST（二分搜索树），它唯一的不足是，当数据像 1-2-3-4-5 这样的时候，查询性能与单链表一致，无法发挥出 BST 的优势。在下面的 BST 中查找 4 这个节点，只能逐个查找。为了解决 BST 性能问题。1962 年 G. M. Adelson-Velsky 和 E. M. Landis 在他们的论文《An algorithm for the organization of information》中提到了一种方法可以解决这个问题。"
+    },
+    {
+      title: "用 Swift 实现 AVL 树 ",
+      tag: "AVL 树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484278&idx=1&sn=75691eba182cf50c6ef1cf0e528ad9c3&chksm=fabb03e5cdcc8af340159e49915c3c2d5fd99105265b5de4eb9d599ed363c87e8ac29925ab20&token=263194275&lang=zh_CN#rd",
+      des: "文章 什么是 AVL 树？ 和 AVL 树的左旋转、右旋转 介绍了什么是 AVL 树和它的左、右旋转  。原理介绍完后，今天我们使用 Swift 来实现一颗 AVL 树，思路与 BST 基本一致，阅读 使用 Swift 实现一颗二分搜索树 这篇文章有助于理解今天的内容。总体来说，AVL 树的实现和 BST 的实现基本一样，不同的是需要维护节点的高度，保证树的平衡性。"
+    },
+    {
+      title: "AVL 树的左旋转、右旋转",
+      tag: "AVL 树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484269&idx=1&sn=4e7befc7af3e8135fa056801fe29978d&chksm=fabb03fecdcc8ae895194fc1e3f0d2a168889722744eadb8c93f2b5985e4e9d39d993a09e4d9&token=263194275&lang=zh_CN#rd",
+      des: "在文章 什么是 AVL 树？中，我们讲解了 AVL 树的基本概念，以及它存在的意义。这篇文章，我们来讲解如何维护 AVL 树的平衡性。AVL树是一棵「自平衡」的 BST（二分搜索树），也就说，它需要一种机制来维护 BST 的平衡性。这种机制就是左旋转和右旋转。"
+    },
+    {
+      title: "自己动手实现一个“优先队列” ",
+      tag: "优先队列",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484223&idx=1&sn=e8f95a4afbc34d7c343dc274d6c80258&chksm=fabb03accdcc8abaa466c860197869729012a5da4885036169d39e24a37425290cf513af2def&token=263194275&lang=zh_CN#rd",
+      des: "优先队列也是一种队列，不过它的出队顺序与入队顺序毫无关系，出队顺序由「优先级」决定，优先级是「动态」的，根据队列中元素不断的变化，优先级也在变化。学习完「堆」这种数据结构后，实现一个优先队列非常简单。只需调用堆中的 API 即可。C++ 中本身提供了这种数据结构：priority_queue 。"
+    },
+    {
+      title: "与“优先队列”相关的LeetCode题目（215、347） ",
+      tag: "优先队列",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484257&idx=1&sn=fa83b010c2508bddf16b819d4309b2d0&chksm=fabb03f2cdcc8ae46bcc2e7b1dc266f663024e6eb2653e8114b549647bd67f33e74bd42b7404&token=263194275&lang=zh_CN#rd",
+      des: "215. Kth Largest Element in an Array。和 347. Top K Frequent Elements。题目要求找出无序数组中第 k 个最大元素，k的取值范围为1 ≤ k ≤ length，比如 [3,2,1,5,6,4] 第 2 个最大元素为 5。"
+    },
+    {
+      title: "使用 Swift 实现一颗二分搜索树 ",
+      tag: "二分搜索树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484254&idx=1&sn=375f919dd036411b6f607b9556b38d27&chksm=fabb03cdcdcc8adb87ea02c6813e6320b1dc75638100910a7c4397dc7857f6dcd260a50d228f&token=263194275&lang=zh_CN#rd",
+      des: "在这篇 二分搜索树 BST（Binary Search Tree）文章中，我们学习了什么是二分搜索树。这一节我们一起实现一颗 BST。今天，我们换种“口味”，看看用 Swift 如何来实现。"
+    },
+    {
+      title: "二分搜索树 BST（Binary Search Tree） ",
+      tag: "二分搜索树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484178&idx=1&sn=522cd40b2c673e79ffb48ab49dff27d8&chksm=fabb0381cdcc8a97529cc2aa8dfbff6c9894731528bd34aea03ae1f14b3a779a588c5c5985d2&token=263194275&lang=zh_CN#rd",
+      des: "递归学完后就可以愉快地使用递归来求解递归相关的算法题了。对递归不熟悉的朋友，看：我原来不懂递归。「二分搜索树」是一颗二叉树，需要满足 2 个条件（暂不讨论节点值相等的情况）：1.每个节点的值需要大于左子树所有节点的值；2.每个节点的值需要小于右子树所有节点的值；"
+    },
+    {
+      title: "使用 BST 实现 Set ",
+      tag: "二分搜索树",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484185&idx=1&sn=0d1d43b565c73e7f1db0311edbe0834b&chksm=fabb038acdcc8a9cfd41954d3ab880d4a93e9756527a5ff331cf340e49c1ee4466626531da78&token=263194275&lang=zh_CN#rd",
+      des: "上一篇文章我们学习了 BST（二分查找树）二分搜索树 BST（Binary Search Tree），它不允插入重复的元素，也就是说如果插入相同的元素时，直接 return，什么也不处理。我们可以利用这个特点来实现 Set。Set 是一个容器，几乎所有语言中都会存在这种数据结构，它的特点就是保证同一元素只能出现一次。我们完全可以使用上一节提到的 BST 来实现一个 Set。"
+    },
+    {
+      title: "动手写个“堆” ",
+      tag: "堆",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484222&idx=1&sn=c1f958285a62bdf7bb2a94ee8448603c&chksm=fabb03adcdcc8abb77c0cfb003bb6434ac8a681f631eb9944e2a08fe4cfc72d9eb7e7dd59739&token=263194275&lang=zh_CN#rd",
+      des: "前面的内容我们已经详细介绍过“堆”这个数据结构了，回顾一下堆的定义，下面提到的都是「大根堆」：1.是一颗完全二叉树；2.某个节点的值不大于其父节点的值；可以通过数组表示一个堆，利用这个特性我们使用C++中的向量实现一个堆。"
+    },
+    {
+      title: "图解设计一个 HashMap",
+      tag: "HashMap",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484145&idx=1&sn=cf521f586f470ccf3230eebbc3cf450a&chksm=fabb0262cdcc8b74ec58700adce176d9832967d2a215607ca3dc49837a8b2bee5c38041f7d48&token=263194275&lang=zh_CN#rd",
+      des: "706. Design HashMap。Design a HashMap without using any built-in hash table libraries.To be specific, your design should include these functions:。题目要求设计一个 HashMap，不能使用语言提供的类似哈希表的库，比如HashMap，dict，map"
+    },
+        {
+      title: "图解设计一个循环队列 ",
+      tag: " 循环队列",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484116&idx=1&sn=454885c3746bfa8b1e9b1a7cc36ae8c3&chksm=fabb0247cdcc8b51940991c9eb030645e98109a78f8d60e9fd479f7b32a855c054e9198a588f&scene=21#wechat_redirect",
+      des: "641. Design Circular Deque。Design your implementation of the circular queue. The circular queue is a linear data structure in which the operations are performed based on FIFO (First In First Out) principle and the last position is connected back to the first position to make a circle. It is also called \"Ring Buffer\"."
+    },
+    {
+      title: "图解设计一个双端队列",
+      tag: "双端队列",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484117&idx=1&sn=70e30052ce22b5512124dec1ea2be5c0&chksm=fabb0246cdcc8b504da351237ca5315dfa8127029caa064698266ea7f2396d816cbbb36f52cf&token=263194275&lang=zh_CN#rd",
+      des: "Design your implementation of the circular double-ended queue (deque).Your implementation should support following operations。题目的答题意思是要求设计一个双端队列，支持在队首和队尾插入和删除元素。"
+    },
+    {
+      title: "图解最小栈",
+      tag: "栈",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484115&idx=1&sn=757ac8cf2e6f3f5d40755599ebe4956f&chksm=fabb0240cdcc8b56887c298bcc46ffae500fabc23d422a66cb72153635a214f5adea53b5524f&token=263194275&lang=zh_CN#rd",
+      des: "155. Min Stack。Design a stack that supports push, pop, top, and retrieving the minimum element in constant time. 栈是一种「先进后出」的数据结构。今天的题目要求设计一个最小栈，也就是说可以从栈中直接获取当前栈中最小的元素，时间复杂度为 O（1）。除此之外还需要支持栈的基本操作，push：向栈中插入元素、pop：移除栈顶元素、top： 获取栈顶元素。"
+    },
+    {
+      title: "图解堆排序数据结构 ",
+      tag: "堆",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247483852&idx=1&sn=e9068173df1e17c0c92647d9a9d8adcf&chksm=fabb015fcdcc8849a5525cc8b1d458607c987e4feef582678ad10933fc335c34f86b7017f354&token=263194275&lang=zh_CN#rd",
+      des: "二叉树、满二叉树、完全二叉树、堆"
+    },
+    {
+      title: "12 张图搞懂链表相关算法 ",
+      tag: "链表",
+      href: "https://mp.weixin.qq.com/s?__biz=MzUzMTk3ODc0OA==&mid=2247484031&idx=1&sn=b025a7b084c32bb2a13c14277365ee6f&chksm=fabb02eccdcc8bfa68a5b83adef493994b0c08d023782f692114d695a0dd988b7921dcfb91bb&token=263194275&lang=zh_CN#rd",
+      des: "这一阶段共完成了 12 道链表相关的算法题，这 12 道题足以让你理解链表这种数据结构，以及对链表的操作。总的来说链表相关算法题主要分为：链表指针操作，排序，环等。在总结之前，先说说我做图解算法的初衷。"
+    }
+]
+}

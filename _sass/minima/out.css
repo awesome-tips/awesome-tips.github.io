@@ -1,0 +1,36 @@
+#main p {
+  color: red;
+}
+#main p .redbox {
+  color: yellow;
+}
+
+a {
+  color: #222222;
+  text-decoration: none;
+}
+a:visited {
+  color: #222222;
+}
+a:hover {
+  color: blue;
+  text-decoration: underline;
+}
+.social-media-list a:hover {
+  text-decoration: none;
+}
+.social-media-list a:hover .username {
+  text-decoration: underline;
+}
+
+.funky {
+  font-family: fantasy;
+  font-size: 30em;
+  font-weight: bold;
+}
+
+#var {
+  color: red;
+}
+
+/*# sourceMappingURL=out.css.map */

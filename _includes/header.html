@@ -1,0 +1,7 @@
+<header class="site-header">
+  <div class="site-nav-box">
+      {%- for item in site.data.nav.nav.datas -%}
+      <p class="site-nav-item"><a class="site-nav-item" href="{{item.href}}">{{item.title}}</a></p>
+      {%- endfor -%}
+  </div>
+</header>
