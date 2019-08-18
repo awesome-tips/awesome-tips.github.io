@@ -1,0 +1,33 @@
+---
+title: 动画实现竟然可以这么简单，支持 NA 与 Web
+date: 2018-01-01 00:00:00
+author: Lefe_x
+cover: true
+---
+
+动画实现竟然可以这么简单，支持 NA 与 Web
+--------
+**作者**: [Lefe_x](https://weibo.com/u/5953150140)
+
+你有没有想过，一个复杂的类似 `Twitter` 点赞动画使用一行代码就可以完成，而且基本不需要调整什么参数就可以达到 UE 的要求，从几天的工作量可以缩短到几分钟。而这一切多亏了 `Lottie`，它可以帮我们实现这一切。只需要有个由 `Bodymovin` 导出的 `Json` 文件，即可轻松实现 `UE` 提供的动效。
+
+`Lottie` 是由 [Airbnb](http://airbnb.io) 开源的库，它支持 iOS, macOS， Android ，React Native 和 Web。它主要通过解析一个由 `Bodymovin` 导出的 `Json` 文件，然后在 `NA` 和 `Web` 上渲染动画。而这些动画最初通过 `Adobe After Effects` 软件设计。
+
+`Adobe After Effects` 简称 “AE” 是 `Adobe` 公司推出的一款图形视频处理软件，适用于从事设计和视频特技的机构，包括电视台、动画制作公司、个人后期制作工作室以及多媒体工作室。
+
+`Bodymovin` 是 `Adobe After Effects` 的一个插件，可以把通过 `AE` 做出的动画，导出为 `Json` 文件，而 `Lottie` 直接使用导出的 `Json` 文件在手机端渲染动画。
+
+看看具体的一个 `Twitter` 点赞动画实例：
+
+```objc
+LOTAnimatedSwitch *heartIcon = [LOTAnimatedSwitch switchNamed:@"TwitterHeart"];
+heartIcon.frame = CGRectMake(100, 100, 200, 200);
+[self.view addSubview:heartIcon];
+```
+
+`Lottie` 可以直接创建一个动画视图添加到另一个视图上，既可以完成显示。而它的原理就是通过解析 `Json` 文件生成一个 `LOTComposition` 类，来管理动画所需要的参数，然后利用原生类实现动画效果。目前主要支持的动画特性有：
+
+1. 转场动画；
+2. 通过 `Json` 文件渲染动画；
+3. 可以通过一个动画播放器来播放动画，拖到进度条，查看动画的实现，这对自己实现一个原生动画非常有帮助；
+4. 在运行时修改动画；

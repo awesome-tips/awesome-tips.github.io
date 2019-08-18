@@ -1,0 +1,53 @@
+---
+title: 查看一个对象的类型是否为Optional
+date: 2017-02-01 00:00:00
+author: 知识小集成员
+cover: true
+---
+
+## 查看一个对象的类型是否为Optional
+
+在`Swift`中，如果想在运行时判断一个对象的类型是不是可选类型，则可以使用`Mirror`，如下代码所示，所有的可选类型都将返回`optional`。
+
+```swift
+let value: Int? = 3
+Mirror(reflecting: value).displayStyle		// optional
+```
+
+`Mirror`的`displayStyle`属性的类型是`Mirror.DisplayStyle`，这是一个枚举类型，用于为`Mirror`的主体对象提供一种建议性的解析，其定义如下代码所示：
+
+```swift
+/// A suggestion of how a `Mirror`'s `subject` is to be interpreted.
+///
+/// Playgrounds and the debugger will show a representation similar
+/// to the one used for instances of the kind indicated by the
+/// `DisplayStyle` case name when the `Mirror` is used for display.
+public enum DisplayStyle {
+
+    case `struct`
+
+    case `class`
+
+    case `enum`
+
+    case tuple
+
+    case optional
+
+    case collection
+
+    case dictionary
+
+    case set
+}
+```
+
+枚举值范围之外的类型，其`Mirror`的`displayStyle`属性将返回`nil`，如下代码所示：
+
+```swift
+let value: Int = 20
+Mirror(reflecting: value).displayStyle		// nil
+
+let str: String = "30"
+Mirror(reflecting: str).displayStyle		// nil
+```

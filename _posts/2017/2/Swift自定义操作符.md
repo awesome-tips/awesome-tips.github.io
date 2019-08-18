@@ -1,0 +1,60 @@
+---
+title: Swift自定义操作符
+date: 2017-02-01 00:00:00
+author: 知识小集成员
+cover: true
+---
+
+## Swift自定义操作符
+
+在`Swift`中，自定义操作符就是简单的二步：首先在全局使用`operator`关键字来声明操作符，同时用`prefix`、`infix`或`postfix`来声明操作符的位置；然后在所需要的类/结构体中实现操作符。如下代码所示：
+
+```swift
+postfix operator >?
+postfix operator >!
+
+extension MIType {
+    public static postfix func >?(type: MIType) -> MIType {
+        return MIType("Optional<\(type.name)>")
+    }
+    
+    public static postfix func >!(type: MIType) -> MIType {
+        return MIType("ImplicitlyUnwrappedOptional<\(type.name)>")
+    }
+}
+```
+
+自定义操作符需要以两类字符开头：
+
+1. `ASCII`字符中的`/, =, -, +, !, *, %, <, >, &, |, ^, ?, ~`
+2. `Unicode`中的`Mathematical Operators`, `Miscellaneous Symbols`和`Dingbats Unicode blocks`这些字符中的字符
+
+然后后面允许使用组合的`Unicode`字符。如下代码是以一个`Miscellaneous Symbols`开头的实现向量加法的操作符。
+
+```swift
+infix operator ★+
+
+struct Vector2D {
+    var x: CGFloat
+    var y: CGFloat
+}
+
+extension Vector2D {
+    static func ★+ (left: Vector2D, right: Vector2D) -> Vector2D {
+        return Vector2D(x: left.x + right.x, y: left.y + right.y)
+    }
+}
+
+let vector1 = Vector2D(x: 10, y: 20)
+let vector2 = Vector2D(x: 30, y: 10)
+
+let vector = vector1 ★+ vector2
+
+vector.x		// 40.0
+vector.y		// 30.0
+```
+
+参考
+
+1. [The Swift Programming Language (Swift 4) -- Advanced Operators](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/AdvancedOperators.html#//apple_ref/doc/uid/TP40014097-CH27-ID28)
+2. [The Swift Programming Language (Swift 4) -- Lexical Structure](

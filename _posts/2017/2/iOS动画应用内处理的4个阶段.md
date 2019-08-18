@@ -1,0 +1,18 @@
+---
+title: iOS动画应用内处理的4个阶段
+date: 2017-02-01 00:00:00
+author: 知识小集成员
+cover: true
+---
+
+iOS动画应用内处理的4个阶段
+----------
+
+在iOS中，动画的执行主要分6个阶段，其中4个阶段是在应用内部处理的：
+
+1. **Layout**: 这一阶段是准备好`view/layer`的层级结构并设置layer的属性；
+2. **Display**: 这一阶段将绘制`layer`的内容。绘制操作会调用`-drawRect:`或`-drawLayer:inContext:`方法；
+3. **准备阶段**: 这一阶段是`Core Animation`准备将动画数据发送给`render server`。另外，还会执行其它一些操作，如解压在动画过程中显示的图片；
+4. **提交**: 这是应用内部处理的最后一个阶段，`Core Animation`将打包`layer`及动画属性并通过`IPC`发送到`render server`；
+
+这几个阶段都是由CPU来处理的，而且我们只能控制前面两个阶段，后两个阶段将由`Core Animation`来控制。

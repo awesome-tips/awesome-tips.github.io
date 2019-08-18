@@ -1,0 +1,47 @@
+---
+title: Swift中打印线程调用栈
+date: 2017-02-01 00:00:00
+author: 知识小集成员
+cover: true
+---
+
+Swift中打印线程调用栈
+----------
+
+在`Swift 3`中，如果想打印线程的调用栈，可以简单的使用`Thread.callStackSymbols`，如下代码所示：
+
+```swift
+for symbol in Thread.callStackSymbols {
+    print(symbol)
+}
+
+// 0   ???                                 0x00000001198270a1 0x0 + 4722946209
+// 1   MyPlayground                        0x0000000106051730 main + 0
+// 2   CoreFoundation                      0x000000010989620c __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
+// 3   CoreFoundation                      0x000000010987aa3b __CFRunLoopDoBlocks + 203
+// 4   CoreFoundation                      0x000000010987a214 __CFRunLoopRun + 1300
+// 5   CoreFoundation                      0x0000000109879a89 CFRunLoopRunSpecific + 409
+// 6   GraphicsServices                    0x000000010d5e79c6 GSEventRunModal + 62
+// 7   UIKit                               0x0000000106af5d30 UIApplicationMain + 159
+// 8   MyPlayground                        0x00000001060517f9 main + 201
+// 9   libdyld.dylib                       0x00000001062e5d81 start + 1
+// 10  ???                                 0x0000000000000001 0x0 + 1
+```
+
+如果想使用C函数`backtrace`，需要在`bridging header file`中导入`execinfo.h`头文件，然后如理代码所示，记得最后需要用`free`释放`symbols`。
+
+```swift
+var callstack = [UnsafeMutableRawPointer?](repeating: nil, count: 128)
+let frames = backtrace(&callstack, Int32(callstack.count))
+if let symbols = backtrace_symbols(&callstack, frames) {
+    for frame in 0..<Int(frames) where symbols[frame] != nil {
+        let symbol = String(cString: symbols[frame]!)
+        print(symbol)
+    }
+    free(symbols)
+}
+```
+
+参考
+
+1. [how to call backtrace_symbols() in swift](http://stackoverflow.com/questions/40801545/how-to-call-backtrace-symbols-in-swift)

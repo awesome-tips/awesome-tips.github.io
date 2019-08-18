@@ -1,0 +1,25 @@
+---
+title: Repeated结构体
+date: 2017-02-01 00:00:00
+author: 知识小集成员
+cover: true
+---
+
+Repeated结构体
+----------
+
+`Swift`提供了一个`Repeated`结构体，用于表示一个所有元素都相同的集合。我们可以使用`repeatElement(_:count:)`函数来创建`Repeated`集合，如下代码所示：
+
+```swift
+let repeatedName = repeatElement("test", count: 5)
+for name in repeatedName {
+    print(name)
+}
+
+// 输出
+// test
+// test
+// test
+// test
+// test
+```

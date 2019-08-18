@@ -1,0 +1,19 @@
+---
+title: Xcode 9全屏模式下与模拟器分屏
+date: 2017-09-01 00:00:00
+author: 知识小集成员
+cover: true
+---
+
+Xcode 9全屏模式下与模拟器分屏
+----------
+
+在`Xcode 9`之前，如果`Xcode`是全屏模式，那么使用模拟器时会有些不方便，看效果时需要切换屏幕（壕的话可以用双屏幕）。在`Xcode 9`中，添加了一个新功能，即在全屏模式下，可以和模拟器在同一屏幕上分屏操作，如下图所示。
+
+![](https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/09/29-1-1.png?raw=true)
+
+这需要模拟器开启“允许全屏模式”，只需要勾选上`Internal`->`Allow Fullscreen Mode`，再把模拟器拖入`Xcode`所在屏幕即可。如下图所示。
+
+![](https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/09/29-1-2.png?raw=true)
+
+至于模拟器的位置，可以在左右两侧，看个人习惯。也可以改变两者的屏幕占比。
