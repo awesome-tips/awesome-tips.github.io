@@ -66,56 +66,56 @@ home: {
     {
         title: "数据结构与算法",
         img: "../assets/5.png",
-        href: "/zhuanti-11/",
+        href: "/zhuanti-10/",
         link-title: "查看数据结构与算法专题",
         des: "涉及到数据结构和算法相关内容，LeetCode。"
     },  
     {
         title: "UI 相关",
         img: "../assets/5.png",
-        href: "/zhuanti-12/",
+        href: "/zhuanti-11/",
         link-title: "查看 UI 专题",
         des: "涉及到 UIView，UIViewController，UI设计相关的内容。"
     },
     {
         title: "WWDC",
         img: "../assets/5.png",
-        href: "/zhuanti-13/",
+        href: "/zhuanti-12/",
         link-title: "查看 WWDC 专题",
         des: "涉及到苹果开发者大会 WWDC 相关内容，WWDC2019。"
     }, 
     {
         title: "Objective-C",
         img: "../assets/5.png",
-        href: "/zhuanti-14/",
+        href: "/zhuanti-13/",
         link-title: "查看 Objective-C 专题",
         des: "涉及到 Objective-C 语言特性，runtime，runloop，block，内存管理。"
     },  
     {
         title: "开源库分析",
         img: "../assets/5.png",
-        href: "/zhuanti-15/",
+        href: "/zhuanti-14/",
         link-title: "查看开源库分析专题",
         des: "涉及到iOS主流开源库的源码分析，架构设计，开源代码。"
     }, 
      {
         title: "语言底层原理",
         img: "../assets/5.png",
-        href: "/zhuanti-16/",
+        href: "/zhuanti-15/",
         link-title: "查看语言底层原理专题",
         des: "涉及到编译原理，LLVM，LLDB，Mach-O，编译速度。"
     },    
      {
         title: "机器学习、人工智能",
         img: "../assets/5.png",
-        href: "/zhuanti-17/",
+        href: "/zhuanti-16/",
         link-title: "查看机器学习、人工智能专题",
         des: "涉及到机器学习，人工智能，Metal，Core ML。"
     },      
      {
         title: "其它",
         img: "../assets/5.png",
-        href: "/zhuanti-18/",
+        href: "/zhuanti-17/",
         link-title: "查看剩余内容",
         des: "涉及到为分类的文章内容"
     },             
