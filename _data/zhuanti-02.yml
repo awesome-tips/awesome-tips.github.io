@@ -56,11 +56,11 @@ list: {
         href: "https://mp.weixin.qq.com/s/OE87Qvtjt5ADRJt785LUzg",
         des: "基于 AFNetworking 的二次封装网上蛮多的，比较好一点的就是 CTNetworking 和 YTKNetwork，但是看了一下源码过后发现都有一些不足的地方，或者说不太能满足我们的业务需求。"
     },
-    {
-        title: "",
-        tag: "",
-        href: "",
-        des: ""
-    },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

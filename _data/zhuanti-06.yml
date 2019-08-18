@@ -20,11 +20,11 @@ list: {
         href: "https://mp.weixin.qq.com/s/cdzF6uQR7G1dJj1F2ogpQg",
         des: "在之前这篇 iOS应用脚本重签[1]名中，我们对脱壳的微信安装包进行重签名，并成功在真机上运行起来，完成了iOS逆向的准备工作。"
     },
-     {
-        title: "",
-        tag: "",
-        href: "",
-        des: ""
-    },
+    #  {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

@@ -14,17 +14,17 @@ list: {
         href: "https://mp.weixin.qq.com/s/YWqejVy8q8qPzhDfljCHDw",
         des: "这位博主在 Android 平台上，通过自己的分析，尝试还原了抖音上的几种视频特效。他是通过「部分 GLSL 代码 + 部分 Java 代码」的方式来实现的。"
     },
-     {
-        title: "",
-        tag: "",
-        href: "",
-        des: ""
-    },
-     {
-        title: "",
-        tag: "",
-        href: "",
-        des: ""
-    },
+    #  {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
+    #  {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

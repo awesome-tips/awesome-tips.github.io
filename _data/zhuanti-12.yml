@@ -38,11 +38,11 @@ list: {
         href: "https://mp.weixin.qq.com/s/lrYSXWlZW1-LpLxCXkbuTQ",
         des: "昨天（4.16）是 WWDC19 Schoolarship 放榜的日子。早上 6 点惊醒，一直忐忑不安的到 7 点 10 分左右终于收到了 Apple 的邮件，我成功入选啦！！！"
     },
-    {
-        title: "",
-        tag: "",
-        href: "",
-        des: ""
-    },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }
