@@ -1,12 +1,66 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "架构、模块化",
+  des: "如何把控一个App",
   datas: [
      {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+        title: "打造完备的iOS组件化方案：如何面向接口进行模块解耦？",
+        tag: "组件化方案",
+        href: "https://mp.weixin.qq.com/s/elCfGLCc7N7ANLtgUN7RUA",
+        des: "这是一篇从代码层面讲解模块解耦的文章，会全方位地展示如何实践面向接口的思想，尽量全面地探讨在模块管理和解耦的过程中，需要考虑到的各种问题，并且给出实际的解决方案，以及对应的模块管理开源工具：ZIKRouter[2]"
+    },
+    {
+        title: "聊聊AppDelegate解耦",
+        tag: "AppDelegate解耦",
+        href: "https://mp.weixin.qq.com/s/-RyljgDfchMY3KoEzeEYOg",
+        des: "在iOS开发中，AppDelegate指的是UIApplicationDelegate，用来处理App层面的事件，包括生命周期变化，OpenURL，处理HandOff和Intent等。"
+    },
+    {
+        title: "YBImageBrowser 重构心得：如何优化架构、性能、内存？",
+        tag: "重构",
+        href: "https://mp.weixin.qq.com/s/FGioH7hqlq6c9RCsz7bNog",
+        des: "界面展示类型的轮子往往定制性需求比较多，常常让人抓耳挠腮。这种接近业务的轮子如何设计才能兼顾便捷性和拓展性？如何有效的优化性能？如何控制内存不至于 OOM ？"
+    },
+    {
+        title: "老生常谈组件化",
+        tag: "百度App",
+        href: "https://mp.weixin.qq.com/s/Pu2jlK8SW9h7ZdXTgzNjPQ",
+        des: "组件化是一个老生常谈的涉及面很广的话题，即不是做好一件事而是做好一系列的事情才能达成；其中包含组件化框架在内的各架构层级、构建系统、依赖管理系统、以及配套的防劣化机制与规则规范。"
+    },
+    {
+        title: "大型 SDK 组件化拆分的一些思考",
+        tag: "组件化拆分",
+        href: "https://mp.weixin.qq.com/s/mAHrA8psuvuJMsjzeSjUIQ",
+        des: "笔者所在部门都一个很大的SDK，被公司众多部门所使用，笔者到来之前，这个SDK采取的是原始的开发方式，随着时间的迁移，已经变得非常大，大概一千多个OC文件，C++的没数过，功能也很丰富"
+    },
+     {
+        title: "移动端组件化架构（上）",
+        tag: "组件化",
+        href: "https://mp.weixin.qq.com/s/ih_-Wl2Pk3uhxM-J2M5jLg",
+        des: "就拿淘宝来说，淘宝在13年开启的“All in 无线”战略中，就将阿里系大多数业务都加入到手机淘宝中，使客户端出现了业务的爆发。在这种情况下，单工程架构则已经远远不能满足现有业务需求了。所以在这种情况下，淘宝在13年开启了插件化架构的重构，后来在14年迎来了手机淘宝有史以来最大规模的重构，将项目重构为组件化架构。"
+    },
+    {
+        title: "解读 iOS 组件化与路由的本质",
+        tag: "路由的本质",
+        href: "https://mp.weixin.qq.com/s/i1e6slYejKk-Djx0wopuUg",
+        des: "虽然 iOS 组件化与路由的话题在业界谈了很久，但是貌似很多人都对其有所误解，甚至没搞明白“组件”、“模块”、“路由”、“解耦”的含义。"
+    },
+    {
+        title: "iOS 架构组件：让复杂 TableView 优雅起来",
+        tag: "UITableView",
+        href: "https://mp.weixin.qq.com/s/sJwfyB5AOEJ0ZdjY33kIoA",
+        des: "UITableView是出场率极高的视图组件，开发者通过实现<UITableViewDataSource>和<UITableViewDelegate>协议方法来配置布局逻辑，面向协议设计模式在苹果的代码设计中很常见，它能适应大部分的业务场景且足够灵活。"
+    },
+    {
+        title: "谈谈 iOS 网络层设计",
+        tag: "网络层设计",
+        href: "https://mp.weixin.qq.com/s/OE87Qvtjt5ADRJt785LUzg",
+        des: "基于 AFNetworking 的二次封装网上蛮多的，比较好一点的就是 CTNetworking 和 YTKNetwork，但是看了一下源码过后发现都有一些不足的地方，或者说不太能满足我们的业务需求。"
+    },
+    {
+        title: "",
+        tag: "",
+        href: "",
+        des: ""
     },
 ]
 }

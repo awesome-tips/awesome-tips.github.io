@@ -39,17 +39,17 @@ list: {
         href: "https://mp.weixin.qq.com/s/zeWfmAi0YnoQowcPpFhHUA",
         des: "一个项目做的时间长了，启动流程往往容易杂乱，库也用的越来越多，APP 的启动时间也会慢慢变长。本次将针对 iOS APP 的启动时间优化一波。"
     },
-    # {
-    #     title: "深入理解iOS Crash Log",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
-    # {
-    #     title: "深入理解iOS Crash Log",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
+    {
+        title: "二进制文件重排三连发：抖音 APP 启动速度提升超15%",
+        tag: "启动速度",
+        href: "https://mp.weixin.qq.com/s/eL2QuRqtj5_qvUnR19WwxA",
+        des: "启动是App给用户的第一印象，对用户体验至关重要。抖音的业务迭代迅速，如果放任不管，启动速度会一点点劣化。为此抖音iOS客户端团队做了大量优化工作，除了传统的修改业务代码方式，我们还做了些开拓性的探索，发现修改代码在二进制文件的布局可以提高启动性能，方案落地后在抖音上启动速度提高了约15%。"
+    },
+    {
+        title: "二进制文件重排三连发：Facebook 使用二进制布局优化提高 iOS 启动性能",
+        tag: "启动性能",
+        href: "https://mp.weixin.qq.com/s/RPvVS6CUbhwH6eQJXm2wjA",
+        des: "第三发，发一个视频，是由 Facebook 工程师 Manman Ren 讲解的 使用二进制布局优化提高 iOS 启动性能方案。由于一些限制，无法上传高清版，同时视频裁剪了 1 分 20 秒的时间，可以点击“阅读原文”到网站查看高清版本。"
+    },
   ]
 }

@@ -1,12 +1,48 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "WWDC",
+  des: "跟踪最新的技术",
   datas: [
      {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
+        title: "WWDC 2019 ：优秀的开发习惯",
+        tag: "WWDC",
         href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+        des: "成功的APP开发需要掌握方方面面的东西。了解可纳入开发流程的实践以提高你的生产力，提升你APP的性能和稳定性。学习如何提高通过Xcode编写的代码质量。获得一些有价值的开发技术的切实理解。"
+    },
+     {
+        title: "味精大佬带你看WWDC19：Advances in App Background Execution",
+        tag: "Background",
+        href: "https://mp.weixin.qq.com/s/Go8zJe_b8MQ74Xqq4eLzEw",
+        des: "上面是 session 视频原 link ，大概 40 min，整个视频分为两部分，重点介绍了在 App 的开发中使用 Background Execution 的一些场景与建议，以及新的 BackgroundTask Framework"
+    },
+     {
+        title: "WWDC19 06-07 Friday(美国时间) Session List",
+        tag: "WWDC19",
+        href: "https://mp.weixin.qq.com/s/90OOQI8oGzoSElg4fS3hpA",
+        des: "Session List"
+    },
+    {
+        title: "WWDC19 06-05 Wednesday(美国时间) Session List",
+        tag: "WWDC19",
+        href: "https://mp.weixin.qq.com/s/YecSHE8jRhOsXJSDTD9mHA",
+        des: "Session List"
+    },
+     {
+        title: WWDC19 06-04 Tuesday(美国时间) Session List",
+        tag: "WWDC19",
+        href: "https://mp.weixin.qq.com/s/ulDozYqF4OBBkI8GpOulfg",
+        des: "Session List"
+    },
+     {
+        title: "WWDC Scholarship & 准备工作",
+        tag: "Scholarship",
+        href: "https://mp.weixin.qq.com/s/lrYSXWlZW1-LpLxCXkbuTQ",
+        des: "昨天（4.16）是 WWDC19 Schoolarship 放榜的日子。早上 6 点惊醒，一直忐忑不安的到 7 点 10 分左右终于收到了 Apple 的邮件，我成功入选啦！！！"
+    },
+    {
+        title: "",
+        tag: "",
+        href: "",
+        des: ""
     },
 ]
 }

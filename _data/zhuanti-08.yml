@@ -1,12 +1,54 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "多线程",
+  des: "关于多线程的那些技术",
   datas: [
      {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+        title: "浅谈一种解决多线程野指针的新思路",
+        tag: "野指针",
+        href: "https://mp.weixin.qq.com/s/x8LZ6vjWi2lPBP049tR-Ow",
+        des: "无论是xx还是xx，对于整个App的稳定性要求都非常之高。因此，那些前辈大牛们为了解决一些常见的问题，比如空指针、数组越界等等，开发了xxxxxx这样的底层SDK，用于解决问题。"
+    },
+     {
+        title: "Revisit iOS Autorelease 之二",
+        tag: "Autorelease",
+        href: "https://mp.weixin.qq.com/s/9EJ61IdVnCPaMbLtvZMtYA",
+        des: "autorelease相关的文章网上不在少数，但是大多数都大同小异，只是在讲libobjc中的代码实现。但是深究我们日常编码过程中的autorelease，其实有不少被我们所忽视的细节值得深挖研究。"
+    },
+     {
+        title: "CFRunloop的多线程隐患",
+        tag: "CFRunloop",
+        href: "https://mp.weixin.qq.com/s/bpY7UycwAMjjrOc_hw7tMA",
+        des: "CFRunloop是线程安全的，但是加上CFRunloopSource就不一定了。比如CFSocket。"
+    },
+     {
+        title: "子线程AutoRelease对象何时释放",
+        tag: "作者：suhou、AutoRelease",
+        href: "https://mp.weixin.qq.com/s/1qGGwJROrQ2KfpKAHRYn6g",
+        des: "首先是一个常规问题，autorelease对象何时释放？答：在AutoreleasePoolPage pop的时候释放，在主线程的runloop中，有两个oberserver负责创建和清空autoreleasepool，详情可以看YY的深入理解runloop。那么子线程呢？子线程的runloop都需要手动开启，那么子线程中使用autorelease对象会内存泄漏吗，如果不会又是什么时候释放呢。"
+    },
+     {
+        title: "抛开性能，谈谈不该用@Synchronized的原因",
+        tag: "作者：satanwoo、@Synchronized",
+        href: "https://mp.weixin.qq.com/s/V7vWvq492yiG1AyLouqsQg",
+        des: "今天我想谈谈一个不应该使用@Synchronized的本质原因：它是一个和上下文强相关的锁，会导致锁失效。"
+    },
+     {
+        title: "Revisit iOS Autorelease 之不经意间可能被影响的优化",
+        tag: "作者：satanwoo",
+        href: "https://mp.weixin.qq.com/s/AeM90U9AuAepPWbJNC5fKw",
+        des: "之前在做某项目的时候，自建了基于 NSThread 的私有线程池，在线程池分配了固定个数的常驻工作线程，在工作线程里面运行相关任务；这个方案取代了原先直接无脑使用 GCD 的方式，在各方面效果都还不错。"
+    },
+    {
+        title: "",
+        tag: "",
+        href: "",
+        des: ""
+    },
+    {
+        title: "",
+        tag: "",
+        href: "",
+        des: ""
     },
 ]
 }

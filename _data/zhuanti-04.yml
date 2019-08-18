@@ -1,12 +1,30 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "音视频",
+  des: "涉及到音视频播放、AudioQueue、AVFoundation 框架、AVPlayer 等。",
   datas: [
      {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+        title: "移动端音视频从零到上手",
+        tag: "小东邪",
+        href: "https://mp.weixin.qq.com/s/QfQ01bRlOLb-ccELiGHajQ",
+        des: "音视频的发展正在向各个行业不断扩展，从教育的远程授课，交通的人脸识别，医疗的远程就医等等，音视频方向已经占据一个相当重要的位置，而音视频真正入门的文章又少之甚少，一个刚毕业小白可能很难切入理解"
+    },
+     {
+        title: "在 iOS 中使用 GLSL 实现抖音特效",
+        tag: "GLSL",
+        href: "https://mp.weixin.qq.com/s/YWqejVy8q8qPzhDfljCHDw",
+        des: "这位博主在 Android 平台上，通过自己的分析，尝试还原了抖音上的几种视频特效。他是通过「部分 GLSL 代码 + 部分 Java 代码」的方式来实现的。"
+    },
+     {
+        title: "",
+        tag: "",
+        href: "",
+        des: ""
+    },
+     {
+        title: "",
+        tag: "",
+        href: "",
+        des: ""
     },
 ]
 }
