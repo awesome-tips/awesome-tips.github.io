@@ -14,17 +14,35 @@ list: {
         href: "https://mp.weixin.qq.com/s/qPlg716RqtiT2PK_WqtBZQ",
         des: "Objective-C语言是一门以C语言为基础的面向对象编程语言，其提供的运行时(Runtime)机制使得它也可以被认为是一种动态语言。运行时的特征之一就是对象方法的调用是在程序运行时才被确定和执行的。"
     },
-    #      {
-    #     title: "",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
-    #      {
-    #     title: "",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
+    {
+        title: "Swift 4.2 新特性预览",
+        tag: "Swift 4.2",
+        href: "https://mp.weixin.qq.com/s/9LkThhKnjsZS6y5VmaxwcA",
+        des: "正如官方博客所说，Swift 4.2 是为 Swift 5 的 ABI 稳定性做准备，它包含了一些底层 ABI 的变化。"
+    },
+    {
+        title: "Contains in Swift",
+        tag: "Swift",
+        href: "https://mp.weixin.qq.com/s/TCat9PYdvg5vKKqV2riFqg",
+        des: "While coding Swift, we use contains(element:) to determine if an array contains the element or not. "
+    },
+    {
+        title: "快速用上 Swift 静态库",
+        tag: "静态库",
+        href: "https://mp.weixin.qq.com/s/j2pe1KKq0O4fg6k-5iZ2EA",
+        des: "Swift 支持静态库打包已经有一段时间了，CocoaPods 也提供了 static_framework 参数。然而大部分的第三方依赖都没有及时更新。"
+    },
+    {
+        title: "一些 RxSwift 思考题 - 回答",
+        tag: "RxSwift",
+        href: "https://mp.weixin.qq.com/s/qaH5fS0eq2o6CFaENIy5Fg",
+        des: "这篇文章是对上一篇 一些 RxSwift 思考题(https://blog.dianqk.org/2017/03/21/rxswift-questions/) 的解答，如果您对这篇解答有什么疑问或者错误的地方要指出来，欢迎直接在下面评论，我会及时的回复和修正。"
+    },
+    {
+        title: "",
+        tag: "",
+        href: "",
+        des: ""
+    },
 ]
 }

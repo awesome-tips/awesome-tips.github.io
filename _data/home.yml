@@ -111,11 +111,18 @@ home: {
         href: "/zhuanti-16/",
         link-title: "查看机器学习、人工智能专题",
         des: "涉及到机器学习，人工智能，Metal，Core ML。"
-    },      
+    },
+    {
+        title: "CI",
+        img: "../assets/5.png",
+        href: "/zhuanti-17/",
+        link-title: "查看自动化内容",
+        des: "涉及到自动打包，编译工具等"
+    },        
      {
         title: "其它",
         img: "../assets/5.png",
-        href: "/zhuanti-17/",
+        href: "/zhuanti-18/",
         link-title: "查看剩余内容",
         des: "涉及到为分类的文章内容"
     },             

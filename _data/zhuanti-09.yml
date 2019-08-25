@@ -20,6 +20,30 @@ list: {
         href: "https://mp.weixin.qq.com/s/26iiNvJgWL-KeMxqfw7LHQ",
         des: "写这篇博客起因是由于上周四在知识小集发了一个 Tip ：「 应用 icon 被 Cocoapods “吃掉”的解决方式 」，讲 Pod 里面使用了 .xcassets 会导致 Xcode 9 打出来的包没有 icon 的解决方案。然后和 @Damonwong 展开了一下讨论。"
     },
+    {
+        title: "CocoaPods 都做了什么？",
+        tag: "CocoaPods",
+        href: "https://mp.weixin.qq.com/s/VKGWwXpTfvVpYPh11DVSvg",
+        des: "稍有 iOS 开发经验的人应该都是用过 CocoaPods，而对于 CI、CD 有了解的同学也都知道 Fastlane。而这两个在 iOS 开发中非常便捷的第三方库都是使用 Ruby 来编写的，这是为什么？"
+    },
+    #     {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
+    #          {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
+    #          {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 
     
 ]

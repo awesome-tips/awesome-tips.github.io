@@ -1,12 +1,36 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "CI",
+  des: "自动化",
   datas: [
-     {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+  {
+        title: "使用 fastlane 实现自动化打包",
+        tag: "fastlane",
+        href: "https://mp.weixin.qq.com/s/ByFxXKvsyS1fajES9SLInA",
+        des: "原来尝试过 Jenkins，感觉这个工具比较麻烦，需要配置的东西非常多，还需要仓库地址等等很多信息。不像 fastlane 感觉是傻瓜式的，非常简单。"
     },
+    {
+        title: "依葫芦画瓢！fastlane 官方文档思维导图",
+        tag: "fastlane",
+        href: "https://mp.weixin.qq.com/s/g8I3GRTbB6IUN5KErMCzyQ",
+        des: "最近把 fastlane 的文档好好翻了翻，然后学大强的样用思维导图整理了一下。其实我也经常用导图来整理学习笔记，但发现我画的太丑了，拿不出手。这回跟大强学习了一下，整了张稍微漂亮的，这样才得以拿出来分享"
+    },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

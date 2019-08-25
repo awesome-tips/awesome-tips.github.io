@@ -56,5 +56,23 @@ list: {
         href: "https://mp.weixin.qq.com/s/hhF7hO5xQWlYpqa7cg2zfg",
         des: "我们将学习如何绘制圆弧和路径。特别是，我们将 Grouped TableView 的每个页脚的底部添加整齐的弧线、线性渐变和适合弧形曲线的阴影，来美化我们的 table view。所有这些都是通过使用 Core Graphics 的强大功能实现的！"
     },
+    {
+        title: "iOS 图形处理概论",
+        tag: "图形",
+        href: "https://mp.weixin.qq.com/s/q20pmuRVmogJ17FBttaGpA",
+        des: "对于刚接触 iOS 图形相关框架的小白，有一些图形框架在字面上和功能上非常容易混淆。这里旨在总结一下各种框架，区分它们的概念和功能，以作日后进一步细分学习的指引。"
+    },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

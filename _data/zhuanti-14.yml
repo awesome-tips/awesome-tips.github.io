@@ -1,12 +1,120 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "开源库",
+  des: "关于开源库代码分析",
   datas: [
-     {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+    {
+        title: "从数据流角度管窥 Moya 的实现(一)：构建请求",
+        tag: "Moya",
+        href: "https://mp.weixin.qq.com/s/Bsiz8Y1QMrRVnwyvxxqRUQ",
+        des: "Moya 是一个网络抽象层，默认是基于 Alamofire 的。网上已经有一些不错的原理分析及源码分析的文章，大家可以参考。在这我们从数据流的角度来粗略的描述一下 Moya 的基本实现。我们在此避开各种错误导致的分支流程，只讲一个正常请求的流程。"
     },
+    {
+        title: "从数据流角度管窥 Moya 的实现(二)：处理响应",
+        tag: "Moya",
+        href: "https://mp.weixin.qq.com/s/iLhdhyFdYsFH80lGoWLShA",
+        des: "上一篇讲了 Moya 构建和发起请求的数据流，从 Target -> Endpoint -> Request 这一套路清晰明了。现在我们来讲讲 Moya 数据返回的流程。再一次祭出那张图。"
+    },
+             {
+        title: "Minya 分层框架实现的思考(一)：转移依赖",
+        tag: "Minya",
+        href: "https://mp.weixin.qq.com/s/YG8aO6TlkehFGh6A90BPXw",
+        des: "Minya 框架是我们团队之前构建的一套分层框架，在一个内部项目上验证了一下。Minya 只是项目名称，取自贡嘎雪山的英文名。"
+    },
+    {
+        title: "Minya 分层框架实现的思考(二)：构建依赖及传输数据",
+        tag: "Minya",
+        href: "https://mp.weixin.qq.com/s/LInMx7gISQgTxREuF4-64w",
+        des: "上一篇我们主要从理论上讲述如何通过 转移依赖 来轻量化我们的 ViewController，同时在 View 层和 Store 层之间传输数据。"
+    },
+    {
+        title: "在 iOS 平台实现新的异步解决方案 async/await",
+        tag: "async/await",
+        href: "https://mp.weixin.qq.com/s/t773AYWnE2eZGr_V2njSGQ",
+        des: "本文是 RJIterator 作者 @rkui 对 RJIterator 实现的详细总结。分析了 ES7 中 async/await 的实现原理，并依此详细说明了在 iOS 中实现 async/await 的思路。"
+    },
+             {
+        title: "UITableView 优化：VVeboTableView 源码解析",
+        tag: "UITableView",
+        href: "https://mp.weixin.qq.com/s/4NvUj3lvEb85m8DIrzjoHw",
+        des: "最近在看一些 iOS 性能优化的文章，我找到了 VVeboTableView 这个框架。严格来说这个不属于框架，而是作者用自己的方式优化 UITableView 的一个实践。"
+    },
+    {
+        title: "MJRefresh 源码解析",
+        tag: "MJRefresh",
+        href: "https://mp.weixin.qq.com/s/N8SJQdieRe-ttTiqDjt_Gw",
+        des: "MJRefresh 是李明杰老师的作品，到现在已经有 1w+ 颗 star 了，是一个简单实用，功能强大的 iOS 下拉刷新（也支持上拉加载更多）控件"
+    },
+             {
+        title: "CSPopKit 弹窗框架的设计实现",
+        tag: "弹窗",
+        href: "https://mp.weixin.qq.com/s/y2Cml1J6B7iF37gtlY75sg",
+        des: "多人维护的项目，针对产品需求需要定制各种弹窗，因为没有一套规范实现，每个人根据自己的代码习惯定制不同风格的弹窗。"
+    },
+    {
+        title: "YYCache 源码解析（一）：使用方法，架构与内存缓存的设计",
+        tag: "YYCache",
+        href: "https://mp.weixin.qq.com/s/tTAKHNiCVJ64738VIA__ZA",
+        des: "YYCache 是国内开发者 ibireme 开源的一个线程安全的高性能缓存组件，代码风格简洁清晰，阅读它的源码有助于建立比较完整的缓存设计的思路，同时也能巩固一下双向链表，线程锁，数据库操作相关的知识。"
+    },
+    {
+        title: "YYCache 源码解析（二）：磁盘缓存的设计与缓存组件设计思路",
+        tag: "YYCache",
+        href: "https://mp.weixin.qq.com/s/85oT_Uq-AOYbacH8QSfeuw",
+        des: "上一篇讲解了 YYCache 的使用方法，架构与内存缓存的设计。这一篇讲解磁盘缓存的设计与缓存组件的设计思路。"
+    },
+     {
+        title: "YYImage 源码剖析：图片处理技巧",
+        tag: "YYImage",
+        href: "https://mp.weixin.qq.com/s/uQMEXJNc_Mmu0BIKqmVgDQ",
+        des: "图片是现代化 APP 界面设计里应用广泛的东西，精美的图片可以带来视觉上的享受，提高用户体验。由此给技术上带来了一些挑战，比如动图的处理、图片显示流畅程度的优化、图片包大小的优化、超大图片的处理等。"
+    },
+     {
+        title: "打造开源第一 iOS 图片浏览器 (支持视频)",
+        tag: "YBImageBrowser",
+        href: "https://mp.weixin.qq.com/s/dYJLSjmdhh4iquZRnJAnNw",
+        des: "本文主要讲述 YBImageBrowser 的一些功能技术细节，代码架构思路，设计模式选择等，希望对组件原理感兴趣的朋友有所帮助，也可以作为如何高效构建图片浏览器的参考资料。"
+    },
+     {
+        title: "YYAsyncLayer 源码剖析：异步绘制",
+        tag: "YYAsyncLayer",
+        href: "https://mp.weixin.qq.com/s/SEZNVjVTxXJmQaxCH-ifNQ",
+        des: "性能优化一直是 iOS 开发中的一个重头戏，其中界面流畅度的优化是至关重要的，因为它直接关系到用户体验。从最熟悉和简单的 UIKit 框架到 CoreAnimation、CoreGraphics、CoreText 甚至是 OpenGL，优化似乎是无穷无尽，也非常考验开发者的水平。"
+    },
+    {
+        title: "YYCache 源码剖析：一览亮点",
+        tag: "YYCache",
+        href: "https://mp.weixin.qq.com/s/hau0Nl5tMsECgFYva2okzg",
+        des: "YYCache 主要分为两部分：内存缓存和磁盘缓存（对应 YYMemoryCache 和 YYDiskCache）。"
+    },
+    {
+        title: "关于 YYAsyncLayer 可能出现的问题",
+        tag: "YYAsyncLayer",
+        href: "https://mp.weixin.qq.com/s/a83dTYEa4r_4bajG46IBxQ",
+        des: "使用原子自增函数 OSAtomicIncrement32() 对局部静态变量 counter 进行自增，然后通过取模运算轮询返回队列。"
+    },
+    {
+        title: "YYText 源码剖析：CoreText 与异步绘制",
+        tag: "YYText",
+        href: "https://mp.weixin.qq.com/s/DOfnIJwfz0m7A6-vooICHg",
+        des: "YYText 是业界知名富文本框架，基于 CoreText 做了大量基础设施并且实现了两个上层视图组件：YYLabel 和 YYTextView。"
+    },
+        {
+        title: "fishhook 的实现原理浅析",
+        tag: "fishhook",
+        href: "https://mp.weixin.qq.com/s/-uBmPtpupzoDnqKx9U-P2Q",
+        des: "早些时候，iOS中一提到“黑魔法”、HOOK，很多人第一时间想到的就是 AOP RunTime MethodSwizzling 这些不明觉厉的东西，它们的基本用法其实都不难，真正难的是如何在合适的地方用好它们。"
+    },
+    {
+        title: "fishhook 使用场景&源码分析",
+        tag: "fishhook",
+        href: "https://mp.weixin.qq.com/s/EhsO4Kn07vJ4ySK3PogLgw",
+        des: "上一篇我们一起分析了 fishhook的实现原理，但很多东西如果我们仅仅知道原理，其实距离真正吸收它并将其转化成自己的生产力还有很长的路。"
+    },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

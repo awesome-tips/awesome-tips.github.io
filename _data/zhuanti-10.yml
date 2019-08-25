@@ -20,23 +20,23 @@ list: {
         href: "https://mp.weixin.qq.com/s/t50P92nzl8h-xe65U8GXsA",
         des: "今天的题目是 LeetCode146: LRU Cache，上一篇文章已经讲解了 LRU 算法要用到的数据结构，没看过的同学，建议先读一遍 LRU算法预热之数据结构 。"
     },
-    # {
-    #     title: "",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
-    #  {
-    #     title: "",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
-    # {
-    #     title: "",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
+    {
+        title: "Hashable / Hasher",
+        tag: "Hashable",
+        href: "https://mp.weixin.qq.com/s/dig-r7yUE6xYBggpUmhIcg",
+        des: "这周我们的主题是 Hashable 和相关的新类型 Hasher。它们共同组成了 Swift 最受喜爱的两个集合类 Dictionary 和 Set 的基础功能。"
+    },
+     {
+        title: "使用 Swift 实现堆排序",
+        tag: "堆排序",
+        href: "https://mp.weixin.qq.com/s/kfqsTnJHbvXo9mgvPpkO0w",
+        des: "排序是计算机的一项主要任务。这并不是因为排序本身非常有趣，而是因为很多其它算法依赖于排序才能正常运行。本文主要描述如何实现堆排序算法，该算法依赖于称为堆的数据结构。"
+    },
+    {
+        title: "使用 Swift 实现归并排序",
+        tag: "归并排序",
+        href: "https://mp.weixin.qq.com/s/wKiUDFyf7huTM2cxtbcVEw",
+        des: "之前介绍了堆排序，这是一种基于堆的排序算法。今天，我们进一步深入研究排序算法，来看看归并排序，这是一种时间复杂度为 O(n * log(n)) 的排序算法，作为权衡，其空间复杂度为 O(n)。"
+    },
 ]
 }

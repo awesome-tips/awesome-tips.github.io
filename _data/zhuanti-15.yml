@@ -1,12 +1,42 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "语言底层原理",
+  des: "编译原理，语言底层的一些特性",
   datas: [
-     {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+         {
+        title: "剖析 ARM 64 架构中的 objc_msgSend",
+        tag: "ARM 64",
+        href: "https://mp.weixin.qq.com/s/DD2ReVtyQJ7ToVCookp-EQ",
+        des: "每个 Objective-C 对象都会指向一个类，而每个类又包含一个方法列表。每个方法则由选择器（selector）、函数指针和一些元数据（metadata）构成。objc_msgSend 职责就是接收对象（object）和选择器（selector），根据选择器名称找到对应方法的函数指针并跳转执行该函数。"
     },
+             {
+        title: "不改代码，Link-Time Optimization提高iOS代码效率 + 汇编代码原理分析",
+        tag: "Link-Time",
+        href: "https://mp.weixin.qq.com/s/dqy4nKrdwzVS54OhA7xh3Q",
+        des: "Link-Time Optimization 是 LLVM 编译器的一个特性，用于在 link中间代码时，对全局代码进行优化。这个优化是自动完成的，因此不需要修改现有的代码；这个优化也是高效的，因为可以在全局视角下优化代码。"
+    },
+             {
+        title: "趣探 Mach-O：文件格式分析",
+        tag: "Mach-O",
+        href: "https://mp.weixin.qq.com/s/in1alJyXkU_O520tIeKPVQ",
+        des: "我们的程序想要跑起来，肯定它的可执行文件格式要被操作系统所理解，比如 ELF 是 Linux下可执行文件的格式，PE32／PE32+ 是 windows 的可执行文件的格式，那么对于 OS X 和 iOS 来说 Mach-O 是其可执行文件的格式。"
+    },
+        {
+        title: "深入浅出iOS编译",
+        tag: "编译",
+        href: "https://mp.weixin.qq.com/s/lyv3QQM0fp51MCauq4QkZQ",
+        des: "两年前曾经写过一篇关于编译的文章《iOS编译过程的原理和应用》，这篇文章介绍了iOS编译相关基础知识和简单应用，但也很有多问题都没有解释清楚"
+    },
+    {
+        title: "LLDB 知多少",
+        tag: "LLDB",
+        href: "https://mp.weixin.qq.com/s/VEpClFwTQn66f8INeHRFlQ",
+        des: "“如果调试是删除 bug 的过程，那么编程就是引入 bug 的过程。”（Edsger W. Dijkstra）对于苹果开发者而言，LLDB 是无人不知的调试工具，然而此知非彼知，"
+    },
+    # {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

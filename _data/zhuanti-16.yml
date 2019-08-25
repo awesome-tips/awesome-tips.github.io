@@ -1,12 +1,48 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "机器学习、人工智能",
+  des: "涉及到机器学习，人工智能，Metal，Core ML。",
   datas: [
-     {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+        {
+        title: "使用 Metal 和 Core ML 评价照片质量",
+        tag: "Core ML",
+        href: "https://mp.weixin.qq.com/s/4buS4-BqeeXE4IHQ_JQxAA",
+        des: "如何评价一张照片的质量呢？用算法可以客观地评价照片质量，也可以人为主观地给照片打分，并运用机器学习来训练模型。"
     },
+             {
+        title: "Core ML & Vision 入门教程",
+        tag: "Core ML",
+        href: "https://mp.weixin.qq.com/s/QmuIgY07wQX3mD4hqxAf-g",
+        des: "这个iOS机器学习教程将向你介绍 Core ML 和 Vision，这是 iOS 11 中引入的两个全新框架。"
+    },
+    {
+        title: "Core ML and Vision Framework on iOS 11",
+        tag: "Vision",
+        href: "https://mp.weixin.qq.com/s/-qRGNMFx8e09wnxluUoYUA",
+        des: "机器学习和计算机视觉在 iOS 上虽然早已有了系统级的支持，但 WWDC 17 发布的 iOS 11 将它们的使用门槛大大降低。"
+    },
+        {
+        title: "更快更强的 Core ML 2.0",
+        tag: "Core ML",
+        href: "https://mp.weixin.qq.com/s/tQsrWWL3RofDp-Zq8DQ6Mg",
+        des: "本文是 WWDC 2018 Session 708 和 Session 709 的读后感，其视频及配套 PDF 文稿链接如下：What is New in Core ML, Part 1, What is New in Core ML, Part 2 本文会首先回顾 Core ML 的基本背景知识，其后着重介绍 Core ML 在应用上和工具上的更新。"
+    },
+        {
+        title: "机器学习与移动应用开发的未来",
+        tag: "机器学习",
+        href: "https://mp.weixin.qq.com/s/NKcHOoeEcMOuGV2dEbafFA",
+        des: "移动开发者可以从设备上的机器学习（on-device machine learning）所能提供的革命性变化中获益匪浅。"
+    },
+    #          {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
+    #          {
+    #     title: "",
+    #     tag: "",
+    #     href: "",
+    #     des: ""
+    # },
 ]
 }

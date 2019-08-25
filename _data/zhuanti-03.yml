@@ -2,11 +2,11 @@ list: {
   title: "Web与端交互",
   des: "JS与端交互的技术",
   datas: [
-      {
+       {
         title: "一本走心的 JS-Native 交互电子书",
         tag: "JS-Native 交互",
         href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+        des: "2018 年距离第一代 iOS 系统发布（2007 年）已经过去 11 年，这 11 年中移动端日益成熟，Web 端的时代逐步转移到了移动端。各种跨平台技术层出不穷，很多公司采取了 Hybrid 方案，这就涉及到 JS 和端（Android 和 iOS）进行交互。"
     },
      {
         title: "App 离线切换技术方案",
@@ -68,23 +68,42 @@ list: {
         href: "https://mp.weixin.qq.com/s/OlZ78ldlpdQeuV7r_4b_yQ",
         des: "移动开发领域近年来已经逐渐告别了野蛮生长的时期，进入了相对成熟的时代。而一直以来Native和Web的争论从未停止，通过开发者孜孜不倦的努力，Web的效率和Native的体验也一直在寻求着平衡。本文聚焦iOS开发和Web开发的交叉点，希望能通过简要的介绍，帮助开发者一窥Hybrid和大前端的构想。"
     },
-    #  {
-    #     title: "",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
-    #      {
-    #     title: "",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
-    #  {
-    #     title: "",
-    #     tag: "",
-    #     href: "",
-    #     des: ""
-    # },
+     {
+        title: "深入剖析 JavaScriptCore",
+        tag: "JavaScriptCore",
+        href: "https://mp.weixin.qq.com/s/bYYPH_OCgg5xWpFnixb-TQ",
+        des: "最近开始涉及 JS 的解析和处理工作，所以专门研究了下这块。特别是动态类型的处理以及不同引擎对于平台无关的字节码的设计和处理会有很大的帮助。"
+    },
+         {
+        title: "浅谈 2018 移动端跨平台开发方案",
+        tag: "跨平台",
+        href: "https://mp.weixin.qq.com/s/4yzANNti0x3B7HOI25BRZw",
+        des: "一次编写，到处运行”，这是 SUN 公司用来展示 Java 语言跨平台特性的 slogan，它意味着 Java 可以在任何平台上进行开发，编译后就可以在任何安装有 Java 虚拟机（JVM）的设备上运行。"
+    },
+     {
+        title: "Hybrid 实战：如何完整下载一个 wap 页面",
+        tag: "Hybrid",
+        href: "https://mp.weixin.qq.com/s/rR4lT0iPSStoHk2Kar8i9A",
+        des: "本文的重点在于如何基于 Hybrid 框架，在移动端（不限于具体平台）完成一个 wap 页面的完整下载。这个页面会包含丰富的媒体资源，包括图片、音频、视频等。下载完成之后，我们在离线时依然能够流畅阅读该页面的完整内容。"
+    },
+    {
+        title: "iOS WKWebView 同步返回值给 JS",
+        tag: "WKWebView",
+        href: "https://mp.weixin.qq.com/s/kKdNG40qbMHigwZIsJRyQQ",
+        des: "我们都知道 iOS WKWebView 跟 JS 通信的时候，由于 JS Call OC 同步返回采用了不同于异步 messageHandler 的通信方式，因此同步返回要单独进行设计。"
+    },
+    {
+        title: "分析一次有意思的需求——HTML代码注入",
+        tag: "HTML代码注入",
+        href: "https://mp.weixin.qq.com/s/Wxe0vYgBG96-ijSsGvuMnw",
+        des: "他们通过 WKWebView，访问了一个其他的页面，然后希望原生获得用户的输入信息。"
+    },
+    {
+        title: "iOS新闻类App内容页技术探索",
+        tag: "WebView",
+        href: "https://mp.weixin.qq.com/s/GSgZLa_KtGT89kaZcOsiAA",
+        des: "据相关数据显示，截至2017年底，中国手机新闻客户端用户规模达到6.36亿人，移动App已经成为新闻和内容传播的最重要途径之一。"
+    },
+    
 ]
 }

@@ -1,12 +1,78 @@
 list: {
-  title: "Flutter —— 跨平台解决方案",
-  des: "关于 Flutter 中高质的内容",
+  title: "Objective-C",
+  des: "关于Objective-C语言特性",
   datas: [
-     {
-        title: "一本走心的 JS-Native 交互电子书",
-        tag: "JS-Native 交互",
-        href: "https://github.com/lefex/DSA/issues/16",
-        des: "2018 年距离第一代"
+    {
+        title: "Objective-C小技巧( Builder / Command )",
+        tag: "Builder / Command ",
+        href: "https://mp.weixin.qq.com/s/R5G00Ra2Q87THJHS783X5w",
+        des: "这里他针对编码过程中的实际问题，总结了 Builder 和 Command 两种模式使用场景和实现方式。内容虽短，但都是精华。"
+    },
+             {
+        title: "巧妙利用 KVO 实现精准的 VC 耗时检测",
+        tag: "KVO",
+        href: "https://mp.weixin.qq.com/s/HO5k6FFkWs4pvjB_w5DslA",
+        des: "本文主要想分享一下我在根据这篇博客 《一种基于KVO的页面加载，渲染耗时监控方法》 实现 VC 耗时检测的过程中，产生并解决的疑惑，以及在该博客中发现的问题。本文最终输出了一个用于检测 VC 加载耗时的小工具：VCProfiler。"
+    },
+    {
+        title: "再谈 __bridge, __bridge_transfer, __bridge_retained",
+        tag: "__bridge",
+        href: "https://mp.weixin.qq.com/s/N0NogCoNEr5exZVN8wf09w",
+        des: "__bridge，__bridge_transfer，__bridge_retained 几乎是一百年多前的知识点了，关于它们在 ARC 下的用法已有大量文章。"
+    },
+    {
+        title: "iOS 中的数组排序操作",
+        tag: "NSArray",
+        href: "https://mp.weixin.qq.com/s/qdxzRdcpgrW2ypy8em50vQ",
+        des: "为了给字符串数组排序，除了用 C/C++ 的基本办法，iOS 开发者更应该学会利用苹果专门为 NSArray 排序提供的sortedArrayUsingComparator 方法："
+    },
+        {
+        title: "刨根问底 +load 方法",
+        tag: "+load",
+        href: "https://mp.weixin.qq.com/s/ozDgofBu_tg-MYtub9GZWw",
+        des: "首先我们都知道在 iOS 应用启动的时候会调用所有类和其分类的 +load 方法。子类的 load 方法会在父类方法执行完成之后执行，分类的 +load 会在主类执行之后执行。"
+    },
+             {
+        title: "捕获代码里的 @try @catch",
+        tag: "@try",
+        href: "https://mp.weixin.qq.com/s/dhm4SCEb9iqIh8aEbhoN7A",
+        des: "而且本身也可能导致功能无法稳定使用。我们的目的应该是知道问题了，就尽快解决好问题，而不是想着 try catch 不上报不 crash 就行了。所以就需要建立一个监控上报啦。"
+    },
+    {
+        title: "小心 NSTimer 中的内存泄漏",
+        tag: "内存泄漏",
+        href: "https://mp.weixin.qq.com/s/kN9eUnFAWDA26kFNHBUcIQ",
+        des: "NSTimer 大家都很熟悉，觉得用起来也很简单。然而，由 NSTimer 引起的内存泄漏，不经历过一次，一般很难察觉到。"
+    },
+    {
+        title: "iOS 倒计时的探究与选择",
+        tag: "RunLoop",
+        href: "https://mp.weixin.qq.com/s/0z_DC4_4Am0NcCYxys3j_w",
+        des: "我们在开发应用的过程中，往往在很多地方需要倒计时，比如说轮播图，验证码，活动倒计时等等。而在实现这些功能的时候，我们往往会遇到很多坑需要我们小心的规避掉。"
+    },
+    {
+        title: "关于 Block 的几点思考",
+        tag: "Block",
+        href: "https://mp.weixin.qq.com/s/XqMIoqJ0a4BzWlozO5whDg",
+        des: "block 的问题算是老生常谈了，本以为对 block 很熟悉了，但是前几天跟同事聊到几个 block 的很有意思的点，一开始还真的感觉一脸懵逼。想了很久才想出来自以为能解释的原因，大家也可以一起探讨。"
+    },
+    {
+        title: "iOS中isEqual和Hash的笔记",
+        tag: "Hash",
+        href: "https://mp.weixin.qq.com/s/iLyZ0xQt6dJQd9IGnganww",
+        des: "hash 是一种用于处理查找时非常高效的数据结构。时间复杂度一般情况下可以直接认为是 O(1)。"
+    },
+        {
+        title: "关于 performSelector:afterDelay: 的一个坑及思考",
+        tag: "runloop",
+        href: "https://mp.weixin.qq.com/s/LD3Q0VTiswySHRtlhygxpA",
+        des: "因为 [self performSelector:@selector(test) withObject:nil afterDelay:.0] 实际在 runloop 里面，是一个定时器，但是因为在子线程，runloop 是默认没有开启的。"
+    },
+        {
+        title: "关于iOS对象的小事的探究",
+        tag: "NSObject",
+        href: "https://mp.weixin.qq.com/s/LvPIyKo0wZvlLFDK7eU0jQ",
+        des: "在上一篇文章 一道有意思的iOS面试题 中写到，Objective-C 对象也是一种特殊的结构体。那一部分写的可能不是很清楚，也不是很易于理解。"
     },
 ]
 }

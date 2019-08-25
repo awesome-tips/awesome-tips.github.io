@@ -38,17 +38,43 @@ list: {
         href: "https://mp.weixin.qq.com/s/AeM90U9AuAepPWbJNC5fKw",
         des: "之前在做某项目的时候，自建了基于 NSThread 的私有线程池，在线程池分配了固定个数的常驻工作线程，在工作线程里面运行相关任务；这个方案取代了原先直接无脑使用 GCD 的方式，在各方面效果都还不错。"
     },
-    # {
+    {
+        title: "构建一个 @synchronized",
+        tag: "@synchronized",
+        href: "https://mp.weixin.qq.com/s/JfMxIqxzgysrdBJJgG-b8A",
+        des: "@synchronized 在 Objective-C 中是一种控制结构。它接受一个对象指针作为参数，后面跟着一段代码块。对象指针充当锁，在任何时候 @synchronized 代码块中只允许有一个线程使用该对象指针。"
+    },
+    {
+        title: "深入浅出 iOS 并发编程",
+        tag: "并发编程",
+        href: "https://mp.weixin.qq.com/s/ut98-V-HU_vXz5O3CXFS2w",
+        des: "在大多数场景下，我们所写的代码是逐行顺序执行——在固定的时段内，程序只执行一个任务。"
+    },
+    {
+        title: "iOS 各个线程 Autorelease 对象的内存管理",
+        tag: "Autorelease",
+        href: "https://mp.weixin.qq.com/s/cSgtPzZVoXhd14ZLPu7PXQ",
+        des: "最近和 bestswifter 、kuailejim 搞了一套模拟面试，然后不管是应届生还是工作两三年的高级工程师都对下面这几个问题比较懵逼，可能是开发中用到的不多，在这里浅浅的讨论下"
+    },
+        {
+        title: "iOS 如何高效的使用多线程",
+        tag: "多线程",
+        href: "https://mp.weixin.qq.com/s/NKupCS1RsAGhbzhCpYl2mA",
+        des: "多线程技术在移动端开发中应用广泛，GCD 让 iOS 开发者能轻易的使用多线程，然而这并不意味着代码就一定高效和可靠。"
+    },
+    #          {
     #     title: "",
     #     tag: "",
     #     href: "",
     #     des: ""
     # },
-    # {
+    #          {
     #     title: "",
     #     tag: "",
     #     href: "",
     #     des: ""
     # },
+
+    
 ]
 }
