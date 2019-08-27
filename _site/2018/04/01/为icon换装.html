@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>为icon换装 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="为icon换装" />
+<meta name="author" content="高老师很忙" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="最近一直在研究怎么减少资源文件，如果产品童鞋要用不同颜色的图片展示不同的状态，状态 A 是绿色的，状态 B 是红色的，状态 C 是黄色，图案都是一样的，只是颜色不同，也许你会让设计童鞋切3张图，但这种方式不太优雅。" />
+<meta property="og:description" content="最近一直在研究怎么减少资源文件，如果产品童鞋要用不同颜色的图片展示不同的状态，状态 A 是绿色的，状态 B 是红色的，状态 C 是黄色，图案都是一样的，只是颜色不同，也许你会让设计童鞋切3张图，但这种方式不太优雅。" />
+<link rel="canonical" href="http://localhost:4000/2018/04/01/%E4%B8%BAicon%E6%8D%A2%E8%A3%85.html" />
+<meta property="og:url" content="http://localhost:4000/2018/04/01/%E4%B8%BAicon%E6%8D%A2%E8%A3%85.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"最近一直在研究怎么减少资源文件，如果产品童鞋要用不同颜色的图片展示不同的状态，状态 A 是绿色的，状态 B 是红色的，状态 C 是黄色，图案都是一样的，只是颜色不同，也许你会让设计童鞋切3张图，但这种方式不太优雅。","author":{"@type":"Person","name":"高老师很忙"},"@type":"BlogPosting","url":"http://localhost:4000/2018/04/01/%E4%B8%BAicon%E6%8D%A2%E8%A3%85.html","headline":"为icon换装","dateModified":"2018-04-01T08:00:00+08:00","datePublished":"2018-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/01/%E4%B8%BAicon%E6%8D%A2%E8%A3%85.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">为icon换装</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">高老师很忙</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>最近一直在研究怎么减少资源文件，如果产品童鞋要用不同颜色的图片展示不同的状态，状态 A 是绿色的，状态 B 是红色的，状态 C 是黄色，图案都是一样的，只是颜色不同，也许你会让设计童鞋切3张图，但这种方式不太优雅。</p>
+
+<p>有两种方案：一个是使用 <code class="highlighter-rouge">tintColor</code>，可以简单的实现更换颜色；如果这个方法不能满足需求，可以使用绘制的方式，可选参数会多很多。喵神之前发表过一篇文章——<strong>《iOS中使用blend改变图片颜色》</strong>很是受用，虽然发表时间有点早，但我个人觉得还是比较实用。</p>
+
+<p>我们可以使用 <code class="highlighter-rouge">UIImage</code> 的 <code class="highlighter-rouge">-drawInRect:blendMode:alpha:</code> 方法，封装后一行代码搞定你想要的任何颜色，直接上代码：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/8-1.jpg?raw=true" alt="" /></p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/8-2.jpg?raw=true" alt="" /></p>
+
+<p>运行效果如图：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/8-3.jpg?raw=true" alt="" /></p>
+
+<p><code class="highlighter-rouge">kCGBlendModeDestinationIn</code> 是保留透明度信息；但如果图片中有阴影就需要与 <code class="highlighter-rouge">kCGBlendModeOverlay</code> 或者 <code class="highlighter-rouge">kCGBlendModeMultiply</code> 或其它参数根据实际情况叠加使用。</p>
+
+<p>喵神已经把原理讲解的很详细了，感兴趣的童鞋可以移步：https://onevcat.com/2013/04/using-blending-in-ios/</p>
+
+  </div><a class="u-url" href="/2018/04/01/%E4%B8%BAicon%E6%8D%A2%E8%A3%85.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

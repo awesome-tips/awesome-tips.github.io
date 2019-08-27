@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>自定义WebView的UserAgent | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="自定义WebView的UserAgent" />
+<meta name="author" content="拿破仑的风火轮_" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="产品需求:所有 APP 内的 WebView 访问的自家服务, 根据 UserAgent 自动切换显示合适的内容. 思路:自定义全局的 UserAgent . 实现代码如下:" />
+<meta property="og:description" content="产品需求:所有 APP 内的 WebView 访问的自家服务, 根据 UserAgent 自动切换显示合适的内容. 思路:自定义全局的 UserAgent . 实现代码如下:" />
+<link rel="canonical" href="http://localhost:4000/2018/01/01/%E8%87%AA%E5%AE%9A%E4%B9%89WebView%E7%9A%84UserAgent.html" />
+<meta property="og:url" content="http://localhost:4000/2018/01/01/%E8%87%AA%E5%AE%9A%E4%B9%89WebView%E7%9A%84UserAgent.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"产品需求:所有 APP 内的 WebView 访问的自家服务, 根据 UserAgent 自动切换显示合适的内容. 思路:自定义全局的 UserAgent . 实现代码如下:","author":{"@type":"Person","name":"拿破仑的风火轮_"},"@type":"BlogPosting","url":"http://localhost:4000/2018/01/01/%E8%87%AA%E5%AE%9A%E4%B9%89WebView%E7%9A%84UserAgent.html","headline":"自定义WebView的UserAgent","dateModified":"2018-01-01T08:00:00+08:00","datePublished":"2018-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/01/%E8%87%AA%E5%AE%9A%E4%B9%89WebView%E7%9A%84UserAgent.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">自定义WebView的UserAgent</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">拿破仑的风火轮_</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ol>
+  <li>产品需求:所有 <code class="highlighter-rouge">APP</code> 内的 <code class="highlighter-rouge">WebView</code> 访问的自家服务, 根据 <code class="highlighter-rouge">UserAgent</code> 自动切换显示合适的内容.</li>
+  <li>思路:自定义全局的 <code class="highlighter-rouge">UserAgent</code> .</li>
+  <li>实现代码如下:</li>
+</ol>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * User-Agent 格式参照了 AFNetworking 设置
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">customizeWebViewUserAgent</span> <span class="p">{</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">userAgent</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    
+<span class="cp">#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu"
+</span>    <span class="c1">// User-Agent Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43</span>
+    <span class="n">userAgent</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%@/%@ (%@-WebView; iOS %@; Scale/%0.2f)"</span><span class="p">,</span> <span class="p">[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">infoDictionary</span><span class="p">][(</span><span class="n">__bridge</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">kCFBundleExecutableKey</span><span class="p">]</span> <span class="p">?:</span> <span class="p">[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">infoDictionary</span><span class="p">][(</span><span class="n">__bridge</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">kCFBundleIdentifierKey</span><span class="p">],</span> <span class="p">[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">infoDictionary</span><span class="p">][</span><span class="s">@"CFBundleShortVersionString"</span><span class="p">]</span> <span class="p">?:</span> <span class="p">[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">infoDictionary</span><span class="p">][(</span><span class="n">__bridge</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">kCFBundleVersionKey</span><span class="p">],</span> <span class="p">[[</span><span class="n">UIDevice</span> <span class="nf">currentDevice</span><span class="p">]</span> <span class="nf">model</span><span class="p">],</span> <span class="p">[[</span><span class="n">UIDevice</span> <span class="nf">currentDevice</span><span class="p">]</span> <span class="nf">systemVersion</span><span class="p">],</span> <span class="p">[[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">]</span> <span class="nf">scale</span><span class="p">]];</span>
+<span class="cp">#pragma clang diagnostic pop
+</span>    
+    <span class="k">if</span> <span class="p">(</span><span class="n">userAgent</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">userAgent</span> <span class="nf">canBeConvertedToEncoding</span><span class="p">:</span><span class="n">NSASCIIStringEncoding</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">NSMutableString</span> <span class="o">*</span><span class="n">mutableUserAgent</span> <span class="o">=</span> <span class="p">[</span><span class="n">userAgent</span> <span class="nf">mutableCopy</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">CFStringTransform</span><span class="p">((</span><span class="n">__bridge</span> <span class="n">CFMutableStringRef</span><span class="p">)(</span><span class="n">mutableUserAgent</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">CFStringRef</span><span class="p">)</span><span class="s">@"Any-Latin; Latin-ASCII; [:^ASCII:] Remove"</span><span class="p">,</span> <span class="nb">false</span><span class="p">))</span> <span class="p">{</span><span class="c1">//把不符合ASCII编码的字符,转码成ASCII编码格式</span>
+                <span class="n">userAgent</span> <span class="o">=</span> <span class="n">mutableUserAgent</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="p">[</span><span class="n">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span> <span class="nf">registerDefaults</span><span class="p">:@{</span><span class="s">@"UserAgent"</span><span class="o">:</span> <span class="n">userAgent</span><span class="p">}];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">UIWebView</code> 和 <code class="highlighter-rouge">WkWebView</code> 的默认 <code class="highlighter-rouge">UserAgent</code> 抓包如图所示</p>
+
+    <p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2018/01/6-1.png?raw=true" alt="" /></p>
+  </li>
+  <li>
+    <p>自定义 <code class="highlighter-rouge">UserAgent</code> 如图所示</p>
+
+    <p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2018/01/6-2.png?raw=true" alt="" /></p>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/2018/01/01/%E8%87%AA%E5%AE%9A%E4%B9%89WebView%E7%9A%84UserAgent.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

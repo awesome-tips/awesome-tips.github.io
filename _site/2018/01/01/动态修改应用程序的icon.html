@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>动态修改应用程序的icon | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="动态修改应用程序的icon" />
+<meta name="author" content="南峰子_老驴" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="偶然看到 Price Tag 有个替换应用图标的功能，如图，研究了一下。" />
+<meta property="og:description" content="偶然看到 Price Tag 有个替换应用图标的功能，如图，研究了一下。" />
+<link rel="canonical" href="http://localhost:4000/2018/01/01/%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84icon.html" />
+<meta property="og:url" content="http://localhost:4000/2018/01/01/%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84icon.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"偶然看到 Price Tag 有个替换应用图标的功能，如图，研究了一下。","author":{"@type":"Person","name":"南峰子_老驴"},"@type":"BlogPosting","url":"http://localhost:4000/2018/01/01/%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84icon.html","headline":"动态修改应用程序的icon","dateModified":"2018-01-01T08:00:00+08:00","datePublished":"2018-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/01/%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84icon.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">动态修改应用程序的icon</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">南峰子_老驴</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>偶然看到 <code class="highlighter-rouge">Price Tag</code> 有个替换应用图标的功能，如图，研究了一下。</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2018/01/3-1.png?raw=true" alt="" /></p>
+
+<p>这个功能是在 <code class="highlighter-rouge">iOS 10.3</code> 后新增的，主要的 <code class="highlighter-rouge">API</code> 如下所示：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">UIApplication</span> <span class="p">(</span><span class="nl">UIAlternateApplicationIcons</span><span class="p">)</span>
+<span class="c1">// If false, alternate icons are not supported for the current process.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">supportsAlternateIcons</span> <span class="n">NS_EXTENSION_UNAVAILABLE</span><span class="p">(</span><span class="s">"Extensions may not have alternate icons"</span><span class="p">)</span> <span class="n">API_AVAILABLE</span><span class="p">(</span><span class="n">ios</span><span class="p">(</span><span class="mi">10</span><span class="p">.</span><span class="mi">3</span><span class="p">),</span> <span class="n">tvos</span><span class="p">(</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="p">));</span>
+
+<span class="c1">// Pass `nil` to use the primary application icon. The completion handler will be invoked asynchronously on an arbitrary background queue; be sure to dispatch back to the main queue before doing any further UI work.</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setAlternateIconName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alternateIconName</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">error</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="n">NS_EXTENSION_UNAVAILABLE</span><span class="p">(</span><span class="s">"Extensions may not have alternate icons"</span><span class="p">)</span> <span class="n">API_AVAILABLE</span><span class="p">(</span><span class="n">ios</span><span class="p">(</span><span class="mi">10</span><span class="p">.</span><span class="mi">3</span><span class="p">),</span> <span class="n">tvos</span><span class="p">(</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="p">));</span>
+
+<span class="c1">// If `nil`, the primary application icon is being used.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">alternateIconName</span> <span class="n">NS_EXTENSION_UNAVAILABLE</span><span class="p">(</span><span class="s">"Extensions may not have alternate icons"</span><span class="p">)</span> <span class="n">API_AVAILABLE</span><span class="p">(</span><span class="n">ios</span><span class="p">(</span><span class="mi">10</span><span class="p">.</span><span class="mi">3</span><span class="p">),</span> <span class="n">tvos</span><span class="p">(</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="p">));</span>
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>只读属性 <code class="highlighter-rouge">supportsAlternateIcons</code> 用于判断系统是否允许修改 <code class="highlighter-rouge">App</code> 图标，只有在允许的情况下才能修改。<code class="highlighter-rouge">-setAlternateIconName:completionHandler:</code> 用于执行修改操作，如果 <code class="highlighter-rouge">iconName</code> 设置为 <code class="highlighter-rouge">nil</code>，则恢复为主图标，使用方式如下代码所示：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">changeIcon</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">([[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">supportsAlternateIcons</span><span class="p">])</span> <span class="p">{</span>
+        
+        <span class="n">NSString</span> <span class="o">*</span><span class="n">iconName</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">sender</span><span class="p">.</span><span class="n">tag</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">iconName</span> <span class="o">=</span> <span class="s">@"rocket"</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">sender</span><span class="p">.</span><span class="n">tag</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">iconName</span> <span class="o">=</span> <span class="s">@"pin"</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">setAlternateIconName</span><span class="p">:</span><span class="n">iconName</span> <span class="nf">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+            
+        <span class="p">}];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>除了调用 <code class="highlighter-rouge">API</code> 外，最主要的还需要在 <code class="highlighter-rouge">info.plist</code> 中配置 <code class="highlighter-rouge">CFBundleIcons</code> 项，这是一个字典，可包含 <code class="highlighter-rouge">CFBundlePrimaryIcon</code>、<code class="highlighter-rouge">CFBundleAlternateIcons</code>、<code class="highlighter-rouge">UINewsstandIcon</code> 三个键。</p>
+
+<p><code class="highlighter-rouge">CFBundlePrimaryIcon</code> 为主图标，即 <code class="highlighter-rouge">Assets.xcassets</code> 中 <code class="highlighter-rouge">AppIcon</code> 的信息，一般置空。<code class="highlighter-rouge">CFBundleAlternateIcons</code> 即用于设置替换图标，具体的配置项描述可以参考<a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html">官方文档</a> ，通常的配置如图所示。</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2018/01/3-2.png?raw=true" alt="" /></p>
+
+<p>这里需要注意的是，替换图标应该放在工程的某个目录下，而不放在 <code class="highlighter-rouge">Assets.xcassets</code> 中，如图所示。</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2018/01/3-3.png?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2018/01/01/%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84icon.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

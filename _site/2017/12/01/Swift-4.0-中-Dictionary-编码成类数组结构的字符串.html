@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Swift 4.0 中 Dictionary 编码成类数组结构的字符串 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Swift 4.0 中 Dictionary 编码成类数组结构的字符串" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在Swift 4.0中，使用Codable来编码一个Dictionary时，某些情况下得到的可能并不是类似于字典/对象结构的字符串，而可能是一个类似数组结构的字符串，如下代码所示：" />
+<meta property="og:description" content="在Swift 4.0中，使用Codable来编码一个Dictionary时，某些情况下得到的可能并不是类似于字典/对象结构的字符串，而可能是一个类似数组结构的字符串，如下代码所示：" />
+<link rel="canonical" href="http://localhost:4000/2017/12/01/Swift-4.0-%E4%B8%AD-Dictionary-%E7%BC%96%E7%A0%81%E6%88%90%E7%B1%BB%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2.html" />
+<meta property="og:url" content="http://localhost:4000/2017/12/01/Swift-4.0-%E4%B8%AD-Dictionary-%E7%BC%96%E7%A0%81%E6%88%90%E7%B1%BB%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-12-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在Swift 4.0中，使用Codable来编码一个Dictionary时，某些情况下得到的可能并不是类似于字典/对象结构的字符串，而可能是一个类似数组结构的字符串，如下代码所示：","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/12/01/Swift-4.0-%E4%B8%AD-Dictionary-%E7%BC%96%E7%A0%81%E6%88%90%E7%B1%BB%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2.html","headline":"Swift 4.0 中 Dictionary 编码成类数组结构的字符串","dateModified":"2017-12-01T08:00:00+08:00","datePublished":"2017-12-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/12/01/Swift-4.0-%E4%B8%AD-Dictionary-%E7%BC%96%E7%A0%81%E6%88%90%E7%B1%BB%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Swift 4.0 中 Dictionary 编码成类数组结构的字符串</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-12-01T08:00:00+08:00" itemprop="datePublished">Dec 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在Swift 4.0中，使用<code class="highlighter-rouge">Codable</code>来编码一个<code class="highlighter-rouge">Dictionary</code>时，某些情况下得到的可能并不是类似于字典/对象结构的字符串，而可能是一个类似数组结构的字符串，如下代码所示：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">dict</span><span class="p">:</span> <span class="p">[</span><span class="kt">Float</span> <span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mf">18.0</span><span class="p">:</span> <span class="s">"ff0000"</span><span class="p">,</span>
+    <span class="mf">20.0</span><span class="p">:</span> <span class="s">"00ff00"</span><span class="p">,</span>
+    <span class="mf">21.0</span><span class="p">:</span> <span class="s">"0000ff"</span>
+<span class="p">]</span>
+
+<span class="k">let</span> <span class="nv">encoder</span> <span class="o">=</span> <span class="kt">JSONEncoder</span><span class="p">()</span>
+<span class="n">encoder</span><span class="o">.</span><span class="n">outputFormatting</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">prettyPrinted</span><span class="p">,</span> <span class="o">.</span><span class="n">sortedKeys</span><span class="p">]</span>
+<span class="k">let</span> <span class="nv">encoded</span> <span class="o">=</span> <span class="k">try!</span> <span class="n">encoder</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="n">dict</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">jsonText</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">decoding</span><span class="p">:</span> <span class="n">encoded</span><span class="p">,</span> <span class="nv">as</span><span class="p">:</span> <span class="kt">UTF8</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">jsonText</span><span class="p">)</span>
+
+<span class="c1">//[</span>
+<span class="c1">//  21,</span>
+<span class="c1">//  "0000ff",</span>
+<span class="c1">//  18,</span>
+<span class="c1">//  "ff0000",</span>
+<span class="c1">//  20,</span>
+<span class="c1">//  "00ff00"</span>
+<span class="c1">//]</span>
+</code></pre></div></div>
+
+<p>这里的<code class="highlighter-rouge">dict</code>以<code class="highlighter-rouge">Float</code>类型为<code class="highlighter-rouge">key</code>，结果是输出一个类似数组的字符串。查看源码中<code class="highlighter-rouge">Dictionary</code>对<code class="highlighter-rouge">Encodable</code>协议的扩展实现，如下代码所示：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Dictionary</span> <span class="p">:</span> <span class="kt">Encodable</span> <span class="cm">/* where Key : Encodable, Value : Encodable */</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="n">to</span> <span class="nv">encoder</span><span class="p">:</span> <span class="kt">Encoder</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="nf">assertTypeIsEncodable</span><span class="p">(</span><span class="kt">Key</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">in</span><span class="p">:</span> <span class="nf">type</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="k">self</span><span class="p">))</span>
+        <span class="nf">assertTypeIsEncodable</span><span class="p">(</span><span class="kt">Value</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">in</span><span class="p">:</span> <span class="nf">type</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="k">self</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="kt">Key</span><span class="o">.</span><span class="k">self</span> <span class="o">==</span> <span class="kt">String</span><span class="o">.</span><span class="k">self</span> <span class="p">{</span>
+            <span class="c1">// Since the keys are already Strings, we can use them as keys directly.</span>
+            <span class="k">var</span> <span class="nv">container</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="nf">container</span><span class="p">(</span><span class="nv">keyedBy</span><span class="p">:</span> <span class="n">_DictionaryCodingKey</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="k">self</span> <span class="p">{</span>
+                <span class="k">let</span> <span class="nv">codingKey</span> <span class="o">=</span> <span class="nf">_DictionaryCodingKey</span><span class="p">(</span><span class="nv">stringValue</span><span class="p">:</span> <span class="n">key</span> <span class="k">as!</span> <span class="kt">String</span><span class="p">)</span><span class="o">!</span>
+                <span class="nf">try</span> <span class="p">(</span><span class="n">value</span> <span class="k">as!</span> <span class="kt">Encodable</span><span class="p">)</span><span class="o">.</span><span class="nf">__encode</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">container</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="n">codingKey</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="kt">Key</span><span class="o">.</span><span class="k">self</span> <span class="o">==</span> <span class="kt">Int</span><span class="o">.</span><span class="k">self</span> <span class="p">{</span>
+            <span class="c1">// Since the keys are already Ints, we can use them as keys directly.</span>
+            <span class="k">var</span> <span class="nv">container</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="nf">container</span><span class="p">(</span><span class="nv">keyedBy</span><span class="p">:</span> <span class="n">_DictionaryCodingKey</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="k">self</span> <span class="p">{</span>
+                <span class="k">let</span> <span class="nv">codingKey</span> <span class="o">=</span> <span class="nf">_DictionaryCodingKey</span><span class="p">(</span><span class="nv">intValue</span><span class="p">:</span> <span class="n">key</span> <span class="k">as!</span> <span class="kt">Int</span><span class="p">)</span><span class="o">!</span>
+                <span class="nf">try</span> <span class="p">(</span><span class="n">value</span> <span class="k">as!</span> <span class="kt">Encodable</span><span class="p">)</span><span class="o">.</span><span class="nf">__encode</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">container</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="n">codingKey</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Keys are Encodable but not Strings or Ints, so we cannot arbitrarily convert to keys.</span>
+            <span class="c1">// We can encode as an array of alternating key-value pairs, though.</span>
+            <span class="k">var</span> <span class="nv">container</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="nf">unkeyedContainer</span><span class="p">()</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="k">self</span> <span class="p">{</span>
+                <span class="nf">try</span> <span class="p">(</span><span class="n">key</span> <span class="k">as!</span> <span class="kt">Encodable</span><span class="p">)</span><span class="o">.</span><span class="nf">__encode</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">container</span><span class="p">)</span>
+                <span class="nf">try</span> <span class="p">(</span><span class="n">value</span> <span class="k">as!</span> <span class="kt">Encodable</span><span class="p">)</span><span class="o">.</span><span class="nf">__encode</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">container</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>可以看到当 <code class="highlighter-rouge">key</code> 的类型为 <code class="highlighter-rouge">String</code> 和 <code class="highlighter-rouge">Int</code> 时，使用 <code class="highlighter-rouge">_DictionaryCodingKey</code> 来编码 <code class="highlighter-rouge">key</code>，进而编码 <code class="highlighter-rouge">key-value</code> 对，最后以类似字典的结构输出(依赖于 <code class="highlighter-rouge">keyed container</code> )，这是因为在 <code class="highlighter-rouge">Codable</code> 系统中，这两个类型是有效的可编码 <code class="highlighter-rouge">key</code> 类型；而其它类型则不是，由于 <code class="highlighter-rouge">Dictionary</code> 无法告诉其它类型如何编码自身，所以将这些值 <code class="highlighter-rouge">key</code> 存储在一个 <code class="highlighter-rouge">unkeyed container</code> 中，最终处理成一个数组。</p>
+
+<p>参考：</p>
+
+<ol>
+  <li><a href="https://developer.apple.com/documentation/swift/unkeyedencodingcontainer">UnkeyedEncodingContainer</a></li>
+  <li><a href="https://oleb.net/blog/2017/12/dictionary-codable-array/">Why Dictionary sometimes encodes itself as an array</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2017/12/01/Swift-4.0-%E4%B8%AD-Dictionary-%E7%BC%96%E7%A0%81%E6%88%90%E7%B1%BB%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

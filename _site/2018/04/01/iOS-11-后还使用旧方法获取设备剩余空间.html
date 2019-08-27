@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS 11 后还使用旧方法获取设备剩余空间？ | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS 11 后还使用旧方法获取设备剩余空间？" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="iOS11" />
+<meta property="og:description" content="iOS11" />
+<link rel="canonical" href="http://localhost:4000/2018/04/01/iOS-11-%E5%90%8E%E8%BF%98%E4%BD%BF%E7%94%A8%E6%97%A7%E6%96%B9%E6%B3%95%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%89%A9%E4%BD%99%E7%A9%BA%E9%97%B4.html" />
+<meta property="og:url" content="http://localhost:4000/2018/04/01/iOS-11-%E5%90%8E%E8%BF%98%E4%BD%BF%E7%94%A8%E6%97%A7%E6%96%B9%E6%B3%95%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%89%A9%E4%BD%99%E7%A9%BA%E9%97%B4.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"iOS11","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/04/01/iOS-11-%E5%90%8E%E8%BF%98%E4%BD%BF%E7%94%A8%E6%97%A7%E6%96%B9%E6%B3%95%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%89%A9%E4%BD%99%E7%A9%BA%E9%97%B4.html","headline":"iOS 11 后还使用旧方法获取设备剩余空间？","dateModified":"2018-04-01T08:00:00+08:00","datePublished":"2018-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/01/iOS-11-%E5%90%8E%E8%BF%98%E4%BD%BF%E7%94%A8%E6%97%A7%E6%96%B9%E6%B3%95%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%89%A9%E4%BD%99%E7%A9%BA%E9%97%B4.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS 11 后还使用旧方法获取设备剩余空间？</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><strong>iOS11</strong></p>
+
+<p><code class="highlighter-rouge">iOS11</code> 以后使用 <code class="highlighter-rouge">NSHomeDirectory()</code> 这种方式获取手机剩余空间总是不准，经测试差不多少 <code class="highlighter-rouge">2G</code> 左右，最后查文档后发现 <code class="highlighter-rouge">iOS11</code> 后苹果新增了 <code class="highlighter-rouge">API</code>。 所以 <code class="highlighter-rouge">iOS11</code> 以后需要使用新的 <code class="highlighter-rouge">API</code> 才能获取到真实的剩余空间，不过 <code class="highlighter-rouge">BYTE</code> 转换为 <code class="highlighter-rouge">KB</code> 的时候苹果使用的是 <code class="highlighter-rouge">1000</code>，而腾讯视频使用的是 <code class="highlighter-rouge">1024</code>。</p>
+
+<blockquote>
+  <p>The query type to use depends on what’s being stored. If you’re storing data based on a user request or resources the app requires to function properly (for example, a video the user is about to watch or resources that are needed for the next level in a game), query against <code class="highlighter-rouge">NSURLVolumeAvailableCapacityForImportantUsageKey</code>. However, if you’re downloading data in a more predictive manner (for example, downloading a newly available episode of a TV series that the user has been watching recently), query against <code class="highlighter-rouge">NSURLVolumeAvailableCapacityForOpportunisticUsageKey</code>.</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">NSURLVolumeTotalCapacityKey </code>获取到整个手机的存储空间，比如32G的手机获取的数据是32G；</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">NSURLVolumeAvailableCapacityKey</code> 可用容量；</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">NSURLVolumeAvailableCapacityForImportantUsageKey</code> 苹果建议如果下载视频或者游戏下一关的数据用这个，经调查发现系统中的剩余空间和腾讯视频使用的都是这个；</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">NSURLVolumeAvailableCapacityForOpportunisticUsageKey</code>苹果建议如果您以更具预见性的方式下载数据（例如，下载最近使用的一个电视系列节目，用户最近一直在观看）。</p>
+  </li>
+</ul>
+
+<p><strong>iOS11以前</strong></p>
+
+<p><code class="highlighter-rouge">iOS11</code> 以前获取的手机剩余空间总是多余系统中的剩余空间。我手机系统是<code class="highlighter-rouge">iOS9.3.1</code> 获取到的剩余空间差不多为 <code class="highlighter-rouge">7.98G</code>，而系统显示为 <code class="highlighter-rouge">7.8G</code>，比系统获取的还要多，而且不确定苹果使用的是 <code class="highlighter-rouge">1000</code> 还是 <code class="highlighter-rouge">1024</code> 进行转换，如果使用 <code class="highlighter-rouge">1000</code> 转换的话，那么我获取到的剩余空间会比系统显示的剩余空间还要大。如果我用 <code class="highlighter-rouge">1000</code> 转换，大约为 <code class="highlighter-rouge">8.56GB</code>。</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/2-1.png?raw=true" alt="" /></p>
+
+<p>参考</p>
+
+<p><a href="https://developer.apple.com/documentation/foundation/nsurlresourcekey/checking_volume_storage_capacity?language=objc">Checking Volume Storage Capacity</a></p>
+
+  </div><a class="u-url" href="/2018/04/01/iOS-11-%E5%90%8E%E8%BF%98%E4%BD%BF%E7%94%A8%E6%97%A7%E6%96%B9%E6%B3%95%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%89%A9%E4%BD%99%E7%A9%BA%E9%97%B4.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

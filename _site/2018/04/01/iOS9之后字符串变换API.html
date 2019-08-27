@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS9之后字符串变换API | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS9之后字符串变换API" />
+<meta name="author" content="高老师很忙" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="今天给大家介绍的是 iOS9 之后 NSString 新增的方法： - (nullable NSString *)stringByApplyingTransform:(NSStringTransform)transform reverse:(BOOL)reverse ，我用了它的翻译功能之后，喜欢称之为翻译方法，说是翻译可能不太准确，语言变换会更准确一些。" />
+<meta property="og:description" content="今天给大家介绍的是 iOS9 之后 NSString 新增的方法： - (nullable NSString *)stringByApplyingTransform:(NSStringTransform)transform reverse:(BOOL)reverse ，我用了它的翻译功能之后，喜欢称之为翻译方法，说是翻译可能不太准确，语言变换会更准确一些。" />
+<link rel="canonical" href="http://localhost:4000/2018/04/01/iOS9%E4%B9%8B%E5%90%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%98%E6%8D%A2API.html" />
+<meta property="og:url" content="http://localhost:4000/2018/04/01/iOS9%E4%B9%8B%E5%90%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%98%E6%8D%A2API.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"今天给大家介绍的是 iOS9 之后 NSString 新增的方法： - (nullable NSString *)stringByApplyingTransform:(NSStringTransform)transform reverse:(BOOL)reverse ，我用了它的翻译功能之后，喜欢称之为翻译方法，说是翻译可能不太准确，语言变换会更准确一些。","author":{"@type":"Person","name":"高老师很忙"},"@type":"BlogPosting","url":"http://localhost:4000/2018/04/01/iOS9%E4%B9%8B%E5%90%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%98%E6%8D%A2API.html","headline":"iOS9之后字符串变换API","dateModified":"2018-04-01T08:00:00+08:00","datePublished":"2018-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/01/iOS9%E4%B9%8B%E5%90%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%98%E6%8D%A2API.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS9之后字符串变换API</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">高老师很忙</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>今天给大家介绍的是 <code class="highlighter-rouge">iOS9</code> 之后 <code class="highlighter-rouge">NSString</code> 新增的方法：
+<code class="highlighter-rouge">- (nullable NSString *)stringByApplyingTransform:(NSStringTransform)transform reverse:(BOOL)reverse</code>
+，我用了它的翻译功能之后，喜欢称之为翻译方法，说是翻译可能不太准确，语言变换会更准确一些。</p>
+
+<p><code class="highlighter-rouge">iOS</code> 实现了部分 <code class="highlighter-rouge">ICU</code>（International Components for Unicode的缩写，主要提供提供了 Unicode 和全球化支持）功能，所以才有了这个方法的诞生。因此除了系统提供的转换方式（如下图）之外，还支持ICU语法。</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/5-1.jpg?raw=true" alt="" /></p>
+
+<p><code class="highlighter-rouge">ICU</code> 转换语法比如说，简体转繁体（Hans-Hant），繁体转简体（Hant-Hans），字母过滤（[:^Letter:] Remove），还有转换成小写（Lower）等等。</p>
+
+<p>我做了一个简单的Demo，核心代码如下：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/5-2.jpg?raw=true" alt="" /></p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/5-3.jpg?raw=true" alt="" /></p>
+
+<p>是不是发现项目里汉语转拼音的三方库也可以干掉了？
+😜比较遗憾的是ICU是不支持英文翻译的，所以这个API
+也是不支持的。只支持简体，繁体，日语，韩语等多语言的APP用这个方法还是比较方便的，在处理字符串上面也是比较不错，去掉emoji也可以一行代码搞定。</p>
+
+<p>ICU相关内容详看：http://userguide.icu-project.org/transforms/general/rules</p>
+
+  </div><a class="u-url" href="/2018/04/01/iOS9%E4%B9%8B%E5%90%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%98%E6%8D%A2API.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

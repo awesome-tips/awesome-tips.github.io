@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>你的遍历方法用对@autoreleasepool了么 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="你的遍历方法用对@autoreleasepool了么" />
+<meta name="author" content="高老师很忙" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在每次遍历的时候生成了很多占内存大的对象，如果交于默认的autoreleasepool去管理生命周期，会有因为内存飙升产生crash的风险，这个时候我们就需要手动控制这些对象的生命周期。也就是需要在适当的位置上去使用@autoreleasepool()。" />
+<meta property="og:description" content="在每次遍历的时候生成了很多占内存大的对象，如果交于默认的autoreleasepool去管理生命周期，会有因为内存飙升产生crash的风险，这个时候我们就需要手动控制这些对象的生命周期。也就是需要在适当的位置上去使用@autoreleasepool()。" />
+<link rel="canonical" href="http://localhost:4000/2018/05/01/%E4%BD%A0%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95%E7%94%A8%E5%AF%B9@autoreleasepool%E4%BA%86%E4%B9%88.html" />
+<meta property="og:url" content="http://localhost:4000/2018/05/01/%E4%BD%A0%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95%E7%94%A8%E5%AF%B9@autoreleasepool%E4%BA%86%E4%B9%88.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在每次遍历的时候生成了很多占内存大的对象，如果交于默认的autoreleasepool去管理生命周期，会有因为内存飙升产生crash的风险，这个时候我们就需要手动控制这些对象的生命周期。也就是需要在适当的位置上去使用@autoreleasepool()。","author":{"@type":"Person","name":"高老师很忙"},"@type":"BlogPosting","url":"http://localhost:4000/2018/05/01/%E4%BD%A0%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95%E7%94%A8%E5%AF%B9@autoreleasepool%E4%BA%86%E4%B9%88.html","headline":"你的遍历方法用对@autoreleasepool了么","dateModified":"2018-05-01T08:00:00+08:00","datePublished":"2018-05-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/05/01/%E4%BD%A0%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95%E7%94%A8%E5%AF%B9@autoreleasepool%E4%BA%86%E4%B9%88.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">你的遍历方法用对@autoreleasepool了么</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-01T08:00:00+08:00" itemprop="datePublished">May 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">高老师很忙</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在每次遍历的时候生成了很多占内存大的对象，如果交于默认的autoreleasepool去管理生命周期，会有因为内存飙升产生crash的风险，这个时候我们就需要手动控制这些对象的生命周期。也就是需要在适当的位置上去使用@autoreleasepool()。</p>
+
+<p>系统为我们提供了很多的遍历方法，比如说<strong>for循环</strong>、<strong>for-in</strong>、<strong>enumerateObjectsWithOptions:</strong>、<strong>dispatch_apply</strong>等方法，那有的同学就说都加上吧，就出现了下面这段代码：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/05/3-1.jpg?raw=true" alt="" /></p>
+
+<p>虽然说这样写也没什么异常，但是这里真的有必要加么？其实快速遍历这几个方法系统自动为我们添加了autoreleasepool方法，从文档里可以看到蛛丝马迹：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/05/3-2.jpg?raw=true" alt="" /></p>
+
+<p>不过，其他方法都需要加上@autoreleasepool()哈！</p>
+
+
+  </div><a class="u-url" href="/2018/05/01/%E4%BD%A0%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95%E7%94%A8%E5%AF%B9@autoreleasepool%E4%BA%86%E4%B9%88.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>让失去焦点的 UIWebView 弹出键盘的方法 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="让失去焦点的 UIWebView 弹出键盘的方法" />
+<meta name="author" content="折腾范儿_味精" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="UIWebView 无法靠代码的方式让失去焦点的 webview 弹出键盘，必须人主动点击 webview，代码 becomefirstresponder 无效。这个问题是可以通过常规合法手段解决，而不是必须操作私有 Api" />
+<meta property="og:description" content="UIWebView 无法靠代码的方式让失去焦点的 webview 弹出键盘，必须人主动点击 webview，代码 becomefirstresponder 无效。这个问题是可以通过常规合法手段解决，而不是必须操作私有 Api" />
+<link rel="canonical" href="http://localhost:4000/2018/04/01/%E8%AE%A9%E5%A4%B1%E5%8E%BB%E7%84%A6%E7%82%B9%E7%9A%84-UIWebView-%E5%BC%B9%E5%87%BA%E9%94%AE%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95.html" />
+<meta property="og:url" content="http://localhost:4000/2018/04/01/%E8%AE%A9%E5%A4%B1%E5%8E%BB%E7%84%A6%E7%82%B9%E7%9A%84-UIWebView-%E5%BC%B9%E5%87%BA%E9%94%AE%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"UIWebView 无法靠代码的方式让失去焦点的 webview 弹出键盘，必须人主动点击 webview，代码 becomefirstresponder 无效。这个问题是可以通过常规合法手段解决，而不是必须操作私有 Api","author":{"@type":"Person","name":"折腾范儿_味精"},"@type":"BlogPosting","url":"http://localhost:4000/2018/04/01/%E8%AE%A9%E5%A4%B1%E5%8E%BB%E7%84%A6%E7%82%B9%E7%9A%84-UIWebView-%E5%BC%B9%E5%87%BA%E9%94%AE%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95.html","headline":"让失去焦点的 UIWebView 弹出键盘的方法","dateModified":"2018-04-01T08:00:00+08:00","datePublished":"2018-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/01/%E8%AE%A9%E5%A4%B1%E5%8E%BB%E7%84%A6%E7%82%B9%E7%9A%84-UIWebView-%E5%BC%B9%E5%87%BA%E9%94%AE%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">让失去焦点的 UIWebView 弹出键盘的方法</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">折腾范儿_味精</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><code class="highlighter-rouge">UIWebView</code> 无法靠代码的方式让失去焦点的 <code class="highlighter-rouge">webview</code> 弹出键盘，必须人主动点击 <code class="highlighter-rouge">webview</code>，代码 <code class="highlighter-rouge">becomefirstresponder</code> 无效。这个问题是可以通过常规合法手段解决，而不是必须操作私有 <code class="highlighter-rouge">Api</code></p>
+
+<p>1 <code class="highlighter-rouge">UIWebView</code> 有一个属性叫 <code class="highlighter-rouge">keyboardDisplayRequiresUserAction</code> 默认为 <code class="highlighter-rouge">YES</code>，就是说只有用户主动操作才可以展现键盘，可以把这行代码置为 <code class="highlighter-rouge">NO</code>；</p>
+
+<p>2 然后你会发现你调用 <code class="highlighter-rouge">becomefirstresponder</code> 依然无效，原因是 <code class="highlighter-rouge">iOS Api</code> 依然无法工作，但是 <code class="highlighter-rouge">keyboardDisplayRequiresUserAction</code> 关闭，你可以通过 <code class="highlighter-rouge">js</code> 来操作 <code class="highlighter-rouge">dom</code> 的 <code class="highlighter-rouge">focus</code> 事件，从而展现键盘了；</p>
+
+<p>3 <code class="highlighter-rouge">[uiwebview stringByEvaluatingJavaScriptFromString:@"document.getElementById('content').focus()"];</code>  注入一行 <code class="highlighter-rouge">js</code> 代码，让 <code class="highlighter-rouge">js</code> 对页面中的  ‘<code class="highlighter-rouge">content</code>’ 这个 <code class="highlighter-rouge">dom</code>，发起 <code class="highlighter-rouge">focus</code> 事件，键盘弹出；</p>
+
+<p>4 注意，<code class="highlighter-rouge">iOS</code> 客户端同学不要原样照抄这行 <code class="highlighter-rouge">js</code> 代码，得根据你的 <code class="highlighter-rouge">web</code> 页面的 <code class="highlighter-rouge">dom</code> 甚至三方库自行调整 <code class="highlighter-rouge">js</code> 的注入代码；</p>
+
+<p>5 简单总结一下：关闭 <code class="highlighter-rouge">keyboardDisplayRequiresUserAction</code> ，客户端注入 <code class="highlighter-rouge">js</code>，让 <code class="highlighter-rouge">js</code> 触发 <code class="highlighter-rouge">input</code> 区域的 <code class="highlighter-rouge">focus</code> 事件；</p>
+
+  </div><a class="u-url" href="/2018/04/01/%E8%AE%A9%E5%A4%B1%E5%8E%BB%E7%84%A6%E7%82%B9%E7%9A%84-UIWebView-%E5%BC%B9%E5%87%BA%E9%94%AE%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

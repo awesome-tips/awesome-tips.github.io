@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Never类型 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Never类型" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="之前有一条知识小集讲了可以用 @noreturn 用来修饰函数，以告诉编译器函数永远不返回值给调用方。如下代码是原来的fatalError的声明。" />
+<meta property="og:description" content="之前有一条知识小集讲了可以用 @noreturn 用来修饰函数，以告诉编译器函数永远不返回值给调用方。如下代码是原来的fatalError的声明。" />
+<link rel="canonical" href="http://localhost:4000/2017/02/01/Never%E7%B1%BB%E5%9E%8B.html" />
+<meta property="og:url" content="http://localhost:4000/2017/02/01/Never%E7%B1%BB%E5%9E%8B.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-02-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"之前有一条知识小集讲了可以用 @noreturn 用来修饰函数，以告诉编译器函数永远不返回值给调用方。如下代码是原来的fatalError的声明。","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/02/01/Never%E7%B1%BB%E5%9E%8B.html","headline":"Never类型","dateModified":"2017-02-01T08:00:00+08:00","datePublished":"2017-02-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/02/01/Never%E7%B1%BB%E5%9E%8B.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Never类型</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-02-01T08:00:00+08:00" itemprop="datePublished">Feb 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>之前有一条知识小集讲了可以用 <code class="highlighter-rouge">@noreturn</code> 用来修饰函数，以告诉编译器函数永远不返回值给调用方。如下代码是原来的<code class="highlighter-rouge">fatalError</code>的声明。</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fatalError</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">default</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">StaticString</span> <span class="o">=</span> <span class="kd">#file</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="kd">#line</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>不过作为函数类型的一个正交属性，它与函数声明的其它一些属性一起使用时会产生一些歧义，如与<code class="highlighter-rouge">@throws</code>和<code class="highlighter-rouge">non-void</code>返回值。如当成 <code class="highlighter-rouge">@throws</code> 一起使用时，可能会困惑指”无法正常返回，但可以抛出异常”，还是”完全无法返回”？</p>
+
+<p>所以现在使用Never枚举类型来替代<code class="highlighter-rouge">@noreturn</code>，以消除这种歧义，所以<code class="highlighter-rouge">fatalError</code>现在声明如下代码所示。这样() throws -&gt; Never就好理解了，即”不能正常返回，但可能抛出异常”。</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// Unconditionally prints a given message and stops execution.</span>
+<span class="c1">///</span>
+<span class="c1">/// - Parameters:</span>
+<span class="c1">///   - message: The string to print. The default is an empty string.</span>
+<span class="c1">///   - file: The file name to print with `message`. The default is the file</span>
+<span class="c1">///     where `fatalError(_:file:line:)` is called.</span>
+<span class="c1">///   - line: The line number to print along with `message`. The default is the</span>
+<span class="c1">///     line number where `fatalError(_:file:line:)` is called.</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">fatalError</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">default</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">StaticString</span> <span class="o">=</span> <span class="kd">#file</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="kd">#line</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Never</span>
+</code></pre></div></div>
+
+<p>需要注意的是<code class="highlighter-rouge">Never</code>是一个空枚举，如下代码所示：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// The return type of functions that do not return normally; a type with no</span>
+<span class="c1">/// values.</span>
+<span class="c1">///</span>
+<span class="c1">/// Use `Never` as the return type when declaring a closure, function, or</span>
+<span class="c1">/// method that unconditionally throws an error, traps, or otherwise does</span>
+<span class="c1">/// not terminate.</span>
+<span class="c1">///</span>
+<span class="c1">///     func crashAndBurn() -&gt; Never {</span>
+<span class="c1">///         fatalError("Something very, very bad happened")</span>
+<span class="c1">///     }</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Never</span> <span class="p">{</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>参考</p>
+
+<ol>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0102-noreturn-bottom-type.md">Remove @noreturn attribute and introduce an empty Never type</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2017/02/01/Never%E7%B1%BB%E5%9E%8B.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

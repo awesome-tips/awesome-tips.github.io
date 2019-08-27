@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>讨论一个常见的需求实现 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="讨论一个常见的需求实现" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="今天 Lefe_x 打算和大家讨论一个非常常见的需求。如果是你，你会咋么做？你会不会使用一种更优雅的方式？" />
+<meta property="og:description" content="今天 Lefe_x 打算和大家讨论一个非常常见的需求。如果是你，你会咋么做？你会不会使用一种更优雅的方式？" />
+<link rel="canonical" href="http://localhost:4000/2018/04/01/%E8%AE%A8%E8%AE%BA%E4%B8%80%E4%B8%AA%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9C%80%E6%B1%82%E5%AE%9E%E7%8E%B0.html" />
+<meta property="og:url" content="http://localhost:4000/2018/04/01/%E8%AE%A8%E8%AE%BA%E4%B8%80%E4%B8%AA%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9C%80%E6%B1%82%E5%AE%9E%E7%8E%B0.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"今天 Lefe_x 打算和大家讨论一个非常常见的需求。如果是你，你会咋么做？你会不会使用一种更优雅的方式？","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/04/01/%E8%AE%A8%E8%AE%BA%E4%B8%80%E4%B8%AA%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9C%80%E6%B1%82%E5%AE%9E%E7%8E%B0.html","headline":"讨论一个常见的需求实现","dateModified":"2018-04-01T08:00:00+08:00","datePublished":"2018-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/01/%E8%AE%A8%E8%AE%BA%E4%B8%80%E4%B8%AA%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9C%80%E6%B1%82%E5%AE%9E%E7%8E%B0.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">讨论一个常见的需求实现</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>今天 <code class="highlighter-rouge">Lefe_x</code> 打算和大家讨论一个非常常见的需求。如果是你，你会咋么做？你会不会使用一种更优雅的方式？</p>
+
+<p><strong>PM</strong>：我们要实现一个下载音频的功能，下载前需要做这些处理。</p>
+
+<ul>
+  <li>如果网络异常，直接提示网络异常并退出下载；</li>
+  <li>如果是 4G 网络，需要弹窗提醒用户选择是否继续下载，用户点击下载后进入下载流程，取消后直接退出下载；</li>
+  <li>如果 wifi 直接进入下载；</li>
+  <li>下载时需要获去下载地址，获取到下载地址后，进入下载；</li>
+  <li>下载完成需要刷新 UI；</li>
+</ul>
+
+<p>梳理完逻辑后是这样的：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/6-1.jpg?raw=true" alt="" /></p>
+
+<p><strong>我</strong>：这个好办，不一会就写完了，结果是这样的。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)downloadCallBack:(void(^)(BOOL isSuccess))callback
+{
+    if ([self isBadNetwork]) {
+        callback(NO);
+        return;
+    }
+    
+    if ([self is4GNetwork]) {
+        [self showAlert:^(NSInteger index) {
+            if (index == 1) {
+                [self requestDownloadUrl:^(NSString *url) {
+                    [self startDownloadWithURLString:url callback:^(BOOL isSuccess) {
+                        callback(YES);
+                    }];
+                }];
+            } else {
+                callback(NO);
+            }
+        }];
+    } else {
+        [self requestDownloadUrl:^(NSString *url) {
+            [self startDownloadWithURLString:url callback:^(BOOL isSuccess) {
+                callback(YES);
+            }];
+        }];
+    }
+}
+</code></pre></div></div>
+
+<p>上面这种写法主要有回调地狱和很多冗余代码，解决这种问题，我们可以使用 <code class="highlighter-rouge">Promise</code> 这种异步编程的方式来避免这些问题。如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)downloadForPromiseCallBack:(void(^)(BOOL isSuccess))callback
+{
+    // 检查是否可以下载
+    AnyPromise *checkPromise = [self checkCanDownloadPromise];
+    checkPromise.then(^(){
+        // 请求下载地址
+        return [self requestUrlPromise];
+    }).then(^(NSString *downloadUrl){
+        // 开始下载音频
+        return [self downloadPromiseWithURLString:downloadUrl];
+    }).then(^(){
+        // 下载成功
+        if (callback) {
+            callback(YES);
+        }
+    }).catch(^(NSError *error){
+        // 所有的异常
+        callback(NO);
+    });
+}
+</code></pre></div></div>
+
+<p>如果你有好的想法，不防提出来，我们一起讨论哈。</p>
+
+<p>参考：</p>
+
+<p><strong>primise 的使用</strong> <code class="highlighter-rouge">https://github.com/lefex/LefexWork/blob/master/blog/iOS/Promise.md</code></p>
+
+  </div><a class="u-url" href="/2018/04/01/%E8%AE%A8%E8%AE%BA%E4%B8%80%E4%B8%AA%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9C%80%E6%B1%82%E5%AE%9E%E7%8E%B0.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

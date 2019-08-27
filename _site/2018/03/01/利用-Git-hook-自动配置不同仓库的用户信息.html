@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>利用 Git-hook 自动配置不同仓库的用户信息 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="利用 Git-hook 自动配置不同仓库的用户信息" />
+<meta name="author" content="halohily" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="问题的起因来自于某天一位同学的问题：“我给一个知名开源项目提交了代码，也被合并了，为什么 contributors 里面没有我？”其实，这多是因为提交代码时本地仓库的user.name、user.email与GitHub账号不匹配导致，只有提交代码时的用户设置与自己的 GitHub 账号相匹配时，各项数据才会被 GitHub 计入统计。如下图所示，这样的 commit 记录便来自于一个用户设置和我 GitHub 账号不匹配的本地仓库。" />
+<meta property="og:description" content="问题的起因来自于某天一位同学的问题：“我给一个知名开源项目提交了代码，也被合并了，为什么 contributors 里面没有我？”其实，这多是因为提交代码时本地仓库的user.name、user.email与GitHub账号不匹配导致，只有提交代码时的用户设置与自己的 GitHub 账号相匹配时，各项数据才会被 GitHub 计入统计。如下图所示，这样的 commit 记录便来自于一个用户设置和我 GitHub 账号不匹配的本地仓库。" />
+<link rel="canonical" href="http://localhost:4000/2018/03/01/%E5%88%A9%E7%94%A8-Git-hook-%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%E4%BB%93%E5%BA%93%E7%9A%84%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF.html" />
+<meta property="og:url" content="http://localhost:4000/2018/03/01/%E5%88%A9%E7%94%A8-Git-hook-%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%E4%BB%93%E5%BA%93%E7%9A%84%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-03-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"问题的起因来自于某天一位同学的问题：“我给一个知名开源项目提交了代码，也被合并了，为什么 contributors 里面没有我？”其实，这多是因为提交代码时本地仓库的user.name、user.email与GitHub账号不匹配导致，只有提交代码时的用户设置与自己的 GitHub 账号相匹配时，各项数据才会被 GitHub 计入统计。如下图所示，这样的 commit 记录便来自于一个用户设置和我 GitHub 账号不匹配的本地仓库。","author":{"@type":"Person","name":"halohily"},"@type":"BlogPosting","url":"http://localhost:4000/2018/03/01/%E5%88%A9%E7%94%A8-Git-hook-%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%E4%BB%93%E5%BA%93%E7%9A%84%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF.html","headline":"利用 Git-hook 自动配置不同仓库的用户信息","dateModified":"2018-03-01T08:00:00+08:00","datePublished":"2018-03-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/01/%E5%88%A9%E7%94%A8-Git-hook-%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%E4%BB%93%E5%BA%93%E7%9A%84%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">利用 Git-hook 自动配置不同仓库的用户信息</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-03-01T08:00:00+08:00" itemprop="datePublished">Mar 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">halohily</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <blockquote>
+  <p>问题的起因来自于某天一位同学的问题：“我给一个知名开源项目提交了代码，也被合并了，为什么 <code class="highlighter-rouge">contributors</code> 里面没有我？”其实，这多是因为提交代码时本地仓库的<code class="highlighter-rouge">user.name</code>、<code class="highlighter-rouge">user.email</code>与GitHub账号不匹配导致，只有提交代码时的用户设置与自己的 <code class="highlighter-rouge">GitHub</code> 账号相匹配时，各项数据才会被 <code class="highlighter-rouge">GitHub</code> 计入统计。如下图所示，这样的 <code class="highlighter-rouge">commit</code> 记录便来自于一个用户设置和我 <code class="highlighter-rouge">GitHub</code> 账号不匹配的本地仓库。</p>
+</blockquote>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/03/4-1.jpg?raw=true" alt="图1" /></p>
+
+<p>如果你不仅使用 <code class="highlighter-rouge">GitHub</code> ，还会向公司自建的 <code class="highlighter-rouge">GitLab</code> ，以及 <code class="highlighter-rouge">oschina</code> 、<code class="highlighter-rouge">coding.net</code> 等基于 <code class="highlighter-rouge">Git</code> 的托管服务商提交代码，那么便会面临这个问题：你需要为不同来源的 <code class="highlighter-rouge">Git</code> 仓库一一配置用户名与邮箱信息，来避免上述的不同步情况。然而，手动在每个本地仓库路径下都使用 <code class="highlighter-rouge">git config user.name</code> 和 <code class="highlighter-rouge">git config user.email</code> 命令，难免会有忘记的情况，也过于繁琐。所以，我们可以使用<strong>Git初始模板、钩子函数</strong>的特性，达到在<strong>每次clone一个新的仓库时，根据仓库来源域名的不同，自动配置不同的用户信息</strong>。</p>
+
+<ul>
+  <li>
+    <p>首先，在命令行使用该命令建立一个新的文件夹：<code class="highlighter-rouge">mkdir -p ~/.git-templates/hooks</code></p>
+  </li>
+  <li>
+    <p>然后配置git，让git知道这个文件夹是你的模板文件夹：<code class="highlighter-rouge">git config --global init.templatedir ~/.git-templates</code></p>
+  </li>
+  <li>
+    <p>接下来，在这个文件夹中新建钩子文件：<code class="highlighter-rouge">vi ~/.git-templates/hooks/post-checkout</code></p>
+
+    <p>钩子文件的内容较长，可在文末附带的链接中查看复制即可，完成之后赋予这个文件可执行权限：<code class="highlighter-rouge">chmod +x ~/.git-templates/hooks/post-checkout</code></p>
+  </li>
+  <li>
+    <p>最后，新建一个文件：<code class="highlighter-rouge">vi ~/.git-clone-init</code></p>
+
+    <p>最后一个文件是唯一一个内容需要自己配置的文件，也是整个过程的关键，内容格式如图2，意为对应不同域名下的仓库，自动配置不同的<code class="highlighter-rouge">user.name</code>和<code class="highlighter-rouge">user.email</code>。</p>
+  </li>
+</ul>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/03/4-2.jpg?raw=true" alt="图2" /></p>
+
+<p><strong>整个过程的原理就是我们在执行克隆操作时，git会执行初始模板里的钩子文件，钩子文件根据git-clone-init文件定义的规则，自动配置用户名与邮箱信息。这套流程来自于一个GitHub开源库，目前star还很少，大家可以去支持一下~</strong></p>
+
+<p>参考：</p>
+
+<ol>
+  <li><a href="https://github.com/DrVanScott/git-clone-init">DrVanScott/git-clone-init</a></li>
+  <li><a href="https://segmentfault.com/a/1190000013283182">让你的git拥有不同身份</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2018/03/01/%E5%88%A9%E7%94%A8-Git-hook-%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%E4%BB%93%E5%BA%93%E7%9A%84%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

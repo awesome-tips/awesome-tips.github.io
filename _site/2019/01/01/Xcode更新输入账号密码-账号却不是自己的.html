@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Xcode更新输入账号密码，账号却不是自己的 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Xcode更新输入账号密码，账号却不是自己的" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="更新Xcode的时候，需要输入Apple账号和密码，以前一直正常，这次更新的时候遇到一个问题。更新的时候提示输入账号和密码，可是账号并不是我自己的账号，关键这个账号也不能修改，只能输入密码。刚开始以为是系统的问题，把Mac系统升级后发现并不管用。最后想了下，我电脑上的Xcode安装的时候是直接和同事拷贝的，那么这个账号应该就是他的。直接和同事要账号密码并不合适。" />
+<meta property="og:description" content="更新Xcode的时候，需要输入Apple账号和密码，以前一直正常，这次更新的时候遇到一个问题。更新的时候提示输入账号和密码，可是账号并不是我自己的账号，关键这个账号也不能修改，只能输入密码。刚开始以为是系统的问题，把Mac系统升级后发现并不管用。最后想了下，我电脑上的Xcode安装的时候是直接和同事拷贝的，那么这个账号应该就是他的。直接和同事要账号密码并不合适。" />
+<link rel="canonical" href="http://localhost:4000/2019/01/01/Xcode%E6%9B%B4%E6%96%B0%E8%BE%93%E5%85%A5%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81-%E8%B4%A6%E5%8F%B7%E5%8D%B4%E4%B8%8D%E6%98%AF%E8%87%AA%E5%B7%B1%E7%9A%84.html" />
+<meta property="og:url" content="http://localhost:4000/2019/01/01/Xcode%E6%9B%B4%E6%96%B0%E8%BE%93%E5%85%A5%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81-%E8%B4%A6%E5%8F%B7%E5%8D%B4%E4%B8%8D%E6%98%AF%E8%87%AA%E5%B7%B1%E7%9A%84.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"更新Xcode的时候，需要输入Apple账号和密码，以前一直正常，这次更新的时候遇到一个问题。更新的时候提示输入账号和密码，可是账号并不是我自己的账号，关键这个账号也不能修改，只能输入密码。刚开始以为是系统的问题，把Mac系统升级后发现并不管用。最后想了下，我电脑上的Xcode安装的时候是直接和同事拷贝的，那么这个账号应该就是他的。直接和同事要账号密码并不合适。","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2019/01/01/Xcode%E6%9B%B4%E6%96%B0%E8%BE%93%E5%85%A5%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81-%E8%B4%A6%E5%8F%B7%E5%8D%B4%E4%B8%8D%E6%98%AF%E8%87%AA%E5%B7%B1%E7%9A%84.html","headline":"Xcode更新输入账号密码，账号却不是自己的","dateModified":"2019-01-01T08:00:00+08:00","datePublished":"2019-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/01/01/Xcode%E6%9B%B4%E6%96%B0%E8%BE%93%E5%85%A5%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81-%E8%B4%A6%E5%8F%B7%E5%8D%B4%E4%B8%8D%E6%98%AF%E8%87%AA%E5%B7%B1%E7%9A%84.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Xcode更新输入账号密码，账号却不是自己的</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>更新Xcode的时候，需要输入Apple账号和密码，以前一直正常，这次更新的时候遇到一个问题。更新的时候提示输入账号和密码，可是账号并不是我自己的账号，关键这个账号也不能修改，只能输入密码。刚开始以为是系统的问题，把Mac系统升级后发现并不管用。最后想了下，我电脑上的Xcode安装的时候是直接和同事拷贝的，那么这个账号应该就是他的。直接和同事要账号密码并不合适。</p>
+
+<p>最后找到一个解决办法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>在应用中找到Xcode -&gt; 显示包内容 -&gt; 找到 _MASReceipt 文件夹，把它删除 -&gt; 更新即可。
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/2019/01/01/Xcode%E6%9B%B4%E6%96%B0%E8%BE%93%E5%85%A5%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81-%E8%B4%A6%E5%8F%B7%E5%8D%B4%E4%B8%8D%E6%98%AF%E8%87%AA%E5%B7%B1%E7%9A%84.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

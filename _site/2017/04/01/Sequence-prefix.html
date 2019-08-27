@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Sequence prefix(while:) | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Sequence prefix(while:)" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Swift的Sequence协议提供了一个prefix(_:)方法，返回序列前面n个元素组成的序列，与之对应的是suffix(_:)方法，返回序列后面n个元素组成的序列。如果指定的长度大于序列的长度，则返回整个序列。如下代码所示：" />
+<meta property="og:description" content="Swift的Sequence协议提供了一个prefix(_:)方法，返回序列前面n个元素组成的序列，与之对应的是suffix(_:)方法，返回序列后面n个元素组成的序列。如果指定的长度大于序列的长度，则返回整个序列。如下代码所示：" />
+<link rel="canonical" href="http://localhost:4000/2017/04/01/Sequence-prefix.html" />
+<meta property="og:url" content="http://localhost:4000/2017/04/01/Sequence-prefix.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"Swift的Sequence协议提供了一个prefix(_:)方法，返回序列前面n个元素组成的序列，与之对应的是suffix(_:)方法，返回序列后面n个元素组成的序列。如果指定的长度大于序列的长度，则返回整个序列。如下代码所示：","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/04/01/Sequence-prefix.html","headline":"Sequence prefix(while:)","dateModified":"2017-04-01T08:00:00+08:00","datePublished":"2017-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/04/01/Sequence-prefix.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Sequence prefix(while:)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Swift的<code class="highlighter-rouge">Sequence</code>协议提供了一个<code class="highlighter-rouge">prefix(_:)</code>方法，返回序列前面n个元素组成的序列，与之对应的是<code class="highlighter-rouge">suffix(_:)</code>方法，返回序列后面n个元素组成的序列。如果指定的长度大于序列的长度，则返回整个序列。如下代码所示：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">arr</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="mi">20</span> <span class="p">{</span>
+    <span class="n">arr</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">arr</span><span class="o">.</span><span class="nf">prefix</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>           <span class="c1">// [0, 1, 2, 3, 4]</span>
+<span class="n">arr</span><span class="o">.</span><span class="nf">suffix</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>           <span class="c1">// [15, 16, 17, 18, 19]</span>
+
+<span class="n">arr</span><span class="o">.</span><span class="nf">prefix</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>          <span class="c1">// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span>
+<span class="n">arr</span><span class="o">.</span><span class="nf">suffix</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>          <span class="c1">// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span>
+</code></pre></div></div>
+
+<p>在<code class="highlighter-rouge">Swift 3.1</code>中新增了一个<code class="highlighter-rouge">prefix</code>方法，即<code class="highlighter-rouge">prefix(while:)</code>，它返回满足给定谓词的连续元素的子序列，直到第一个不满足的元素为止。同时还提供了一个类似的方法，即<code class="highlighter-rouge">drop(while:)</code>，不同的是这个方法是抛弃满足给定谓词的连续元素，而返回以第一个不满足谓词的元素为起始元素，后续元素组成的子序列，如下代码所示：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
+
+<span class="c1">// [2, 4, 6]</span>
+<span class="n">arr</span><span class="o">.</span><span class="k">prefix</span> <span class="p">{</span>
+    <span class="nv">$0</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="p">}</span>
+
+<span class="c1">// [7, 10, 3, 9, 19]</span>
+<span class="n">arr</span><span class="o">.</span><span class="n">drop</span> <span class="p">{</span>
+    <span class="nv">$0</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a href="https://www.raywenderlich.com/156352/whats-new-in-swift-3-1">raywenderlich</a> 中给了一个<code class="highlighter-rouge">Fibonacci</code>的例子，如下所示，可以参考一下：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">fibonacci</span> <span class="o">=</span> <span class="nf">sequence</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+  <span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="nf">inout</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kt">Int</span><span class="p">?</span> <span class="k">in</span>
+  <span class="k">defer</span> <span class="p">{</span><span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="mi">0</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="mi">1</span><span class="p">)}</span>
+  <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="mi">0</span>
+<span class="p">}</span>
+
+<span class="c1">// Swift 3.1</span>
+<span class="k">let</span> <span class="nv">interval</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="o">.</span><span class="nf">prefix</span><span class="p">(</span><span class="nv">while</span><span class="p">:</span> <span class="p">{</span><span class="nv">$0</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">})</span><span class="o">.</span><span class="nf">drop</span><span class="p">(</span><span class="nv">while</span><span class="p">:</span> <span class="p">{</span><span class="nv">$0</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">})</span>
+<span class="k">for</span> <span class="n">element</span> <span class="k">in</span> <span class="n">interval</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="c1">// 144 233 377 610 987</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>参考</p>
+
+<ol>
+  <li><a href="https://www.raywenderlich.com/156352/whats-new-in-swift-3-1">What’s New in Swift 3.1?</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0045-scan-takewhile-dropwhile.md">Swift evolution: Add prefix(while:) and drop(while:) to the stdlib</a></li>
+</ol>
+
+
+  </div><a class="u-url" href="/2017/04/01/Sequence-prefix.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

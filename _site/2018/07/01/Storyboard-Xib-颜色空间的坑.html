@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Storyboard/Xib 颜色空间的坑 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Storyboard/Xib 颜色空间的坑" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="今天分享一下 Xcode Interface Builder 设置背景色的一个坑。从 Xcode8 起，Xib/Storyboard 里的颜色空间默认从 Generic RGB 换成了 sRGB，但又不是所有的都会转换，很奇怪。所以当时在适配 Xcode8 的时候，颜色空间都统一全局替换了一遍。最近又遇到一次这个坑，在 Storyboard 把某个视图背景色从白色更改为 0xf0f1f2，然后 run 起来，和其 superview (superview 的背景色是用代码设置的 0xf0f1f2)竟然有一个明显的分割线，所以回想起当时适配时的这个问题，然后取到 Storyboard 里面一看，果然是颜色空间被莫名改为了 Generic RGB，如图所示。所以手动改变其颜色空间为 sRGB 即可。" />
+<meta property="og:description" content="今天分享一下 Xcode Interface Builder 设置背景色的一个坑。从 Xcode8 起，Xib/Storyboard 里的颜色空间默认从 Generic RGB 换成了 sRGB，但又不是所有的都会转换，很奇怪。所以当时在适配 Xcode8 的时候，颜色空间都统一全局替换了一遍。最近又遇到一次这个坑，在 Storyboard 把某个视图背景色从白色更改为 0xf0f1f2，然后 run 起来，和其 superview (superview 的背景色是用代码设置的 0xf0f1f2)竟然有一个明显的分割线，所以回想起当时适配时的这个问题，然后取到 Storyboard 里面一看，果然是颜色空间被莫名改为了 Generic RGB，如图所示。所以手动改变其颜色空间为 sRGB 即可。" />
+<link rel="canonical" href="http://localhost:4000/2018/07/01/Storyboard-Xib-%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%E7%9A%84%E5%9D%91.html" />
+<meta property="og:url" content="http://localhost:4000/2018/07/01/Storyboard-Xib-%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%E7%9A%84%E5%9D%91.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"今天分享一下 Xcode Interface Builder 设置背景色的一个坑。从 Xcode8 起，Xib/Storyboard 里的颜色空间默认从 Generic RGB 换成了 sRGB，但又不是所有的都会转换，很奇怪。所以当时在适配 Xcode8 的时候，颜色空间都统一全局替换了一遍。最近又遇到一次这个坑，在 Storyboard 把某个视图背景色从白色更改为 0xf0f1f2，然后 run 起来，和其 superview (superview 的背景色是用代码设置的 0xf0f1f2)竟然有一个明显的分割线，所以回想起当时适配时的这个问题，然后取到 Storyboard 里面一看，果然是颜色空间被莫名改为了 Generic RGB，如图所示。所以手动改变其颜色空间为 sRGB 即可。","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2018/07/01/Storyboard-Xib-%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%E7%9A%84%E5%9D%91.html","headline":"Storyboard/Xib 颜色空间的坑","dateModified":"2018-07-01T08:00:00+08:00","datePublished":"2018-07-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/07/01/Storyboard-Xib-%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%E7%9A%84%E5%9D%91.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Storyboard/Xib 颜色空间的坑</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-01T08:00:00+08:00" itemprop="datePublished">Jul 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>今天分享一下 <code class="highlighter-rouge">Xcode Interface Builder</code> 设置背景色的一个坑。从 <code class="highlighter-rouge">Xcode8</code> 起，<code class="highlighter-rouge">Xib/Storyboard</code> 里的颜色空间默认从 <code class="highlighter-rouge">Generic RGB</code> 换成了 <code class="highlighter-rouge">sRGB</code>，但又不是所有的都会转换，很奇怪。所以当时在适配 <code class="highlighter-rouge">Xcode8</code> 的时候，颜色空间都统一全局替换了一遍。最近又遇到一次这个坑，在 <code class="highlighter-rouge">Storyboard</code> 把某个视图背景色从白色更改为 <code class="highlighter-rouge">0xf0f1f2</code>，然后 run 起来，和其 <code class="highlighter-rouge">superview</code> (<code class="highlighter-rouge">superview</code> 的背景色是用代码设置的 <code class="highlighter-rouge">0xf0f1f2</code>)竟然有一个明显的分割线，所以回想起当时适配时的这个问题，然后取到 <code class="highlighter-rouge">Storyboard</code> 里面一看，果然是颜色空间被莫名改为了 <code class="highlighter-rouge">Generic RGB</code>，如图所示。所以手动改变其颜色空间为 <code class="highlighter-rouge">sRGB</code> 即可。</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/07/14-1.jpg?raw=true" alt="" /></p>
+
+<p>参考链接：http://t.cn/RgpFOPg、http://t.cn/ReADdu7</p>
+
+  </div><a class="u-url" href="/2018/07/01/Storyboard-Xib-%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%E7%9A%84%E5%9D%91.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

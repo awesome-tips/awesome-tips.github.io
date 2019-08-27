@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>在 UILabel 中渲染 HTML | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="在 UILabel 中渲染 HTML" />
+<meta name="author" content="南峰子" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="我们可以使用 NSAttributedString 在 UILabel 中渲染 HTML 字符串，不过需要使用 NSAttributedString 特定的初始化方法" />
+<meta property="og:description" content="我们可以使用 NSAttributedString 在 UILabel 中渲染 HTML 字符串，不过需要使用 NSAttributedString 特定的初始化方法" />
+<link rel="canonical" href="http://localhost:4000/2019/01/01/%E5%9C%A8-UILabel-%E4%B8%AD%E6%B8%B2%E6%9F%93-HTML.html" />
+<meta property="og:url" content="http://localhost:4000/2019/01/01/%E5%9C%A8-UILabel-%E4%B8%AD%E6%B8%B2%E6%9F%93-HTML.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"我们可以使用 NSAttributedString 在 UILabel 中渲染 HTML 字符串，不过需要使用 NSAttributedString 特定的初始化方法","author":{"@type":"Person","name":"南峰子"},"@type":"BlogPosting","url":"http://localhost:4000/2019/01/01/%E5%9C%A8-UILabel-%E4%B8%AD%E6%B8%B2%E6%9F%93-HTML.html","headline":"在 UILabel 中渲染 HTML","dateModified":"2019-01-01T08:00:00+08:00","datePublished":"2019-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/01/01/%E5%9C%A8-UILabel-%E4%B8%AD%E6%B8%B2%E6%9F%93-HTML.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">在 UILabel 中渲染 HTML</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">南峰子</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>我们可以使用 NSAttributedString 在 UILabel 中渲染 HTML 字符串，不过需要使用 NSAttributedString 特定的初始化方法</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> 
+<span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSAttributedString</span><span class="o">.</span><span class="kt">DocumentReadingOptionKey</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:],</span> 
+<span class="n">documentAttributes</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">AutoreleasingUnsafeMutablePointer</span><span class="o">&lt;</span><span class="kt">NSDictionary</span><span class="p">?</span><span class="o">&gt;</span><span class="p">?)</span> <span class="k">throws</span>
+</code></pre></div></div>
+
+<p>在这个初始化方法的 options 参数中，指定 .documentType 的值为 NSAttributedString.DocumentType.html。不过大多数情况下这还不够，我们可能还需要指定文本的样式，例如指定文本的字体或颜色，这时我们就需要在 html 文本中通过 css 来设置 style，如下代码所示：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">UIKit</span>
+
+<span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+
+    <span class="kd">func</span> <span class="nf">htmlAttributedString</span><span class="p">(</span><span class="n">with</span> <span class="nv">fontName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">fontSize</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">colorHex</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSAttributedString</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">cssPrefix</span> <span class="o">=</span> <span class="s">"&lt;style&gt;* { font-family: </span><span class="se">\(</span><span class="n">fontName</span><span class="se">)</span><span class="s">; color: #</span><span class="se">\(</span><span class="n">colorHex</span><span class="se">)</span><span class="s">; font-size: </span><span class="se">\(</span><span class="n">fontSize</span><span class="se">)</span><span class="s">; }&lt;/style&gt;"</span>
+            <span class="k">let</span> <span class="nv">html</span> <span class="o">=</span> <span class="n">cssPrefix</span> <span class="o">+</span> <span class="k">self</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">Encoding</span><span class="o">.</span><span class="n">utf8</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>  <span class="k">return</span> <span class="kc">nil</span> <span class="p">}</span>
+            <span class="k">return</span> <span class="k">try</span> <span class="kt">NSAttributedString</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="nv">documentType</span><span class="p">:</span> <span class="kt">NSAttributedString</span><span class="o">.</span><span class="kt">DocumentType</span><span class="o">.</span><span class="n">html</span><span class="p">,</span> <span class="o">.</span><span class="nv">characterEncoding</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">Encoding</span><span class="o">.</span><span class="n">utf8</span><span class="o">.</span><span class="n">rawValue</span><span class="p">],</span> <span class="nv">documentAttributes</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">nil</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">html</span> <span class="o">=</span> <span class="s">"&lt;strong&gt;Dear Friend&lt;/strong&gt; I hope this &lt;i&gt;tip&lt;/i&gt; will be useful for &lt;b&gt;you&lt;/b&gt;."</span>
+<span class="k">let</span> <span class="nv">attributedString</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="nf">htmlAttributedString</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"Futura"</span><span class="p">,</span> <span class="nv">fontSize</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nv">colorHex</span><span class="p">:</span> <span class="s">"ff0000"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>效果如下图所示</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2019/01/3-1.png?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2019/01/01/%E5%9C%A8-UILabel-%E4%B8%AD%E6%B8%B2%E6%9F%93-HTML.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

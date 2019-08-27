@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Xcode 断点调试时打印变量值报错的问题（编译优化相关） | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Xcode 断点调试时打印变量值报错的问题（编译优化相关）" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在日常开发中，我们经常会在 Debug 模式下打断点进行调试，并通过 LLDB 的 po 命令在控制台打印一些变量的值，以方便排查问题。" />
+<meta property="og:description" content="在日常开发中，我们经常会在 Debug 模式下打断点进行调试，并通过 LLDB 的 po 命令在控制台打印一些变量的值，以方便排查问题。" />
+<link rel="canonical" href="http://localhost:4000/2018/07/01/Xcode-%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%B6%E6%89%93%E5%8D%B0%E5%8F%98%E9%87%8F%E5%80%BC%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98-%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%E7%9B%B8%E5%85%B3.html" />
+<meta property="og:url" content="http://localhost:4000/2018/07/01/Xcode-%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%B6%E6%89%93%E5%8D%B0%E5%8F%98%E9%87%8F%E5%80%BC%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98-%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%E7%9B%B8%E5%85%B3.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在日常开发中，我们经常会在 Debug 模式下打断点进行调试，并通过 LLDB 的 po 命令在控制台打印一些变量的值，以方便排查问题。","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/07/01/Xcode-%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%B6%E6%89%93%E5%8D%B0%E5%8F%98%E9%87%8F%E5%80%BC%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98-%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%E7%9B%B8%E5%85%B3.html","headline":"Xcode 断点调试时打印变量值报错的问题（编译优化相关）","dateModified":"2018-07-01T08:00:00+08:00","datePublished":"2018-07-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/07/01/Xcode-%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%B6%E6%89%93%E5%8D%B0%E5%8F%98%E9%87%8F%E5%80%BC%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98-%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%E7%9B%B8%E5%85%B3.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Xcode 断点调试时打印变量值报错的问题（编译优化相关）</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-01T08:00:00+08:00" itemprop="datePublished">Jul 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在日常开发中，我们经常会在 Debug 模式下打断点进行调试，并通过 LLDB 的 <code class="highlighter-rouge">po</code> 命令在控制台打印一些变量的值，以方便排查问题。</p>
+
+<p>今天在 Release 模式下编译运行项目，发现要打印某一变量的值时（<code class="highlighter-rouge">po xxx</code>），报如下错误：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error: Couldn't materialize: couldn't get the value of variable xxx: no location, value may have been optimized out
+error: errored out in DoExecute, couldn't PrepareToExecuteJITExpression
+</code></pre></div></div>
+
+<p>大致意思是说，<code class="highlighter-rouge">xxx</code> 的值不存在，可能已经被编译优化了。而且在断点模式下当我们把鼠标的箭头移到某一变量上要进行快速浏览时，发现它们的值都是 <code class="highlighter-rouge">nil</code>。</p>
+
+<p>查了一下才发现，原来这与 Xcode 工程的编译选项 <code class="highlighter-rouge">Optimization Level</code> 设置有关，它是指编译器的优化级别，优化后的代码效率比较高，但是可读性比较差，且编译时间更长，它有 6 个选项值如下图：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/07/5-1.png?raw=true" alt="" /></p>
+
+<p>上述每选项值的详细说明可以参考<a href="https://www.jianshu.com/p/b38052ee56af">《Xcode 中 Optimization Level 的设置》</a>和<a href="https://www.zybuluo.com/qidiandasheng/note/587124">《如何加快编译速度》</a>两篇文章，我们这里不再赘述。</p>
+
+<p>Xcode 工程的 <code class="highlighter-rouge">Optimization Level</code> 值在 Debug 模式下默认为 <code class="highlighter-rouge">None [-O0]</code>，表示编译器不会尝试优化代码，保证调试时输出期望的结果；而在 Release 模式下默认为 <code class="highlighter-rouge">Fastest, Smallest[-Os]</code>，表示编译器将执行所有优化，且不会增加代码的长度，它是可执行文件占用更少内存的首选方案。</p>
+
+<p>这也是为什么我们在 Release 模式下断点打印变量会报错，因为编译器已经给代码做了优化，它将不在调试时记录变量的值了。</p>
+
+<p>此外，有时候遇到一些线上 Bug 但是在 Debug 调试时却无法复现，我猜有可能会跟编译优化有关，你觉得呢？欢迎留言讨论。</p>
+
+  </div><a class="u-url" href="/2018/07/01/Xcode-%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%B6%E6%89%93%E5%8D%B0%E5%8F%98%E9%87%8F%E5%80%BC%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98-%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%E7%9B%B8%E5%85%B3.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

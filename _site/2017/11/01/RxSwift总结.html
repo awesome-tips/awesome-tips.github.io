@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>RxSwift总结 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="RxSwift总结" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="ReactiveX（Reactive Extensions）是通过可观察的流实现异步编程的一种API，它结合了观察者模式、迭代器模式和函数式编程的精华。RxSwift是ReactiveX编程思想的一种实现，几乎每一种语言都会有那么一个Rx[xxxx]框架，比如 RxJava，RxJS 等。Rx 可以概括为，对某些数据流（很广，可以是一些事件等）进行处理，使其变成可观察对象（Observable）序列，这样观察者（observer）就可以订阅这些序列【观察者模式】。然而对于订阅者来说（observer）某些选项（items）并不是自己需要的（需要过滤），某些选项（items）需要转换才能达到自己的目的【操作符 filter, map 等】。为了提升用户体验，或其它目的，有些操作需要放到特定的线程去执行，比如 UI 操作需要放到主线程，这就涉及到了调度器【调度器 Scheduler】。所以Rx可以这样概括，Rx = Observables + LINQ + Schedulers，其中 LINQ（Language Integrated Query）语言集成查询，比如那些操作符号。" />
+<meta property="og:description" content="ReactiveX（Reactive Extensions）是通过可观察的流实现异步编程的一种API，它结合了观察者模式、迭代器模式和函数式编程的精华。RxSwift是ReactiveX编程思想的一种实现，几乎每一种语言都会有那么一个Rx[xxxx]框架，比如 RxJava，RxJS 等。Rx 可以概括为，对某些数据流（很广，可以是一些事件等）进行处理，使其变成可观察对象（Observable）序列，这样观察者（observer）就可以订阅这些序列【观察者模式】。然而对于订阅者来说（observer）某些选项（items）并不是自己需要的（需要过滤），某些选项（items）需要转换才能达到自己的目的【操作符 filter, map 等】。为了提升用户体验，或其它目的，有些操作需要放到特定的线程去执行，比如 UI 操作需要放到主线程，这就涉及到了调度器【调度器 Scheduler】。所以Rx可以这样概括，Rx = Observables + LINQ + Schedulers，其中 LINQ（Language Integrated Query）语言集成查询，比如那些操作符号。" />
+<link rel="canonical" href="http://localhost:4000/2017/11/01/RxSwift%E6%80%BB%E7%BB%93.html" />
+<meta property="og:url" content="http://localhost:4000/2017/11/01/RxSwift%E6%80%BB%E7%BB%93.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-11-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"ReactiveX（Reactive Extensions）是通过可观察的流实现异步编程的一种API，它结合了观察者模式、迭代器模式和函数式编程的精华。RxSwift是ReactiveX编程思想的一种实现，几乎每一种语言都会有那么一个Rx[xxxx]框架，比如 RxJava，RxJS 等。Rx 可以概括为，对某些数据流（很广，可以是一些事件等）进行处理，使其变成可观察对象（Observable）序列，这样观察者（observer）就可以订阅这些序列【观察者模式】。然而对于订阅者来说（observer）某些选项（items）并不是自己需要的（需要过滤），某些选项（items）需要转换才能达到自己的目的【操作符 filter, map 等】。为了提升用户体验，或其它目的，有些操作需要放到特定的线程去执行，比如 UI 操作需要放到主线程，这就涉及到了调度器【调度器 Scheduler】。所以Rx可以这样概括，Rx = Observables + LINQ + Schedulers，其中 LINQ（Language Integrated Query）语言集成查询，比如那些操作符号。","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2017/11/01/RxSwift%E6%80%BB%E7%BB%93.html","headline":"RxSwift总结","dateModified":"2017-11-01T08:00:00+08:00","datePublished":"2017-11-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/11/01/RxSwift%E6%80%BB%E7%BB%93.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">RxSwift总结</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-11-01T08:00:00+08:00" itemprop="datePublished">Nov 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><code class="highlighter-rouge">ReactiveX</code>（<code class="highlighter-rouge">Reactive Extensions</code>）是通过可观察的流实现异步编程的一种<code class="highlighter-rouge">API</code>，它结合了观察者模式、迭代器模式和函数式编程的精华。<code class="highlighter-rouge">RxSwift</code>是<code class="highlighter-rouge">ReactiveX</code>编程思想的一种实现，几乎每一种语言都会有那么一个<code class="highlighter-rouge">Rx[xxxx]</code>框架，比如 <code class="highlighter-rouge">RxJava</code>，<code class="highlighter-rouge">RxJS</code> 等。Rx 可以概括为，对某些数据流（很广，可以是一些事件等）进行处理，使其变成可观察对象（<code class="highlighter-rouge">Observable</code>）序列，这样观察者（<code class="highlighter-rouge">observer</code>）就可以订阅这些序列【观察者模式】。然而对于订阅者来说（<code class="highlighter-rouge">observer</code>）某些选项（<code class="highlighter-rouge">items</code>）并不是自己需要的（需要过滤），某些选项（<code class="highlighter-rouge">items</code>）需要转换才能达到自己的目的【操作符 <code class="highlighter-rouge">filter</code>, <code class="highlighter-rouge">map</code> 等】。为了提升用户体验，或其它目的，有些操作需要放到特定的线程去执行，比如 UI 操作需要放到主线程，这就涉及到了调度器【调度器 <code class="highlighter-rouge">Scheduler</code>】。所以Rx可以这样概括，<code class="highlighter-rouge">Rx = Observables + LINQ + Schedulers</code>，其中 <code class="highlighter-rouge">LINQ（Language Integrated Query）</code>语言集成查询，比如那些操作符号。</p>
+
+<p>下图是 <code class="highlighter-rouge">RxSwift</code> 的简单的应用，从数组中找出 <code class="highlighter-rouge">Lefe_x</code> 并显示到 <code class="highlighter-rouge">Label</code> 上。</p>
+
+<pre><code class="language-Swift">override func viewDidLoad() {
+  super.viewDidLoad()
+  DispatchQueue.global().async {
+      self.from()
+  }
+}
+
+func from() {
+  Observable.from(["Lefe", "Lefe_x", "lefex", "wsy", "Rx"])
+     .subscribeOn(MainScheduler.instance)
+     .filter({ (text) -&gt; Bool in
+	return text == "Lefe_x"
+     })
+     .map({ (text) -&gt; String in
+	return "我的新浪微博是: " + text
+     })
+     .subscribe(onNext: { [weak self] (text) in
+	self?.nickNameLabel.text = text
+     })
+     .disposed(by: disposeBag)
+}
+</code></pre>
+
+<p>流程如下图所示：</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/11/1-2.JPG?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2017/11/01/RxSwift%E6%80%BB%E7%BB%93.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

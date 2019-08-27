@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>判断是否在主队列运行 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="判断是否在主队列运行" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在iOS中，如果我们要判断代码是否运行在主线程，可以直接使用NSThread.isMainThread()方法。但如果要判断是否运行在主队列(main queue)呢？" />
+<meta property="og:description" content="在iOS中，如果我们要判断代码是否运行在主线程，可以直接使用NSThread.isMainThread()方法。但如果要判断是否运行在主队列(main queue)呢？" />
+<link rel="canonical" href="http://localhost:4000/2017/10/01/%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%9C%A8%E4%B8%BB%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.html" />
+<meta property="og:url" content="http://localhost:4000/2017/10/01/%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%9C%A8%E4%B8%BB%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-10-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在iOS中，如果我们要判断代码是否运行在主线程，可以直接使用NSThread.isMainThread()方法。但如果要判断是否运行在主队列(main queue)呢？","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/10/01/%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%9C%A8%E4%B8%BB%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.html","headline":"判断是否在主队列运行","dateModified":"2017-10-01T08:00:00+08:00","datePublished":"2017-10-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/10/01/%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%9C%A8%E4%B8%BB%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">判断是否在主队列运行</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-10-01T08:00:00+08:00" itemprop="datePublished">Oct 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在iOS中，如果我们要判断代码是否运行在主线程，可以直接使用<code class="highlighter-rouge">NSThread.isMainThread()</code>方法。但如果要判断是否运行在主队列(main queue)呢？</p>
+
+<p>需要注意的是，每个应用都只有一个主线程，但主线程中可能有多个队列，则不仅仅只有主队列，所以<code class="highlighter-rouge">NSThread.isMainThread()</code>方法并没有办法判断是否是在主队列运行。而GCD也没有提供相应的方法。那该如何处理呢？</p>
+
+<p>来看看React Native的处理方式：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BOOL</span> <span class="nf">RCTIsMainQueue</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="o">*</span><span class="n">mainQueueKey</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">mainQueueKey</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+  <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+    <span class="n">dispatch_queue_set_specific</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span>
+                                <span class="n">mainQueueKey</span><span class="p">,</span> <span class="n">mainQueueKey</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="k">return</span> <span class="n">dispatch_get_specific</span><span class="p">(</span><span class="n">mainQueueKey</span><span class="p">)</span> <span class="o">==</span> <span class="n">mainQueueKey</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>可以看到这里使用了<code class="highlighter-rouge">dispatch_queue_set_specific</code>和<code class="highlighter-rouge">dispatch_get_specific</code>。实际上是通过<code class="highlighter-rouge">dispatch_queue_set_specific</code>方法给主队列(main queue)关联了一个key-value对，再通过<code class="highlighter-rouge">dispatch_get_specific</code>从当前队列中取出<code class="highlighter-rouge">mainQueueKey</code>对应的value。如果是主队列，取出来的值就是写入的值，如果是其它主队列，取出的值就是另一个值或者是NULL。这样就OK了。</p>
+
+<p>当然，同样可以用类似的方式来设置其它的队列(设置全局并发队列无效)。</p>
+
+  </div><a class="u-url" href="/2017/10/01/%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%9C%A8%E4%B8%BB%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

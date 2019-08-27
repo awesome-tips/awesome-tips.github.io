@@ -317,6 +317,12 @@ site content
   color: #444444;
   letter-spacing: 1.5px; }
 
+.site-iostips-list-item-des {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden; }
+
 .site-list-item-tag {
   color: #F04A4D;
   font-size: 14px;
@@ -599,7 +605,8 @@ item
  * Posts
  */
 .post-header {
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  margin-top: 30px; }
 
 .post-title {
   font-size: 42px;

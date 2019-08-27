@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Aspects hook 类方法的正确姿势 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Aspects hook 类方法的正确姿势" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="说起 AOP，相信大家对 Aspects 都有所耳闻，这里不再做原理解读，如果对其原理感兴趣推荐自行阅读源码或者阅读网上大神写的文章。" />
+<meta property="og:description" content="说起 AOP，相信大家对 Aspects 都有所耳闻，这里不再做原理解读，如果对其原理感兴趣推荐自行阅读源码或者阅读网上大神写的文章。" />
+<link rel="canonical" href="http://localhost:4000/2019/01/01/Aspects-hook-%E7%B1%BB%E6%96%B9%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html" />
+<meta property="og:url" content="http://localhost:4000/2019/01/01/Aspects-hook-%E7%B1%BB%E6%96%B9%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"说起 AOP，相信大家对 Aspects 都有所耳闻，这里不再做原理解读，如果对其原理感兴趣推荐自行阅读源码或者阅读网上大神写的文章。","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2019/01/01/Aspects-hook-%E7%B1%BB%E6%96%B9%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html","headline":"Aspects hook 类方法的正确姿势","dateModified":"2019-01-01T08:00:00+08:00","datePublished":"2019-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/01/01/Aspects-hook-%E7%B1%BB%E6%96%B9%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Aspects hook 类方法的正确姿势</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>说起 AOP，相信大家对 Aspects 都有所耳闻，这里不再做原理解读，如果对其原理感兴趣推荐自行阅读源码或者阅读网上大神写的文章。</p>
+
+<p>根据其 README，我们知道它对类方法和实例方法都能 hook，那么 hook 类方法第一感觉，直接用类名去调用 Aspects 提供的分类类方法就好，大概像图1这样。</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2019/01/4-1.jpg?raw=true" alt="" /></p>
+
+<p>运行起来发现，没有并没有打印我们想要输出的内容，反而输出了一段 Aspects 的错误日志 “Aspects: Blog signature &lt;NSMethodSignature: 0x600001a58c00&gt; doesn’t match (null).”（我猜 Blog 应该是作者笔误，实际上是 Block）。即我们指定的 block 签名和我们要 hook 的方法签名不一致。查看源码，发现用图1这种方式，Aspects 在获取方法签名的时候，使用的是 [[object class] instanceMethodSignatureForSelector:selector]，这个时候获取到的方法签名是 nil。这是为什么呢？</p>
+
+<p>这里主要是 class 方法和 object_getClass 方法的区别，前者当 object 是类时，则返回本身，当 object 为实例时，则返回类；后者则返回的是 isa 指针的指向，如图2所示。由于这里 object 是类，所以 object.class 返回自身，而自身是没有 selector 对
+应的实例方法，所以方法签名返回了 nil。</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2019/01/4-2.jpg?raw=true" alt="" /></p>
+
+<p>因此，如果我们如果要 hook 类方法正确的姿势应该如图3所示。</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2019/01/4-3.jpg?raw=true" alt="" /></p>
+
+<p>即对其 metaClass 进行 hook，因为其实 class 也可以理解成 metaClass 的实例对象。回到上面的例子对 metaClass 调用 class 方法时，返回的是 metaClass 本身，所以 [[object class] instanceMethodSignatureForSelector:selector] 实际上是去 metaClass 的 selector 对应的实例方法，也就是类方法，而 selector 对应的类方法是存在的，所以一切流程正常。这里说的比较绕，推荐一下这张经典的图供（图4）大家参考。</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2019/01/4-4.jpg?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2019/01/01/Aspects-hook-%E7%B1%BB%E6%96%B9%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

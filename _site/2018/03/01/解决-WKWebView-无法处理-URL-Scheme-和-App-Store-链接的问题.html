@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>解决 WKWebView 无法处理 URL Scheme 和 App Store 链接的问题 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="解决 WKWebView 无法处理 URL Scheme 和 App Store 链接的问题" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="之前使用 UIWebView 时，当遇到 App Store 下载链接（例如： https://itunes.apple.com/cn/app/id414478124?mt=8），点击可以自动打开 iPhone 本地 App Store 并跳转到相应 App 的下载页面，" />
+<meta property="og:description" content="之前使用 UIWebView 时，当遇到 App Store 下载链接（例如： https://itunes.apple.com/cn/app/id414478124?mt=8），点击可以自动打开 iPhone 本地 App Store 并跳转到相应 App 的下载页面，" />
+<link rel="canonical" href="http://localhost:4000/2018/03/01/%E8%A7%A3%E5%86%B3-WKWebView-%E6%97%A0%E6%B3%95%E5%A4%84%E7%90%86-URL-Scheme-%E5%92%8C-App-Store-%E9%93%BE%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98.html" />
+<meta property="og:url" content="http://localhost:4000/2018/03/01/%E8%A7%A3%E5%86%B3-WKWebView-%E6%97%A0%E6%B3%95%E5%A4%84%E7%90%86-URL-Scheme-%E5%92%8C-App-Store-%E9%93%BE%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-03-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"之前使用 UIWebView 时，当遇到 App Store 下载链接（例如： https://itunes.apple.com/cn/app/id414478124?mt=8），点击可以自动打开 iPhone 本地 App Store 并跳转到相应 App 的下载页面，","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/03/01/%E8%A7%A3%E5%86%B3-WKWebView-%E6%97%A0%E6%B3%95%E5%A4%84%E7%90%86-URL-Scheme-%E5%92%8C-App-Store-%E9%93%BE%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98.html","headline":"解决 WKWebView 无法处理 URL Scheme 和 App Store 链接的问题","dateModified":"2018-03-01T08:00:00+08:00","datePublished":"2018-03-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/01/%E8%A7%A3%E5%86%B3-WKWebView-%E6%97%A0%E6%B3%95%E5%A4%84%E7%90%86-URL-Scheme-%E5%92%8C-App-Store-%E9%93%BE%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">解决 WKWebView 无法处理 URL Scheme 和 App Store 链接的问题</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-03-01T08:00:00+08:00" itemprop="datePublished">Mar 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>之前使用 <code class="highlighter-rouge">UIWebView</code> 时，当遇到 <code class="highlighter-rouge">App Store</code> 下载链接（例如： <code class="highlighter-rouge">https://itunes.apple.com/cn/app/id414478124?mt=8</code>），点击可以自动打开 <code class="highlighter-rouge">iPhone</code> 本地 <code class="highlighter-rouge">App Store</code> 并跳转到相应 <code class="highlighter-rouge">App</code> 的下载页面，</p>
+
+<p>但是当换成 <code class="highlighter-rouge">WKWebView</code> 时，我们发现点击 <code class="highlighter-rouge">App Store Links</code> 时，有时候无反应，有时则会打开相应 <code class="highlighter-rouge">App</code> 的 <code class="highlighter-rouge">App Store Web</code> 页面，而不会直接调起本地 <code class="highlighter-rouge">App Store</code>。</p>
+
+<p>另外，对于自定义的 <code class="highlighter-rouge">URL Scheme</code> 类型链接，在 <code class="highlighter-rouge">WKWebView</code> 里直接点击则会报错：<code class="highlighter-rouge">Error Domain=NSURLErrorDomain Code=-1002 "unsupported URL"</code></p>
+
+<p>所以我们需要在 <code class="highlighter-rouge">WKWebView</code> 即将加载某一 URL 时，对这两种情况做一下处理，修改 <code class="highlighter-rouge">WKWebView</code> 的 <code class="highlighter-rouge">delegate</code> 中的 <code class="highlighter-rouge">webView:decidePolicyForNavigationAction:decisionHandler:</code> 方法，当遇到上述两种链接时，我们交给系统的 <code class="highlighter-rouge">[[UIApplication sharedApplication] openURL:xxx]</code> 来处理即可，代码如下：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webView</span><span class="p">:(</span><span class="n">WKWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">decidePolicyForNavigationAction</span><span class="p">:(</span><span class="n">WKNavigationAction</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationAction</span> <span class="nf">decisionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">WKNavigationActionPolicy</span><span class="p">))</span><span class="nv">decisionHandler</span> <span class="p">{</span>
+    
+    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="n">navigationAction</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">;</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">urlString</span> <span class="o">=</span> <span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="p">?</span> <span class="n">url</span><span class="p">.</span><span class="n">absoluteString</span> <span class="p">:</span> <span class="s">@""</span><span class="p">;</span>
+    
+    <span class="c1">// iTunes: App Store link</span>
+    <span class="c1">// 例如，微信的下载链接: https://itunes.apple.com/cn/app/id414478124?mt=8</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">urlString</span> <span class="nf">containsString</span><span class="p">:</span><span class="s">@"//itunes.apple.com/"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">openURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+        <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationActionPolicyCancel</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Protocol/URL-Scheme without http(s)</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="n">scheme</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">[</span><span class="n">url</span><span class="p">.</span><span class="n">scheme</span> <span class="nf">hasPrefix</span><span class="p">:</span><span class="s">@"http"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">openURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+        <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationActionPolicyCancel</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">decisionHandler</span><span class="p">(</span><span class="n">WKNavigationActionPolicyAllow</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>关于使用 <code class="highlighter-rouge">WKWebView</code> 的更多 <code class="highlighter-rouge">Tips</code>，可以参考 <code class="highlighter-rouge">https://github.com/ShingoFukuyama/WKWebViewTips</code></p>
+
+  </div><a class="u-url" href="/2018/03/01/%E8%A7%A3%E5%86%B3-WKWebView-%E6%97%A0%E6%B3%95%E5%A4%84%E7%90%86-URL-Scheme-%E5%92%8C-App-Store-%E9%93%BE%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

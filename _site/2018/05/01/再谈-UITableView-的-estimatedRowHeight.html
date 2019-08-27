@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>再谈 UITableView 的 estimatedRowHeight | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="再谈 UITableView 的 estimatedRowHeight" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="今天发现之前写的一个基于 UITableView 的列表页面存在如下问题：" />
+<meta property="og:description" content="今天发现之前写的一个基于 UITableView 的列表页面存在如下问题：" />
+<link rel="canonical" href="http://localhost:4000/2018/05/01/%E5%86%8D%E8%B0%88-UITableView-%E7%9A%84-estimatedRowHeight.html" />
+<meta property="og:url" content="http://localhost:4000/2018/05/01/%E5%86%8D%E8%B0%88-UITableView-%E7%9A%84-estimatedRowHeight.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"今天发现之前写的一个基于 UITableView 的列表页面存在如下问题：","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/05/01/%E5%86%8D%E8%B0%88-UITableView-%E7%9A%84-estimatedRowHeight.html","headline":"再谈 UITableView 的 estimatedRowHeight","dateModified":"2018-05-01T08:00:00+08:00","datePublished":"2018-05-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/05/01/%E5%86%8D%E8%B0%88-UITableView-%E7%9A%84-estimatedRowHeight.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">再谈 UITableView 的 estimatedRowHeight</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-01T08:00:00+08:00" itemprop="datePublished">May 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>今天发现之前写的一个基于 <code class="highlighter-rouge">UITableView</code> 的列表页面存在如下问题：</p>
+
+<blockquote>
+  <p>当列表在滑动过程中，特别是往下滑快接近底部时，右侧的滚动条一直在不断地抖动，并且滚动条的长度也在不断地微小变化；另外，当滑动到底部加载下一页数据并 <code class="highlighter-rouge">reloadData</code> 后，列表的内容会整体跳动往上偏移一段距离。这是什么原因呢？</p>
+</blockquote>
+
+<p>我们知道，在 iOS 11 发布后，<code class="highlighter-rouge">UITableView</code> 发生了一些变化，其中对现有项目的界面布局（列表/滚动）影响最大应该是以下两点：</p>
+
+<ul>
+  <li>
+    <p>(1) <code class="highlighter-rouge">UIViewController</code> 中用于标记是否自动调整 <code class="highlighter-rouge">UIScrollView Insets</code> 的 <code class="highlighter-rouge">automaticallyAdjustsScrollViewInsets</code> 属性被宣布弃用，代替的是 <code class="highlighter-rouge">UIScrollView</code> 自己新增的 <code class="highlighter-rouge">contentInsetAdjustmentBehavior</code> 属性；</p>
+  </li>
+  <li>
+    <p>(2) <code class="highlighter-rouge">UITableView</code> 的预估 Cell 高度属性 <code class="highlighter-rouge">estimatedRowHeight</code> 的默认值被改为 <code class="highlighter-rouge">UITableViewAutomaticDimension</code>（即默认开启），而在 iOS 10 及以前，这个值默认为 0（即默认关闭行高估算）。</p>
+  </li>
+</ul>
+
+<p>对于 (1) 我们这里不再赘述；但是对于 (2) 来说既是福音也是噩耗，它确实解决了一些性能的问题，但也带来了一些令人头痛的问题。</p>
+
+<p>由于 <code class="highlighter-rouge">UITableView</code> 继承于 <code class="highlighter-rouge">UIScrollView</code>，而一个 scrollView 能滚动的前提是需要设置它的 <code class="highlighter-rouge">contentSize</code>。当 tableView 被加载时，会调用 <code class="highlighter-rouge">heightForRowAtIndexPath</code> 方法计算每个 Cell 的高度，然后相加得到其 <code class="highlighter-rouge">contentSize</code>，这显然是耗时又耗性能的，尤其是对于那种高度可变化的 Cells 更是如此。</p>
+
+<p>所以为了优化这个问题，提高 <code class="highlighter-rouge">UITableView</code> 的加载速度（初始化和 <code class="highlighter-rouge">reloadData</code> 时），苹果引入了 <code class="highlighter-rouge">estimatedRowHeight</code>，文档描述如下：</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/05/7-1.png?raw=true" alt="" /></p>
+
+<p>当开启 <code class="highlighter-rouge">estimatedRowHeight</code> 时，一个 tableView 被加载后，它的 <code class="highlighter-rouge">contentSize</code> 的高度通过 <code class="highlighter-rouge">estimatedRowHeight</code>(默认为44) * Cells 的数量即可得，不需要遍历 <code class="highlighter-rouge">heightForRowAtIndexPath</code> 获取并相加来计算了，缩短其加载耗时。</p>
+
+<p>但是每个 Cell 的真实高度以及 tableView 的真实 <code class="highlighter-rouge">contentSize</code> 是什么时候计算的呢？正如上述文档所说，<strong>推迟到滑动的时候</strong>，当每个 Cell 将要被显示出来时再计算获取，并实时更新 tableView 的 <code class="highlighter-rouge">contentSize</code>。</p>
+
+<p>这也解释了我们开头所遇到问题：当 tableView 加载时启用了预估行高，在往下滑动时，下面的 Cells 被不断地被显示出来并更新了 tableView 的 <code class="highlighter-rouge">contentSize</code>，同时导致右侧的滚动条的高度和位置也要相应更新，产生“抖动”现象。此外，当加载下一页数据并重新 <code class="highlighter-rouge">reloadData</code> 发生跳动偏移的原因也是类似的。</p>
+
+<p>在 iOS 11 中，<code class="highlighter-rouge">estimatedRowHeight</code> 默认是开启的，我们可以通过设置 <code class="highlighter-rouge">tableView.estimatedRowHeight = 0</code> 来禁用。</p>
+
+<p>你在使用 <code class="highlighter-rouge">UITableView</code> 时遇到过类似的问题吗？你是如何解决的，欢迎留言讨论~</p>
+
+<p>参考链接：</p>
+<ul>
+  <li><a href="https://www.jianshu.com/p/3d9c0daddcdb">关于 iOS 11 中 estimatedRowHeight</a></li>
+  <li><a href="https://developer.apple.com/documentation/uikit/uitableview/1614925-estimatedrowheight?language=objc">Apple Docs: estimatedRowHeight</a></li>
+</ul>
+
+  </div><a class="u-url" href="/2018/05/01/%E5%86%8D%E8%B0%88-UITableView-%E7%9A%84-estimatedRowHeight.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

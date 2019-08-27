@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>使用 Keychain 存储登录态需要注意的一个坑 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="使用 Keychain 存储登录态需要注意的一个坑" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="今天要讨论的这个问题你可能永远都不会遇到，而且绝大部分情况下你很难在开发中事先预料到它未来可能会发生，但是一旦不幸发生了，可能就是一个很严重的线上问题，惨痛教训。" />
+<meta property="og:description" content="今天要讨论的这个问题你可能永远都不会遇到，而且绝大部分情况下你很难在开发中事先预料到它未来可能会发生，但是一旦不幸发生了，可能就是一个很严重的线上问题，惨痛教训。" />
+<link rel="canonical" href="http://localhost:4000/2018/08/01/%E4%BD%BF%E7%94%A8-Keychain-%E5%AD%98%E5%82%A8%E7%99%BB%E5%BD%95%E6%80%81%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html" />
+<meta property="og:url" content="http://localhost:4000/2018/08/01/%E4%BD%BF%E7%94%A8-Keychain-%E5%AD%98%E5%82%A8%E7%99%BB%E5%BD%95%E6%80%81%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"今天要讨论的这个问题你可能永远都不会遇到，而且绝大部分情况下你很难在开发中事先预料到它未来可能会发生，但是一旦不幸发生了，可能就是一个很严重的线上问题，惨痛教训。","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/08/01/%E4%BD%BF%E7%94%A8-Keychain-%E5%AD%98%E5%82%A8%E7%99%BB%E5%BD%95%E6%80%81%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html","headline":"使用 Keychain 存储登录态需要注意的一个坑","dateModified":"2018-08-01T08:00:00+08:00","datePublished":"2018-08-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/01/%E4%BD%BF%E7%94%A8-Keychain-%E5%AD%98%E5%82%A8%E7%99%BB%E5%BD%95%E6%80%81%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">使用 Keychain 存储登录态需要注意的一个坑</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-01T08:00:00+08:00" itemprop="datePublished">Aug 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>今天要讨论的这个问题你可能永远都不会遇到，而且绝大部分情况下你很难在开发中事先预料到它未来可能会发生，但是一旦不幸发生了，可能就是一个很严重的线上问题，惨痛教训。</p>
+
+<p>我们通常会在 Keychain（钥匙串）中存储一些密码、用户登录态等敏感数据，一是可以提高保存数据的安全性；二是当用户卸载 App 后重新安装，可以自动登录保留上次的登录态；三是同一开发者账号下的不同 App，如果是采用同一套账户体系，就可以通过 Keychain Groups 共享登录态。</p>
+
+<p>我们的 App 之前都是只把用户的登录态保存在 Keychain 中，并在 App 启动时去读取它，这一直也都没什么问题。前一段时间我们的 App 由于业务合规的原因审核被拒，按照苹果的要求不得不把 App 从公司的 A 开发者账号转让到 B 开发者账号下（公司旗下有很多不同主体的开发者账号），转让过程很顺利，但发版后短时间内收到大面积的用户反馈说，更新新版本后提示“登录失效，需要重新登录”。</p>
+
+<p>原因很容易就可以猜到，App 从 A 转让到 B，就无法读取保存在 A 账号下的 Keychain 数据了，用户更新版本覆盖安装后，打开 App 也就无法获取之前的登录态了。</p>
+
+<p>而且对于这种已经发生的问题，我们似乎也没有什么有效的补救措施，临时加急再发一版似乎也解决不了问题，因为之前的 Keychain 数据就是读取不到了，总不能再把 App 转让回去吧，😂</p>
+
+<p>那么如何未雨绸缪预防以后再发生这种因为转让 App 导致存储在 Keychain 中的登录态丢失读取不到呢？（虽然出现转让 App 的概率非常低）</p>
+
+<p>我们在新版本中采用了一种兼容的方法：把用户的登录态同时加密存储在本地缓存（Sandbox）和 Keychain 中，在 App 启动时，优先从 Keychain 中读取，如果 Keychain 中取不到，就从本地缓存中取（然后再把本地缓存的同步到 Keychain 中，因为即使 App 转让了，用户更新版本覆盖安装后 Sandbox 中的数据是不会变的），如果两处都取不到，就认为未登录。</p>
+
+<p>你有没有更好的解决方案？欢迎留言讨论。</p>
+
+<p>另外，有很多人通过 Keychain 来存储设备唯一标示符，也需要注意这个问题。</p>
+
+<p>关于 Keychain 如何使用，可以参考苹果官方文档：<a href="https://developer.apple.com/library/archive/samplecode/GenericKeychain/Introduction/Intro.html">GenericKeychain</a>，而关于 Keychain 滥用问题的讨论，可以看 V2EX 的<a href="https://www.v2ex.com/t/471254">这个帖子</a>。</p>
+
+  </div><a class="u-url" href="/2018/08/01/%E4%BD%BF%E7%94%A8-Keychain-%E5%AD%98%E5%82%A8%E7%99%BB%E5%BD%95%E6%80%81%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

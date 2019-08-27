@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS 11中的New Color Set | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS 11中的New Color Set" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="适配 iOS 11 时意外发现个New Color Set，仔细研究了下，发现比较爽。" />
+<meta property="og:description" content="适配 iOS 11 时意外发现个New Color Set，仔细研究了下，发现比较爽。" />
+<link rel="canonical" href="http://localhost:4000/2017/09/01/iOS-11%E4%B8%AD%E7%9A%84New-Color-Set.html" />
+<meta property="og:url" content="http://localhost:4000/2017/09/01/iOS-11%E4%B8%AD%E7%9A%84New-Color-Set.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"适配 iOS 11 时意外发现个New Color Set，仔细研究了下，发现比较爽。","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2017/09/01/iOS-11%E4%B8%AD%E7%9A%84New-Color-Set.html","headline":"iOS 11中的New Color Set","dateModified":"2017-09-01T08:00:00+08:00","datePublished":"2017-09-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/09/01/iOS-11%E4%B8%AD%E7%9A%84New-Color-Set.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS 11中的New Color Set</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-09-01T08:00:00+08:00" itemprop="datePublished">Sep 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>适配 iOS 11 时意外发现个<code class="highlighter-rouge">New Color Set</code>，仔细研究了下，发现比较爽。</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/09/20-1-1.jpg?raw=true" alt="" /></p>
+
+<p>它集中管理项目中的颜色，项目中有多少颜色一目了然。不过按目前的实现方式<code class="highlighter-rouge">Color</code>的名字必须使用【16 进制】颜色的名字。当然你可以自己加个前缀之类的，比如：<code class="highlighter-rouge">gray_50E3C2</code>，这样在方法中<code class="highlighter-rouge">mtColorWithHexString:</code> 中去掉前缀即可。</p>
+
+<p>使用的时候，直接使用：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorNamed</span><span class="p">:</span><span class="n">name</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/09/20-1-2.jpg?raw=true" alt="" /></p>
+
+<p>但是这个方法只有在 iOS 11 以上系统有效，我们可以自己实现一个方法，或者把系统的方法替换掉。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@implementation</span> <span class="nc">UIColor</span> <span class="p">(</span><span class="nl">main</span><span class="p">)</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nf">mtColorNamed</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">clearColor</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">cString</span> <span class="o">=</span> <span class="p">[[</span><span class="n">name</span> <span class="nf">stringByTrimmingCharactersInSet</span><span class="p">:[</span><span class="n">NSCharacterSet</span> <span class="nf">whitespaceAndNewlineCharacterSet</span><span class="p">]]</span> <span class="nf">uppercaseString</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">cString</span><span class="p">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">clearColor</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="err">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">11</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorNamed</span><span class="p">:</span><span class="n">name</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nf">mtColorWithHexString</span><span class="p">:</span><span class="n">name</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nf">mtColorWithHexString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">color</span>
+<span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+    <span class="p">[[</span><span class="n">NSScanner</span> <span class="nf">scannerWithString</span><span class="p">:[</span><span class="n">color</span> <span class="nf">substringWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]]</span> <span class="nf">scanHexInt</span><span class="p">:</span><span class="o">&amp;</span><span class="n">r</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">NSScanner</span> <span class="nf">scannerWithString</span><span class="p">:[</span><span class="n">color</span> <span class="nf">substringWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]]</span> <span class="nf">scanHexInt</span><span class="p">:</span><span class="o">&amp;</span><span class="n">g</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">NSScanner</span> <span class="nf">scannerWithString</span><span class="p">:[</span><span class="n">color</span> <span class="nf">substringWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]]</span> <span class="nf">scanHexInt</span><span class="p">:</span><span class="o">&amp;</span><span class="n">b</span><span class="p">];</span>
+    
+    <span class="k">return</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithRed</span><span class="p">:((</span><span class="n">CGFloat</span><span class="p">)</span> <span class="n">r</span> <span class="o">/</span> <span class="mi">255</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="nf">green</span><span class="p">:((</span><span class="n">CGFloat</span><span class="p">)</span> <span class="n">g</span> <span class="o">/</span> <span class="mi">255</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="n">blue</span><span class="o">:</span><span class="p">((</span><span class="n">CGFloat</span><span class="p">)</span> <span class="n">b</span> <span class="o">/</span> <span class="mi">255</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="n">alpha</span><span class="o">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>使用时，直接调用我们自定义的方法即可：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="n">NSString</span><span class="o">*</span> <span class="k">const</span> <span class="n">k50E3C2Color</span> <span class="o">=</span> <span class="s">@"50E3C2"</span><span class="p">;</span>
+<span class="k">static</span> <span class="n">NSString</span><span class="o">*</span> <span class="k">const</span> <span class="n">k10AEFFColor</span> <span class="o">=</span> <span class="s">@"10AEFF"</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    
+    <span class="n">_label</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">)];</span>
+    <span class="n">_label</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">k50E3C2Color</span><span class="p">;</span>
+    <span class="n">_label</span><span class="p">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="n">NSTextAlignmentCenter</span><span class="p">;</span>
+    <span class="n">_label</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">mtColorNamed</span><span class="p">:</span><span class="n">k10AEFFColor</span><span class="p">];</span>
+    <span class="n">_label</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">mtColorNamed</span><span class="p">:</span><span class="n">k50E3C2Color</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">_label</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/2017/09/01/iOS-11%E4%B8%AD%E7%9A%84New-Color-Set.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

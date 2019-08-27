@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS9 以后 openURL 和 canOpenURL 使用限制的小误区 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS9 以后 openURL 和 canOpenURL 使用限制的小误区" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="通常我们会用 UIApplication 的 openURL: 方法调起其他 App 来进行一些操作，如分享、第三方登录、支付等。但 iOS9 发布后，在看了很多适配总结的文章后，相信很多人可能跟我一样会有如下理解：" />
+<meta property="og:description" content="通常我们会用 UIApplication 的 openURL: 方法调起其他 App 来进行一些操作，如分享、第三方登录、支付等。但 iOS9 发布后，在看了很多适配总结的文章后，相信很多人可能跟我一样会有如下理解：" />
+<link rel="canonical" href="http://localhost:4000/2018/03/01/iOS9-%E4%BB%A5%E5%90%8E-openURL-%E5%92%8C-canOpenURL-%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6%E7%9A%84%E5%B0%8F%E8%AF%AF%E5%8C%BA.html" />
+<meta property="og:url" content="http://localhost:4000/2018/03/01/iOS9-%E4%BB%A5%E5%90%8E-openURL-%E5%92%8C-canOpenURL-%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6%E7%9A%84%E5%B0%8F%E8%AF%AF%E5%8C%BA.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-03-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"通常我们会用 UIApplication 的 openURL: 方法调起其他 App 来进行一些操作，如分享、第三方登录、支付等。但 iOS9 发布后，在看了很多适配总结的文章后，相信很多人可能跟我一样会有如下理解：","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/03/01/iOS9-%E4%BB%A5%E5%90%8E-openURL-%E5%92%8C-canOpenURL-%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6%E7%9A%84%E5%B0%8F%E8%AF%AF%E5%8C%BA.html","headline":"iOS9 以后 openURL 和 canOpenURL 使用限制的小误区","dateModified":"2018-03-01T08:00:00+08:00","datePublished":"2018-03-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/01/iOS9-%E4%BB%A5%E5%90%8E-openURL-%E5%92%8C-canOpenURL-%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6%E7%9A%84%E5%B0%8F%E8%AF%AF%E5%8C%BA.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS9 以后 openURL 和 canOpenURL 使用限制的小误区</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-03-01T08:00:00+08:00" itemprop="datePublished">Mar 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>通常我们会用 <code class="highlighter-rouge">UIApplication</code> 的 <code class="highlighter-rouge">openURL:</code> 方法调起其他 App 来进行一些操作，如分享、第三方登录、支付等。但 <code class="highlighter-rouge">iOS9</code> 发布后，在看了很多适配总结的文章后，相信很多人可能跟我一样会有如下理解：</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">iOS9</code> 限制了 <code class="highlighter-rouge">openURL:</code> 和 <code class="highlighter-rouge">canOpenURL:</code> 方法的使用，如果我们要调起第三方 App，需要在 <code class="highlighter-rouge">Info.plist</code> 的 <code class="highlighter-rouge">LSApplicationQueriesSchemes</code> Key 中添加相应 App 的 <code class="highlighter-rouge">Scheme</code> 才行，且添加的 <code class="highlighter-rouge">Scheme</code> 个数不能超过 <strong>50</strong> 个。</p>
+</blockquote>
+
+<p><strong>其实上面描述是有误的。</strong></p>
+
+<p>举个例子，大部分 App 在接入微信的 <code class="highlighter-rouge">SDK</code> 后，会先在自己工程配置中的 <code class="highlighter-rouge">Info</code> -&gt; <code class="highlighter-rouge">URL Types</code> 添加注册一个 <code class="highlighter-rouge">Scheme</code>，叫 “wx+appId” ，以便在调起微信进行登录或分享后，微信回调返回到我们自己的 App 中。但是试想一下，如果 <code class="highlighter-rouge">openURL:</code> 使用必须事先声明且有个数的限制，那么微信如何回调成千上万的 App 呢，难道微信要在其工程的 <code class="highlighter-rouge">Info.plist</code> 中把这些第三方 App 的 <code class="highlighter-rouge">Scheme</code> 都添加进去，而且每天都会有新增的 App 接入了微信 <code class="highlighter-rouge">SDK</code>，如何动态更新添加 <code class="highlighter-rouge">Scheme</code> 呢？微信是有什么黑科技或者苹果给微信等大厂的超级 App 开了特殊通道？</p>
+
+<p>在查阅了苹果官方文档后，我们发现其实并不是这样的，如下图：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/03/6-1.png?raw=true" alt="" /></p>
+
+<blockquote>
+  <p><strong>！！！只有 <code class="highlighter-rouge">canOpenURL:</code> 方法的使用受 <code class="highlighter-rouge">Info.plist</code> 中声明的 <code class="highlighter-rouge">Scheme</code> 的限制，而 <code class="highlighter-rouge">openURL:</code> 方法是不受限制的，不需要事先声明，也没有个数限制。</strong>（其实在 <code class="highlighter-rouge">iOS9</code> 的某 Beta 版上，<code class="highlighter-rouge">openURL:</code> 也受同样限制，但苹果后面确认是 Bug，在正式版中已更正过来）</p>
+</blockquote>
+
+<p>另外关于 <code class="highlighter-rouge">canOpenURL:</code> 最多只能对 <strong>50</strong> 个 <code class="highlighter-rouge">Scheme</code> 做判断的说法也是错误的。苹果的正确描述是：<strong>“如果你的 App 是使用 <code class="highlighter-rouge">Xcode 7 (iOS9 SDK)</code> 之前版本编译的，但是在 <code class="highlighter-rouge">iOS9</code> 及以后的系统中运行，那么你的 App 最多只能调用 50 次 <code class="highlighter-rouge">canOpenURL:</code> 方法，超过 50 次后，该方法都会返回 <code class="highlighter-rouge">NO</code>。”</strong></p>
+
+<p>如果我们使用最新版的 <code class="highlighter-rouge">Xcode</code> 编译 App，<code class="highlighter-rouge">canOpenURL:</code> 能判断的 <code class="highlighter-rouge">Scheme</code> 个数应该是不受限制的。</p>
+
+<p>我写了一个 <code class="highlighter-rouge">Demo</code> 验证了以上说法，如下图所示，在 <code class="highlighter-rouge">Info.plist</code> 中我先添加了超过 100 个 <code class="highlighter-rouge">Scheme</code> 后再添加 “weixin”，仍可以通过 <code class="highlighter-rouge">canOpenURL:</code> 判断是否安装了微信，另外即使没有添加微博的 <code class="highlighter-rouge">Scheme</code> “sinaweibo” 也可以通过 <code class="highlighter-rouge">openURL:</code> 正常打开。</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/03/6-2.png?raw=true" alt="" /></p>
+
+<p>Demo 地址：<a href="https://github.com/kangzubin/DevDemo/tree/master/TestOpenURL">TestOpenURL</a></p>
+
+<blockquote>
+  <p>虽然 <code class="highlighter-rouge">openURL:</code> 方法使用不受限制，但是苹果还是建议我们在使用它之前，先调 <code class="highlighter-rouge">canOpenURL:</code> 判断一下，再进行后续操作。</p>
+</blockquote>
+
+<p>以上测试结果是在真机 <strong><code class="highlighter-rouge">iPhone 8 (iOS 11.2.6)</code></strong> 上进行的，如果其他设备或者系统版本有差异，欢迎留言讨论。</p>
+
+<p>参考链接：</p>
+
+<ul>
+  <li><a href="https://developer.apple.com/documentation/uikit/uiapplication/1622952-canopenurl?language=objc">Apple Developer Documentation</a></li>
+  <li><a href="https://useyourloaf.com/blog/querying-url-schemes-with-canopenurl/">Querying URL Schemes with canOpenURL</a></li>
+</ul>
+
+  </div><a class="u-url" href="/2018/03/01/iOS9-%E4%BB%A5%E5%90%8E-openURL-%E5%92%8C-canOpenURL-%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6%E7%9A%84%E5%B0%8F%E8%AF%AF%E5%8C%BA.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

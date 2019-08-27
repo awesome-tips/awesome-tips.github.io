@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>通过导入DSYM使用Instruments做性能分析 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="通过导入DSYM使用Instruments做性能分析" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="通常情况下，使用 Instruments 做性能分析，看调用栈时，是能够直接看到对应方法调用堆栈的，而不是一串的地址，但这个前提是 Xcode 用编译过这个应用。如果是用同事或者打包服务器上的安装包做性能分析时，就无法看到对应的方法调用堆栈信息了，只能看到一串地址。这个时候可以通过导入 dSYM 的方式来查看对应的方法调用堆栈，方式如下（见图）：打开 Instruments -&gt; 运行一遍你的应用 -&gt; 停止 -&gt; File -&gt; Symbols -&gt; dSYM Path : Locate即可。如下图所示：" />
+<meta property="og:description" content="通常情况下，使用 Instruments 做性能分析，看调用栈时，是能够直接看到对应方法调用堆栈的，而不是一串的地址，但这个前提是 Xcode 用编译过这个应用。如果是用同事或者打包服务器上的安装包做性能分析时，就无法看到对应的方法调用堆栈信息了，只能看到一串地址。这个时候可以通过导入 dSYM 的方式来查看对应的方法调用堆栈，方式如下（见图）：打开 Instruments -&gt; 运行一遍你的应用 -&gt; 停止 -&gt; File -&gt; Symbols -&gt; dSYM Path : Locate即可。如下图所示：" />
+<link rel="canonical" href="http://localhost:4000/2017/11/01/%E9%80%9A%E8%BF%87%E5%AF%BC%E5%85%A5DSYM%E4%BD%BF%E7%94%A8Instruments%E5%81%9A%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90.html" />
+<meta property="og:url" content="http://localhost:4000/2017/11/01/%E9%80%9A%E8%BF%87%E5%AF%BC%E5%85%A5DSYM%E4%BD%BF%E7%94%A8Instruments%E5%81%9A%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-11-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"通常情况下，使用 Instruments 做性能分析，看调用栈时，是能够直接看到对应方法调用堆栈的，而不是一串的地址，但这个前提是 Xcode 用编译过这个应用。如果是用同事或者打包服务器上的安装包做性能分析时，就无法看到对应的方法调用堆栈信息了，只能看到一串地址。这个时候可以通过导入 dSYM 的方式来查看对应的方法调用堆栈，方式如下（见图）：打开 Instruments -&gt; 运行一遍你的应用 -&gt; 停止 -&gt; File -&gt; Symbols -&gt; dSYM Path : Locate即可。如下图所示：","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2017/11/01/%E9%80%9A%E8%BF%87%E5%AF%BC%E5%85%A5DSYM%E4%BD%BF%E7%94%A8Instruments%E5%81%9A%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90.html","headline":"通过导入DSYM使用Instruments做性能分析","dateModified":"2017-11-01T08:00:00+08:00","datePublished":"2017-11-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/11/01/%E9%80%9A%E8%BF%87%E5%AF%BC%E5%85%A5DSYM%E4%BD%BF%E7%94%A8Instruments%E5%81%9A%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">通过导入DSYM使用Instruments做性能分析</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-11-01T08:00:00+08:00" itemprop="datePublished">Nov 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>通常情况下，使用 <code class="highlighter-rouge">Instruments</code> 做性能分析，看调用栈时，是能够直接看到对应方法调用堆栈的，而不是一串的地址，但这个前提是 Xcode 用编译过这个应用。如果是用同事或者打包服务器上的安装包做性能分析时，就无法看到对应的方法调用堆栈信息了，只能看到一串地址。这个时候可以通过导入 <code class="highlighter-rouge">dSYM</code> 的方式来查看对应的方法调用堆栈，方式如下（见图）：打开 <code class="highlighter-rouge">Instruments</code> -&gt; <code class="highlighter-rouge">运行一遍你的应用</code> -&gt; <code class="highlighter-rouge">停止</code> -&gt; <code class="highlighter-rouge">File</code> -&gt; <code class="highlighter-rouge">Symbols</code> -&gt; <code class="highlighter-rouge">dSYM Path : Locate</code>即可。如下图所示：</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/11/4-1.JPG?raw=true" alt="图一" /></p>
+
+<p>但是有些时候可能应用中包含 <code class="highlighter-rouge">extension</code>，则直接 <code class="highlighter-rouge">locate</code> 会提示无法定位到 dSYM 文件</p>
+
+<blockquote>
+  <p>The specified path didn’t locate a dSYM for any of the selected libraries.</p>
+</blockquote>
+
+<p>这个时候需要把你的 <code class="highlighter-rouge">dSYM.zip</code> 解压，右键显示其内容将对应的 <code class="highlighter-rouge">.app.dSYM</code> 拷出，然后 <code class="highlighter-rouge">locate</code> 到这个拷出的 <code class="highlighter-rouge">dSYM</code> 文件即可或者按照下图操作也是可行的。具体流程见图：</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/11/4-2.GIF?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2017/11/01/%E9%80%9A%E8%BF%87%E5%AF%BC%E5%85%A5DSYM%E4%BD%BF%E7%94%A8Instruments%E5%81%9A%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

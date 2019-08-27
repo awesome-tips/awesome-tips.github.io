@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS中NSArray/NSSet的一些巧妙用法 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS中NSArray/NSSet的一些巧妙用法" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="最近用到很多操作集合类型的方法，这里总结分享一下，也欢迎大家一起补充。" />
+<meta property="og:description" content="最近用到很多操作集合类型的方法，这里总结分享一下，也欢迎大家一起补充。" />
+<link rel="canonical" href="http://localhost:4000/2018/01/01/iOS%E4%B8%ADNSArray-NSSet%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A7%E5%A6%99%E7%94%A8%E6%B3%95.html" />
+<meta property="og:url" content="http://localhost:4000/2018/01/01/iOS%E4%B8%ADNSArray-NSSet%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A7%E5%A6%99%E7%94%A8%E6%B3%95.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"最近用到很多操作集合类型的方法，这里总结分享一下，也欢迎大家一起补充。","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2018/01/01/iOS%E4%B8%ADNSArray-NSSet%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A7%E5%A6%99%E7%94%A8%E6%B3%95.html","headline":"iOS中NSArray/NSSet的一些巧妙用法","dateModified":"2018-01-01T08:00:00+08:00","datePublished":"2018-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/01/iOS%E4%B8%ADNSArray-NSSet%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A7%E5%A6%99%E7%94%A8%E6%B3%95.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS中NSArray/NSSet的一些巧妙用法</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>最近用到很多操作集合类型的方法，这里总结分享一下，也欢迎大家一起补充。</p>
+
+<ul>
+  <li>假设我们已经有一个 <code class="highlighter-rouge">NSArray&lt;Model *&gt;</code> 类型的数组，但是我们想把这个数组中的 <code class="highlighter-rouge">Model</code> 的某个属性取出组成一个新的数组，一般情况下可能是直接去遍历，但是 <code class="highlighter-rouge">NSArray/NSSet</code> 有一个更便捷的方法 <code class="highlighter-rouge">valueForKey:</code>,可以快速取出对应属性组成的数组。但是有个问题就是这个方法的效率比 <code class="highlighter-rouge">for</code> 循环低，数据量不大的时候使用还是没有问题的。如下面两张图：</li>
+</ul>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2018/01/4-1.jpg?raw=true" alt="" /></p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2018/01/4-2.jpg?raw=true" alt="" /></p>
+
+<ul>
+  <li>
+    <p>要取两个数组的交集的时候，可以先将 <code class="highlighter-rouge">NSArray</code> 转换成 <code class="highlighter-rouge">NSMutableSet</code>，再通过取二者交集即可。但是需要注意一点的是数组中的元素最好复写一下 <code class="highlighter-rouge">isEqual:</code> 和 <code class="highlighter-rouge">hash</code> 方法，保证取交集后的结果是正确的。</p>
+  </li>
+  <li>
+    <p>要将数组内元素排序或者过滤等操作，可以结合 <code class="highlighter-rouge">NSSortDescriptor</code> 和 <code class="highlighter-rouge">NSPredicate</code> 使用，可以避免掉大量冗余的 <code class="highlighter-rouge">for</code> 循环之类的代码。关于 <code class="highlighter-rouge">NSPredicate</code> 的用法可以参考 <a href="http://nshipster.com/nspredicate/">NSHipster</a> 和 <code class="highlighter-rouge">Realm</code> 的 <a href="https://academy.realm.io/posts/nspredicate-cheatsheet/">Cheetsheet</a></p>
+  </li>
+  <li>
+    <p>关于图中 <code class="highlighter-rouge">valueForKey:</code> 的参数为什么不直接用 <code class="highlighter-rouge">@"name"</code> 而是用 <code class="highlighter-rouge">NSStringFromSelector(@selector(name))</code>，是因为后者会有代码提示可以避免硬编码带来的错误，同时后续该 <code class="highlighter-rouge">key</code> 换名字了之后，会有对应的警告。这个也是从 <code class="highlighter-rouge">AFNetworking</code> 中学到的。如图所示：</p>
+  </li>
+</ul>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2018/01/4-3.jpg?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2018/01/01/iOS%E4%B8%ADNSArray-NSSet%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A7%E5%A6%99%E7%94%A8%E6%B3%95.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

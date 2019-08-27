@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>使用 YYFPSLabel 快速检测页面滑动的流畅度 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="使用 YYFPSLabel 快速检测页面滑动的流畅度" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="FPS (Frames Per Second) 是图像领域中的定义，表示每秒渲染帧数，通常用于衡量画面的流畅度，每秒帧数越多，则表示画面越流畅，60fps 最佳。" />
+<meta property="og:description" content="FPS (Frames Per Second) 是图像领域中的定义，表示每秒渲染帧数，通常用于衡量画面的流畅度，每秒帧数越多，则表示画面越流畅，60fps 最佳。" />
+<link rel="canonical" href="http://localhost:4000/2018/05/01/%E4%BD%BF%E7%94%A8-YYFPSLabel-%E5%BF%AB%E9%80%9F%E6%A3%80%E6%B5%8B%E9%A1%B5%E9%9D%A2%E6%BB%91%E5%8A%A8%E7%9A%84%E6%B5%81%E7%95%85%E5%BA%A6.html" />
+<meta property="og:url" content="http://localhost:4000/2018/05/01/%E4%BD%BF%E7%94%A8-YYFPSLabel-%E5%BF%AB%E9%80%9F%E6%A3%80%E6%B5%8B%E9%A1%B5%E9%9D%A2%E6%BB%91%E5%8A%A8%E7%9A%84%E6%B5%81%E7%95%85%E5%BA%A6.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"FPS (Frames Per Second) 是图像领域中的定义，表示每秒渲染帧数，通常用于衡量画面的流畅度，每秒帧数越多，则表示画面越流畅，60fps 最佳。","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/05/01/%E4%BD%BF%E7%94%A8-YYFPSLabel-%E5%BF%AB%E9%80%9F%E6%A3%80%E6%B5%8B%E9%A1%B5%E9%9D%A2%E6%BB%91%E5%8A%A8%E7%9A%84%E6%B5%81%E7%95%85%E5%BA%A6.html","headline":"使用 YYFPSLabel 快速检测页面滑动的流畅度","dateModified":"2018-05-01T08:00:00+08:00","datePublished":"2018-05-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/05/01/%E4%BD%BF%E7%94%A8-YYFPSLabel-%E5%BF%AB%E9%80%9F%E6%A3%80%E6%B5%8B%E9%A1%B5%E9%9D%A2%E6%BB%91%E5%8A%A8%E7%9A%84%E6%B5%81%E7%95%85%E5%BA%A6.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">使用 YYFPSLabel 快速检测页面滑动的流畅度</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-01T08:00:00+08:00" itemprop="datePublished">May 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><code class="highlighter-rouge">FPS</code> (Frames Per Second) 是图像领域中的定义，表示每秒渲染帧数，通常用于衡量画面的流畅度，每秒帧数越多，则表示画面越流畅，<code class="highlighter-rouge">60fps</code> 最佳。</p>
+
+<p>在 <code class="highlighter-rouge">iOS</code> 开发中，在复杂布局的列表页面，我们通常需要对列表的滑动进行性能优化，以保持页面流畅。对于保持流畅的优化技巧，可以参见 <code class="highlighter-rouge">@ibireme</code> 的这篇文章 <strong>《iOS 保持界面流畅的技巧》</strong> https://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/，我们不再赘述。</p>
+
+<p>这里主要介绍一下如何快速检测页面滑动的流畅度，即如何检测屏幕的 <code class="highlighter-rouge">FPS</code> ?</p>
+
+<p><code class="highlighter-rouge">Xcode</code> 的 <code class="highlighter-rouge">Instrument</code> 提供了相关的工具，详见 <code class="highlighter-rouge">Core Animation/GPU Driver/Time Profile</code> 等模块，但是使用起来还是比较繁琐，不直观。</p>
+
+<p>在 <strong>YYText</strong> <code class="highlighter-rouge">https://github.com/ibireme/YYText) 的 [Demo](https://github.com/ibireme/YYText/tree/master/Demo/YYTextDemo</code> 中提供了一个 <code class="highlighter-rouge">YYFPSLabel</code>，它使用系统提供的 <code class="highlighter-rouge">CADisplayLink</code> 的 <code class="highlighter-rouge">timestamp</code> 属性，配合 <code class="highlighter-rouge">timer</code> 的执行次数计算得出 <code class="highlighter-rouge">FPS</code>，实现原理详见 <code class="highlighter-rouge">YYFPSLabel</code> 源码和这篇文章的介绍：<code class="highlighter-rouge">https://www.jianshu.com/p/878bfd38666d</code></p>
+
+<p>因此，我们可以在工程的 <code class="highlighter-rouge">DEBUG</code> 模式下，给 <code class="highlighter-rouge">KeyWindow</code> 添加一个 <code class="highlighter-rouge">YYFPSLabel</code>，如下：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/05/4-1.png?raw=true" alt="" /></p>
+
+<p>就可以在屏幕上实时看到 <code class="highlighter-rouge">FPS</code> 值了：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/05/4-2.jpg?raw=true" alt="" /></p>
+
+<p>另外，<code class="highlighter-rouge">FPS</code> 的值跟机器的处理器性能息息相关，不同的设备的表现往往都不同，因此我们只要能保证 <code class="highlighter-rouge">App</code> 在低端设备上运行的 <code class="highlighter-rouge">FPS</code> 为 <code class="highlighter-rouge">50+</code>，基本就可以认为是流畅的了。</p>
+
+<p>Demo 地址：<code class="highlighter-rouge">https://github.com/kangzubin/XMNetworking/tree/master/Demo</code></p>
+
+  </div><a class="u-url" href="/2018/05/01/%E4%BD%BF%E7%94%A8-YYFPSLabel-%E5%BF%AB%E9%80%9F%E6%A3%80%E6%B5%8B%E9%A1%B5%E9%9D%A2%E6%BB%91%E5%8A%A8%E7%9A%84%E6%B5%81%E7%95%85%E5%BA%A6.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

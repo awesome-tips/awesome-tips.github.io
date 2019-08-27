@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>推荐几个高频使用的 Xcode 小技巧 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="推荐几个高频使用的 Xcode 小技巧" />
+<meta name="author" content="halohily" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="今天是节后上班第一天，也是 WWDC 期间知识小集微博话题暂停之后回归的第一天。欢迎关注本次 WWDC 期间 知识小集 和 老司机、SwiftGG 联合完成的掘金免费专题。" />
+<meta property="og:description" content="今天是节后上班第一天，也是 WWDC 期间知识小集微博话题暂停之后回归的第一天。欢迎关注本次 WWDC 期间 知识小集 和 老司机、SwiftGG 联合完成的掘金免费专题。" />
+<link rel="canonical" href="http://localhost:4000/2018/06/01/%E6%8E%A8%E8%8D%90%E5%87%A0%E4%B8%AA%E9%AB%98%E9%A2%91%E4%BD%BF%E7%94%A8%E7%9A%84-Xcode-%E5%B0%8F%E6%8A%80%E5%B7%A7.html" />
+<meta property="og:url" content="http://localhost:4000/2018/06/01/%E6%8E%A8%E8%8D%90%E5%87%A0%E4%B8%AA%E9%AB%98%E9%A2%91%E4%BD%BF%E7%94%A8%E7%9A%84-Xcode-%E5%B0%8F%E6%8A%80%E5%B7%A7.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-06-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"今天是节后上班第一天，也是 WWDC 期间知识小集微博话题暂停之后回归的第一天。欢迎关注本次 WWDC 期间 知识小集 和 老司机、SwiftGG 联合完成的掘金免费专题。","author":{"@type":"Person","name":"halohily"},"@type":"BlogPosting","url":"http://localhost:4000/2018/06/01/%E6%8E%A8%E8%8D%90%E5%87%A0%E4%B8%AA%E9%AB%98%E9%A2%91%E4%BD%BF%E7%94%A8%E7%9A%84-Xcode-%E5%B0%8F%E6%8A%80%E5%B7%A7.html","headline":"推荐几个高频使用的 Xcode 小技巧","dateModified":"2018-06-01T08:00:00+08:00","datePublished":"2018-06-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/06/01/%E6%8E%A8%E8%8D%90%E5%87%A0%E4%B8%AA%E9%AB%98%E9%A2%91%E4%BD%BF%E7%94%A8%E7%9A%84-Xcode-%E5%B0%8F%E6%8A%80%E5%B7%A7.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">推荐几个高频使用的 Xcode 小技巧</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-06-01T08:00:00+08:00" itemprop="datePublished">Jun 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">halohily</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>今天是节后上班第一天，也是 WWDC 期间知识小集微博话题暂停之后回归的第一天。欢迎关注本次 WWDC 期间 知识小集 和 老司机、SwiftGG 联合完成的掘金免费专题。</p>
+
+<p>今天小集给大家推荐几个实用的 Xcode 小技巧。</p>
+<ol>
+  <li>快速打开: <code class="highlighter-rouge">Command + Shift + O</code>。这个命令可以开启一个小窗格用来快速搜索浏览文件、类、算法以及函数等，且支持模糊搜索。这个命令可以说是我日常开发中最高频使用的一个了。</li>
+  <li>显示项目导航器: <code class="highlighter-rouge">Command + Shift + J</code>。使用快速打开命令跳转到对应文件后，如果需要在左侧显示出该文件在项目中的目录结构，只需要键入这个命令，非常方便。</li>
+  <li>显示编辑历史。如果发现一行需要膜拜或者需要吐槽的代码，不需要跑到专门的 diff 工具查看代码历史。在该代码行处右键，选择  <code class="highlighter-rouge">Show Blame for Line</code>，即可弹出一个小标签，显示该处代码的修改作者、commit 记录等信息。</li>
+</ol>
+
+  </div><a class="u-url" href="/2018/06/01/%E6%8E%A8%E8%8D%90%E5%87%A0%E4%B8%AA%E9%AB%98%E9%A2%91%E4%BD%BF%E7%94%A8%E7%9A%84-Xcode-%E5%B0%8F%E6%8A%80%E5%B7%A7.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

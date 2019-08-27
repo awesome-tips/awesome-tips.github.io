@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS 内存泄露工具 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS 内存泄露工具" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在日常开发中总会遇到内存泄漏的的问题，而排除内存泄漏一般会依靠以下这些工具：" />
+<meta property="og:description" content="在日常开发中总会遇到内存泄漏的的问题，而排除内存泄漏一般会依靠以下这些工具：" />
+<link rel="canonical" href="http://localhost:4000/2018/07/01/iOS-%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E5%B7%A5%E5%85%B7.html" />
+<meta property="og:url" content="http://localhost:4000/2018/07/01/iOS-%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E5%B7%A5%E5%85%B7.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在日常开发中总会遇到内存泄漏的的问题，而排除内存泄漏一般会依靠以下这些工具：","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/07/01/iOS-%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E5%B7%A5%E5%85%B7.html","headline":"iOS 内存泄露工具","dateModified":"2018-07-01T08:00:00+08:00","datePublished":"2018-07-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/07/01/iOS-%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E5%B7%A5%E5%85%B7.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS 内存泄露工具</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-01T08:00:00+08:00" itemprop="datePublished">Jul 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在日常开发中总会遇到内存泄漏的的问题，而排除内存泄漏一般会依靠以下这些工具：</p>
+
+<ul>
+  <li><a href="http://wereadteam.github.io/2016/02/22/MLeaksFinder/">MLeaksFinder</a></li>
+</ul>
+
+<p>这个 WeRead 团队开发的一个内存泄漏检测工具，主要用来检测 UIViewController 和 UIView 中存在的内存泄漏。如果检查到内存泄漏，会弹出 Alert 提示存在内存泄漏。当然，如果某个 UIViewController 是单例，将会误检。</p>
+
+<p>如果检查出内存泄漏，点击 Alert 上的 <code class="highlighter-rouge">Retain Cycle</code> 将使用 FBRetainCycleDetector 检查存在循环引用的对象。比如：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-&gt; DownloadAudioListViewController ,
+-&gt; _callblock -&gt; __NSMallocBlock__ 
+</code></pre></div></div>
+
+<ul>
+  <li><a href="https://github.com/facebook/FBRetainCycleDetector">FBRetainCycleDetector</a></li>
+</ul>
+
+<p>这是 facebook 开源的一个内存泄漏检测工具，它可以检测出循环引用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
+[detector addCandidate:myObject];
+NSSet *retainCycles = [detector findRetainCycles];
+</code></pre></div></div>
+
+<p>检查出的内存泄漏将打印出来：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-&gt; DownloadAudioListViewController ,
+-&gt; _callblock -&gt; __NSMallocBlock__ 
+</code></pre></div></div>
+
+<ul>
+  <li><a href="https://juejin.im/entry/58b105b48ac24728d53e28cf">Instrument 的 Leak 工具</a></li>
+</ul>
+
+<p>Instrument 中的 Leak 工具主要用来“突袭”，开发者定期地使用它来检测内存泄漏。而上面介绍的工具主要在开发过程中即可发现内存问题，提前暴露给开发者。</p>
+
+<ul>
+  <li>[Xcode 中的 Debug Memory Graph]</li>
+</ul>
+
+<p>这个工具主要以图表的形式显示了当前内存的使用情况，可以查看循环引用，如果有内存问题会显示一个叹号。</p>
+
+  </div><a class="u-url" href="/2018/07/01/iOS-%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E5%B7%A5%E5%85%B7.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>数值类型的failable initializers | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数值类型的failable initializers" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Swift 3.1为数值类型(Int, Int8, Int16, Int32, Int64, UInt, UInt8, UInt16, UInt32, UInt64, Float, Float80, Double)实现了failable initializers: init?(exactly value:)。这些initializer在创建数值类型失败时会返回nil，对于处理一些从诸如json这样松散的数据类型的数值时非常有用。" />
+<meta property="og:description" content="Swift 3.1为数值类型(Int, Int8, Int16, Int32, Int64, UInt, UInt8, UInt16, UInt32, UInt64, Float, Float80, Double)实现了failable initializers: init?(exactly value:)。这些initializer在创建数值类型失败时会返回nil，对于处理一些从诸如json这样松散的数据类型的数值时非常有用。" />
+<link rel="canonical" href="http://localhost:4000/2017/04/01/%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E7%9A%84failable-initializers.html" />
+<meta property="og:url" content="http://localhost:4000/2017/04/01/%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E7%9A%84failable-initializers.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"Swift 3.1为数值类型(Int, Int8, Int16, Int32, Int64, UInt, UInt8, UInt16, UInt32, UInt64, Float, Float80, Double)实现了failable initializers: init?(exactly value:)。这些initializer在创建数值类型失败时会返回nil，对于处理一些从诸如json这样松散的数据类型的数值时非常有用。","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/04/01/%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E7%9A%84failable-initializers.html","headline":"数值类型的failable initializers","dateModified":"2017-04-01T08:00:00+08:00","datePublished":"2017-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/04/01/%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E7%9A%84failable-initializers.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">数值类型的failable initializers</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><code class="highlighter-rouge">Swift 3.1</code>为数值类型(<code class="highlighter-rouge">Int, Int8, Int16, Int32, Int64, UInt, UInt8, UInt16, UInt32, UInt64, Float, Float80, Double</code>)实现了<code class="highlighter-rouge">failable initializers: init?(exactly value:)</code>。这些<code class="highlighter-rouge">initializer</code>在创建数值类型失败时会返回<code class="highlighter-rouge">nil</code>，对于处理一些从诸如<code class="highlighter-rouge">json</code>这样松散的数据类型的数值时非常有用。</p>
+
+<p>如下代码是<a href="(https://www.raywenderlich.com/156352/whats-new-in-swift-3-1)">raywenderlich</a>中的一段示例。</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Student</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">grade</span><span class="p">:</span> <span class="kt">Int</span>
+
+  <span class="nf">init</span><span class="p">?(</span><span class="nv">json</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">gradeString</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s">"grade"</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">gradeDouble</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">gradeString</span><span class="p">),</span>
+          <span class="k">let</span> <span class="nv">grade</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="nv">exactly</span><span class="p">:</span> <span class="n">gradeDouble</span><span class="p">)</span>  <span class="c1">// &lt;-- 3.1 feature here</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">grade</span> <span class="o">=</span> <span class="n">grade</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">makeStudents</span><span class="p">(</span><span class="n">with</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Student</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">guard</span> <span class="k">let</span> <span class="nv">json</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">JSONSerialization</span><span class="o">.</span><span class="nf">jsonObject</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="n">allowFragments</span><span class="p">),</span>
+        <span class="k">let</span> <span class="nv">jsonArray</span> <span class="o">=</span> <span class="n">json</span> <span class="k">as?</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]]</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">jsonArray</span><span class="o">.</span><span class="nf">flatMap</span><span class="p">(</span><span class="kt">Student</span><span class="o">.</span><span class="kd">init</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">rawStudents</span> <span class="o">=</span> <span class="s">"[{</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Ray</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">5.0</span><span class="se">\"</span><span class="s">}, {</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Matt</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">6</span><span class="se">\"</span><span class="s">},
+                    {</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Chris</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">6.33</span><span class="se">\"</span><span class="s">}, {</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Cosmin</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">7</span><span class="se">\"</span><span class="s">},
+                    {</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Steven</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">7.5</span><span class="se">\"</span><span class="s">}]"</span>
+<span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">rawStudents</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">students</span> <span class="o">=</span> <span class="nf">makeStudents</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span>
+<span class="nf">dump</span><span class="p">(</span><span class="n">students</span><span class="p">)</span> <span class="c1">// [(name: "Ray", grade: 5), (name: "Matt", grade: 6), (name: "Cosmin", grade: 7)]</span>
+</code></pre></div></div>
+
+<p>这里过滤了<code class="highlighter-rouge">json</code>中<code class="highlighter-rouge">grade</code>值转换成<code class="highlighter-rouge">Int</code>值时不准确的数据。</p>
+
+<p>参考</p>
+
+<ol>
+  <li><a href="https://www.raywenderlich.com/156352/whats-new-in-swift-3-1">What’s New in Swift 3.1?</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0080-failable-numeric-initializers.md">Swift evolution: Failable Numeric Conversion Initializers</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2017/04/01/%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E7%9A%84failable-initializers.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>
