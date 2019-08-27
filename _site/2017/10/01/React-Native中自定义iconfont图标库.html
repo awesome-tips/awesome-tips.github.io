@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>React Native中自定义iconfont图标库 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="React Native中自定义iconfont图标库" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="接上一条。" />
+<meta property="og:description" content="接上一条。" />
+<link rel="canonical" href="http://localhost:4000/2017/10/01/React-Native%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89iconfont%E5%9B%BE%E6%A0%87%E5%BA%93.html" />
+<meta property="og:url" content="http://localhost:4000/2017/10/01/React-Native%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89iconfont%E5%9B%BE%E6%A0%87%E5%BA%93.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-10-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"接上一条。","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/10/01/React-Native%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89iconfont%E5%9B%BE%E6%A0%87%E5%BA%93.html","headline":"React Native中自定义iconfont图标库","dateModified":"2017-10-01T08:00:00+08:00","datePublished":"2017-10-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/10/01/React-Native%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89iconfont%E5%9B%BE%E6%A0%87%E5%BA%93.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">React Native中自定义iconfont图标库</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-10-01T08:00:00+08:00" itemprop="datePublished">Oct 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>接上一条。</p>
+
+<p>使用<code class="highlighter-rouge">Unicode</code>码显得不直观，所以我们可以自定义图标库。<code class="highlighter-rouge">react-native-vector-icons</code>有一些内置的图标库，我们参考其创建方式，我们以Zocial为例，如下代码所示：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">createIconSet</span> <span class="k">from</span> <span class="s1">'./lib/create-icon-set'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">glyphMap</span> <span class="k">from</span> <span class="s1">'./glyphmaps/Zocial.json'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">iconSet</span> <span class="o">=</span> <span class="nx">createIconSet</span><span class="p">(</span><span class="nx">glyphMap</span><span class="p">,</span> <span class="s1">'zocial'</span><span class="p">,</span> <span class="s1">'Zocial.ttf'</span><span class="p">);</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">iconSet</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">Button</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">Button</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">TabBarItem</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">TabBarItem</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">TabBarItemIOS</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">TabBarItemIOS</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">ToolbarAndroid</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">ToolbarAndroid</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getImageSource</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">getImageSource</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>最主要的就是createIconSet函数，它接受三个参数：字形映射表、字体名、字体文件名。</p>
+
+<p>首先我们需要制作一个字形映射表，这是一个json文件，其内容如下代码所示：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+  <span class="s2">"home"</span><span class="p">:</span> <span class="mi">58981</span><span class="p">,</span>
+  <span class="s2">"setting"</span><span class="p">:</span> <span class="mi">58928</span><span class="p">,</span>
+  <span class="s2">"stack-overflow"</span><span class="p">:</span> <span class="mi">59479</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>key是我们可以在代码中直接使用的字符串，value是Unicode码对应的10进制数字，其中Unicode码可以在iconfont.cn上查看(实际就是就<code class="highlighter-rouge">&amp;#xe665;</code>串中有<code class="highlighter-rouge">e665</code>)。</p>
+
+<p>然后我们创建一个js文件，参考Zocial.js，依葫芦画瓢，如下代码所示：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">createIconSet</span> <span class="k">from</span> <span class="s1">'react-native-vector-icons/lib/create-icon-set'</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="nx">glyphMap</span> <span class="k">from</span> <span class="s1">'./iconfont.json'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">iconSet</span> <span class="o">=</span> <span class="nx">createIconSet</span><span class="p">(</span><span class="nx">glyphMap</span><span class="p">,</span> <span class="s1">'iconfont'</span><span class="p">,</span> <span class="s1">'iconfont.ttf'</span><span class="p">);</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">iconSet</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">Button</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">Button</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">TabBarItem</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">TabBarItem</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">TabBarItemIOS</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">TabBarItemIOS</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">ToolbarAndroid</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">ToolbarAndroid</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getImageSource</span> <span class="o">=</span> <span class="nx">iconSet</span><span class="p">.</span><span class="nx">getImageSource</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>在工程中，我们就可以直接使用这个自定义图标库了，如下代码所示：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">Icon</span> <span class="k">from</span> <span class="s1">'./assets/fonts/iconfont'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">setTabBarIcon</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span><span class="nx">tintColor</span><span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Icon</span> <span class="nx">name</span><span class="o">=</span><span class="s1">'home'</span> <span class="nx">size</span><span class="o">=</span><span class="p">{</span><span class="mi">30</span><span class="p">}</span> <span class="nx">color</span><span class="o">=</span><span class="p">{</span><span class="nx">tintColor</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span><span class="p">};</span>
+</code></pre></div></div>
+
+<p>比使用Unicode直观多了。</p>
+
+<p>参考</p>
+
+<ol>
+  <li><a href="https://github.com/oblador/react-native-vector-icons">Github react-native-vector-icons</a></li>
+  <li><a href="https://github.com/MrErHu/blog/issues/15">React Native与Iconfont</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2017/10/01/React-Native%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89iconfont%E5%9B%BE%E6%A0%87%E5%BA%93.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

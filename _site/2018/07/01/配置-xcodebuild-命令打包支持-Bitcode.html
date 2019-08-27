@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>配置 xcodebuild 命令打包支持 Bitcode | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="配置 xcodebuild 命令打包支持 Bitcode" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="我们通常会把一些公用的模块抽离出来打成一个 .a 静态库或者 .framework 动态库，然后再嵌入到宿主工程中。" />
+<meta property="og:description" content="我们通常会把一些公用的模块抽离出来打成一个 .a 静态库或者 .framework 动态库，然后再嵌入到宿主工程中。" />
+<link rel="canonical" href="http://localhost:4000/2018/07/01/%E9%85%8D%E7%BD%AE-xcodebuild-%E5%91%BD%E4%BB%A4%E6%89%93%E5%8C%85%E6%94%AF%E6%8C%81-Bitcode.html" />
+<meta property="og:url" content="http://localhost:4000/2018/07/01/%E9%85%8D%E7%BD%AE-xcodebuild-%E5%91%BD%E4%BB%A4%E6%89%93%E5%8C%85%E6%94%AF%E6%8C%81-Bitcode.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"我们通常会把一些公用的模块抽离出来打成一个 .a 静态库或者 .framework 动态库，然后再嵌入到宿主工程中。","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/07/01/%E9%85%8D%E7%BD%AE-xcodebuild-%E5%91%BD%E4%BB%A4%E6%89%93%E5%8C%85%E6%94%AF%E6%8C%81-Bitcode.html","headline":"配置 xcodebuild 命令打包支持 Bitcode","dateModified":"2018-07-01T08:00:00+08:00","datePublished":"2018-07-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/07/01/%E9%85%8D%E7%BD%AE-xcodebuild-%E5%91%BD%E4%BB%A4%E6%89%93%E5%8C%85%E6%94%AF%E6%8C%81-Bitcode.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">配置 xcodebuild 命令打包支持 Bitcode</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-01T08:00:00+08:00" itemprop="datePublished">Jul 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>我们通常会把一些公用的模块抽离出来打成一个 .a 静态库或者 .framework 动态库，然后再嵌入到宿主工程中。</p>
+
+<p>最近我们的 App 工程开启 Bitcode 编译选项后（Enable Bitcode = YES），发现在进行 Archive 归档打 Release 包时，报如下错误，提示说工程使用的 libTestStaticSDK.a 静态库不支持 Bitcode：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ld: bitcode bundle could not be generated because <span class="s1">'/.../TestApp/TestStaticSDKLib/libTestStaticSDK.a(TestStaticSDK.o)'</span> was built without full bitcode. All object files and libraries <span class="k">for </span>bitcode must be generated from Xcode Archive or Install build <span class="k">for </span>architecture armv7
+</code></pre></div></div>
+
+<p>但是我们的 libTestStaticSDK 静态库工程的 Build Settings 中同样是有配置开启 Bitcode 的，为什么打出来的 .a 包却不支持 Bitcode 呢？</p>
+
+<p>通过查阅 StackOverflow 我们发现，原来开启 Bitcode 后，在 Xcode 中进行 “Build” 或 “Archive” 时，Xcode 会自动在编译命令后面添加 <code class="highlighter-rouge">-fembed-bitcode</code> 标识，而如果使用 <code class="highlighter-rouge">xcodebuild</code> 命令进行打包，则需要手动添加一个 <code class="highlighter-rouge">OTHER_CFLAGS</code>，如下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild build <span class="nv">OTHER_CFLAGS</span><span class="o">=</span><span class="s2">"-fembed-bitcode"</span> <span class="nt">-target</span> libTestStaticSDK ...
+</code></pre></div></div>
+
+<p>另外一种解决方案是，在静态库 Xcode 工程的 Build Settings 中，添加一个 “User-Define Setting”，内容为：<code class="highlighter-rouge">'BITCODE_GENERATION_MODE' =&gt; 'bitcode'</code>，如下图所示：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/07/9-1.png?raw=true" alt="" /></p>
+
+<p>这样在使用 <code class="highlighter-rouge">xcodebuild</code> 命令时就不用添加 <code class="highlighter-rouge">OTHER_CFLAGS="-fembed-bitcode"</code> 了。</p>
+
+<p>综上，为了通用，我们可以在 <code class="highlighter-rouge">xcodebuild</code> 命令后同时添加上述两种标识，因此一个完整的静态库打包脚本大致如下（同样适用于 Framework 的打包）：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/07/9-2.png?raw=true" alt="" /></p>
+
+<p><strong>参考链接</strong></p>
+
+<ul>
+  <li>
+    <p><a href="https://stackoverflow.com/questions/31486232/how-do-i-xcodebuild-a-static-library-with-bitcode-enabled">How do I xcodebuild a static library with Bitcode enabled?</a></p>
+  </li>
+  <li>
+    <p><a href="https://juejin.im/post/5ab311c76fb9a028c42e18a9">iOS 中动/静态库支持 Bitcode 的问题</a></p>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/2018/07/01/%E9%85%8D%E7%BD%AE-xcodebuild-%E5%91%BD%E4%BB%A4%E6%89%93%E5%8C%85%E6%94%AF%E6%8C%81-Bitcode.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>TestFlight删除测试人员血泪史 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="TestFlight删除测试人员血泪史" />
+<meta name="author" content="高老师很忙" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TestFlight是苹果推荐的灰测方案，相比蒲公英，fir来说优点有和正式包是同一个包，大大降低了因为打不同包代码不一致的风险；可以覆盖安装线上包；不受证书过期的影响等。" />
+<meta property="og:description" content="TestFlight是苹果推荐的灰测方案，相比蒲公英，fir来说优点有和正式包是同一个包，大大降低了因为打不同包代码不一致的风险；可以覆盖安装线上包；不受证书过期的影响等。" />
+<link rel="canonical" href="http://localhost:4000/2018/05/01/TestFlight%E5%88%A0%E9%99%A4%E6%B5%8B%E8%AF%95%E4%BA%BA%E5%91%98%E8%A1%80%E6%B3%AA%E5%8F%B2.html" />
+<meta property="og:url" content="http://localhost:4000/2018/05/01/TestFlight%E5%88%A0%E9%99%A4%E6%B5%8B%E8%AF%95%E4%BA%BA%E5%91%98%E8%A1%80%E6%B3%AA%E5%8F%B2.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"TestFlight是苹果推荐的灰测方案，相比蒲公英，fir来说优点有和正式包是同一个包，大大降低了因为打不同包代码不一致的风险；可以覆盖安装线上包；不受证书过期的影响等。","author":{"@type":"Person","name":"高老师很忙"},"@type":"BlogPosting","url":"http://localhost:4000/2018/05/01/TestFlight%E5%88%A0%E9%99%A4%E6%B5%8B%E8%AF%95%E4%BA%BA%E5%91%98%E8%A1%80%E6%B3%AA%E5%8F%B2.html","headline":"TestFlight删除测试人员血泪史","dateModified":"2018-05-01T08:00:00+08:00","datePublished":"2018-05-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/05/01/TestFlight%E5%88%A0%E9%99%A4%E6%B5%8B%E8%AF%95%E4%BA%BA%E5%91%98%E8%A1%80%E6%B3%AA%E5%8F%B2.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TestFlight删除测试人员血泪史</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-01T08:00:00+08:00" itemprop="datePublished">May 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">高老师很忙</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>TestFlight是苹果推荐的灰测方案，相比蒲公英，fir来说优点有和正式包是同一个包，大大降低了因为打不同包代码不一致的风险；可以覆盖安装线上包；不受证书过期的影响等。</p>
+
+<p>如下图，分割线以下的分组是可以自定义的，方便给特定的用户群发灰测，后续不用可以整组删除；而分割线以上的分组是固定的，只可以批量添加用户，却不能整组删除。</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/05/6-1.jpg?raw=true" alt="" /></p>
+
+<p>然而被拒的是如果不小心批量添加了几个测试人员在分割线以上的分组里，该如何删除呢？😂😂😂信息是分页加载的，每页加载几十条。现在需要把页面全部加载出来，并且全部勾选删除。中间尝试了写脚本删除，发现并没有什么用（思路有点问题），但可以用选中第一条，然后按住Shift键，再选中最后一个解决，那么就剩下了如何把测试人员全都加载出来，😂😂😂发现选中测试人员区域，按住键盘上的向下按钮可以一直向下滑动并加载，并利用了这个很Low的方式，中午吃饭的时候把一个物体固定在键盘上按住这个按键，吃饭回来后就发现9000多条数据已经全部加载完成，然后用Shift键全选后删除了😂😂😂。</p>
+
+<p>和大家交流后，又有了新的思路，又请教了前端大神，发现写脚本是可以的，大概有以下2类思路（第一种想法已验证成功）：1，把所有数据拉下来，然后再调用删除接口；2，在checbox勾选的时候，是把当前测试人员加入了一个数组中，可以利用这个来实现批量删除操作。</p>
+
+<p>如果有更好的方法，欢迎分享！</p>
+
+  </div><a class="u-url" href="/2018/05/01/TestFlight%E5%88%A0%E9%99%A4%E6%B5%8B%E8%AF%95%E4%BA%BA%E5%91%98%E8%A1%80%E6%B3%AA%E5%8F%B2.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

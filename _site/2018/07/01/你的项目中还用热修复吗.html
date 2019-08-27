@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>你的项目中还用热修复吗？ | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="你的项目中还用热修复吗？" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="前两天知识小集群里有人讨论关于热修复的问题，对此我非常感兴趣，今天作为一个小集和大家探讨一下。虽然目前苹果严禁带有热修复功能的 APP 上线，一旦发现，将增加审核时间（大约是一周的时间）。苹果主要考虑到了安全问题，避免给自己找事，所以干脆禁用了 JSPatch。但是 JSPatch 使用的 API 并没有违反苹果的规定，他也就没有一个十足的理由拒绝你的 APP 上线。这样就导致还有很多公司在悄悄地用 JSPatch。不过原理基本都是对 JSPatch 进行混淆后使用，当然如果你有能力自己实现一个 JSPatch 也可以。" />
+<meta property="og:description" content="前两天知识小集群里有人讨论关于热修复的问题，对此我非常感兴趣，今天作为一个小集和大家探讨一下。虽然目前苹果严禁带有热修复功能的 APP 上线，一旦发现，将增加审核时间（大约是一周的时间）。苹果主要考虑到了安全问题，避免给自己找事，所以干脆禁用了 JSPatch。但是 JSPatch 使用的 API 并没有违反苹果的规定，他也就没有一个十足的理由拒绝你的 APP 上线。这样就导致还有很多公司在悄悄地用 JSPatch。不过原理基本都是对 JSPatch 进行混淆后使用，当然如果你有能力自己实现一个 JSPatch 也可以。" />
+<link rel="canonical" href="http://localhost:4000/2018/07/01/%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%BF%98%E7%94%A8%E7%83%AD%E4%BF%AE%E5%A4%8D%E5%90%97.html" />
+<meta property="og:url" content="http://localhost:4000/2018/07/01/%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%BF%98%E7%94%A8%E7%83%AD%E4%BF%AE%E5%A4%8D%E5%90%97.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"前两天知识小集群里有人讨论关于热修复的问题，对此我非常感兴趣，今天作为一个小集和大家探讨一下。虽然目前苹果严禁带有热修复功能的 APP 上线，一旦发现，将增加审核时间（大约是一周的时间）。苹果主要考虑到了安全问题，避免给自己找事，所以干脆禁用了 JSPatch。但是 JSPatch 使用的 API 并没有违反苹果的规定，他也就没有一个十足的理由拒绝你的 APP 上线。这样就导致还有很多公司在悄悄地用 JSPatch。不过原理基本都是对 JSPatch 进行混淆后使用，当然如果你有能力自己实现一个 JSPatch 也可以。","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/07/01/%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%BF%98%E7%94%A8%E7%83%AD%E4%BF%AE%E5%A4%8D%E5%90%97.html","headline":"你的项目中还用热修复吗？","dateModified":"2018-07-01T08:00:00+08:00","datePublished":"2018-07-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/07/01/%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%BF%98%E7%94%A8%E7%83%AD%E4%BF%AE%E5%A4%8D%E5%90%97.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">你的项目中还用热修复吗？</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-01T08:00:00+08:00" itemprop="datePublished">Jul 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>前两天知识小集群里有人讨论关于热修复的问题，对此我非常感兴趣，今天作为一个小集和大家探讨一下。虽然目前苹果严禁带有热修复功能的 APP 上线，一旦发现，将增加审核时间（大约是一周的时间）。苹果主要考虑到了安全问题，避免给自己找事，所以干脆禁用了 JSPatch。但是 JSPatch 使用的 API 并没有违反苹果的规定，他也就没有一个十足的理由拒绝你的 APP 上线。这样就导致还有很多公司在悄悄地用 JSPatch。不过原理基本都是对 JSPatch 进行混淆后使用，当然如果你有能力自己实现一个 JSPatch 也可以。</p>
+
+<p>被拒苹果的拒绝理由大概是这样的：</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/07/1-1.jpeg?raw=true" alt="" /></p>
+
+<p>目前我了解到市面上主要通过以下几种方式进行混淆（如果对这个话题感兴趣，后续我们会在【知识小集】gong-zhong-hao 进一步探讨）：</p>
+
+<h3 id="方式一使用官方提供的混淆方式">方式一：使用官方提供的混淆方式</h3>
+
+<p>目前使用官方提供的 JSPatch 服务任然可以过审，据说也是通过静态混淆-宏定义 这中方式。</p>
+
+<h3 id="方式二bugly静态混淆-宏定义">方式二：Bugly（静态混淆-宏定义）</h3>
+
+<p>Bugly 提供了热修复功能，它提供了一种对 JSPatch 混淆的方式。在 <code class="highlighter-rouge">BuglyHotfixConfuse_pch.h</code> 文件中把需要混淆的类名方法名替换掉。有兴趣的读者可以 <a href="https://bugly.qq.com/v2/downloads">下载</a> 查看详细代码。</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/07/1-2.jpeg?raw=true" alt="" /></p>
+
+<h3 id="方式三自己混淆">方式三：自己混淆</h3>
+
+<p>自己混淆当然是最保守的，苹果很难察觉。某天网上爆出一个 ZipArchive 安全漏洞，而这个漏洞的一个条件就是使用了类似 JSPatch 这种可以动态执行脚本的功能，而被爆出的 APP 经查确实使用混淆后 JSPatch，而他们采用的混淆方式也就是自己混淆。所以自己混淆 JSPatch 这条路是通的。自己混淆主要是理解 JSPatch 的原理，换一种方式来实现。</p>
+
+  </div><a class="u-url" href="/2018/07/01/%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%BF%98%E7%94%A8%E7%83%AD%E4%BF%AE%E5%A4%8D%E5%90%97.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

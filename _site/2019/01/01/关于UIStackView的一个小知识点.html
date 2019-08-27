@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>关于UIStackView的一个小知识点 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="关于UIStackView的一个小知识点" />
+<meta name="author" content="高老师很忙" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="今天分享一个UIStackView的小知识点,用UIStackView做水平或垂直布局很方便，搜了大多数UIStackView的资料，大多是教大家如何使用的axis、alignment等属性的。最近使用时遇到了：把UIStackView中某个视图hidden后，UIStackView的布局会进行更新，只展示没有hidden的视图（官方文档截图：图1），" />
+<meta property="og:description" content="今天分享一个UIStackView的小知识点,用UIStackView做水平或垂直布局很方便，搜了大多数UIStackView的资料，大多是教大家如何使用的axis、alignment等属性的。最近使用时遇到了：把UIStackView中某个视图hidden后，UIStackView的布局会进行更新，只展示没有hidden的视图（官方文档截图：图1），" />
+<link rel="canonical" href="http://localhost:4000/2019/01/01/%E5%85%B3%E4%BA%8EUIStackView%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9.html" />
+<meta property="og:url" content="http://localhost:4000/2019/01/01/%E5%85%B3%E4%BA%8EUIStackView%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"今天分享一个UIStackView的小知识点,用UIStackView做水平或垂直布局很方便，搜了大多数UIStackView的资料，大多是教大家如何使用的axis、alignment等属性的。最近使用时遇到了：把UIStackView中某个视图hidden后，UIStackView的布局会进行更新，只展示没有hidden的视图（官方文档截图：图1），","author":{"@type":"Person","name":"高老师很忙"},"@type":"BlogPosting","url":"http://localhost:4000/2019/01/01/%E5%85%B3%E4%BA%8EUIStackView%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9.html","headline":"关于UIStackView的一个小知识点","dateModified":"2019-01-01T08:00:00+08:00","datePublished":"2019-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/01/01/%E5%85%B3%E4%BA%8EUIStackView%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">关于UIStackView的一个小知识点</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">高老师很忙</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>今天分享一个<code class="highlighter-rouge">UIStackView</code>的小知识点,用<code class="highlighter-rouge">UIStackView</code>做水平或垂直布局很方便，搜了大多数UIStackView的资料，大多是教大家如何使用的axis、alignment等属性的。最近使用时遇到了：把<code class="highlighter-rouge">UIStackView</code>中某个视图<code class="highlighter-rouge">hidden</code>后，<code class="highlighter-rouge">UIStackView</code>的布局会进行更新，只展示没有<code class="highlighter-rouge">hidden</code>的视图（官方文档截图：图1），</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/12/3-1.png?raw=true" alt="" /></p>
+
+<p>例如，你有5个视图平等分显示，设置某个视图<code class="highlighter-rouge">hidden</code>之后，就会变成4个视图平等分了。</p>
+
+<p>有的时候这是我们期许的，而有的时候并不是；如果<code class="highlighter-rouge">hidden</code>某个视图后，不想更改其他视图布局，那么可以设置alpha，或者使用<code class="highlighter-rouge">Masonry</code>的方法，之前小集也提过（图2）。</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/12/3-2.png?raw=true" alt="" /></p>
+
+<p>了解这个属性之后，免得大家开发过程走弯路，根据情况选择适当的方式布局。</p>
+
+  </div><a class="u-url" href="/2019/01/01/%E5%85%B3%E4%BA%8EUIStackView%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

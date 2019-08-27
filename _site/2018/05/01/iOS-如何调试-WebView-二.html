@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS 如何调试 WebView （二） | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS 如何调试 WebView （二）" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="上次的小集中，我主要讨论了如何调试 WebView ，小集发出后 @折腾范儿_味精 提供了另一种方法来调试 WebView。我觉得有必要再扩展一下，原话是这样的：" />
+<meta property="og:description" content="上次的小集中，我主要讨论了如何调试 WebView ，小集发出后 @折腾范儿_味精 提供了另一种方法来调试 WebView。我觉得有必要再扩展一下，原话是这样的：" />
+<link rel="canonical" href="http://localhost:4000/2018/05/01/iOS-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95-WebView-%E4%BA%8C.html" />
+<meta property="og:url" content="http://localhost:4000/2018/05/01/iOS-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95-WebView-%E4%BA%8C.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"上次的小集中，我主要讨论了如何调试 WebView ，小集发出后 @折腾范儿_味精 提供了另一种方法来调试 WebView。我觉得有必要再扩展一下，原话是这样的：","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/05/01/iOS-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95-WebView-%E4%BA%8C.html","headline":"iOS 如何调试 WebView （二）","dateModified":"2018-05-01T08:00:00+08:00","datePublished":"2018-05-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/05/01/iOS-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95-WebView-%E4%BA%8C.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS 如何调试 WebView （二）</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-01T08:00:00+08:00" itemprop="datePublished">May 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>上次的小集中，我主要讨论了如何调试 WebView ，小集发出后  @折腾范儿_味精 提供了另一种方法来调试 WebView。我觉得有必要再扩展一下，原话是这样的：</p>
+
+<blockquote>
+  <p>真说方便还是植入一个 webview console 在 debug 环境，可以在黑盒下不连电脑不连 safari 调 dom，调js，另外在开发期间 Xcode 断点 run 的时候，js hook console.log console.alert，接管window.onerror 全都改 bridge NSLog 输出，也会方便点。</p>
+</blockquote>
+
+<p>短短几句话，信息量很大，私下向味精学习了下，这里总结一下。写完这个小集特意让味精看了下，觉得有必要再补充下第二种调试技巧，但中途踩了几个坑，一直到23:30左右才搞定。</p>
+
+<p>第一，把 WebView 用来调试的 log、alert、error 显示到 NA ，在调试时会方便不少。做 WebView 与端交互的时候，主要用 <code class="highlighter-rouge">window.webkit.messageHandlers.xxx.postMessage(params);</code> 来给端发消息，也就是说 WebView 想给端发消息的时候直接调用这个方法即可，端会通过 <code class="highlighter-rouge">WKScriptMessageHandler</code> 的代理方法来接收消息，而此时端根据和 WebView 约定的规则进行通信即可。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
+</code></pre></div></div>
+
+<p>而添加调试信息，无非就是给 WebView 添加了 log、alert、error 这些消息的 bridge，这样当 WebView 给端发送消息后，端根据和 WebView 约定的规则解析 log、alert、error 为端对应的事件，比如 log 直接调用端的 <code class="highlighter-rouge">NSLog</code>，alert 调用端的 <code class="highlighter-rouge">UIAlertController</code>。</p>
+
+<p>第二，黑盒下调试 WebView，无需连接电脑和 safari 即可调试 DOM，这个可以参考小程序的 <a href="https://github.com/Tencent/vConsole">vConsole</a> 或者 <a href="https://github.com/liriliri/eruda">eruda
+</a> 。可以直接在 WebView 中接入，或者在端中接入。这里以在端中接入 eruda 为例，这里踩到几个坑：</p>
+
+<p>1.有些页面显示不出来，估计是故意屏蔽掉的，味精特意使用 JSBox 试了下其它页面，发现百度等都不可以显示调试按钮，而掘金是可以的；</p>
+
+<p>2.使用本地的页面也显示不出来，这是 webview 跨域安全方面的考虑，file 协议下会禁止 js css html 以部分 file，部分网络的方式加载。</p>
+
+<p>下面这段代码直接在 webview 加载完成后执行即可。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSString *js = @"(function() {var script = document.createElement('script');script.type = 'text/javascript';script.src = 'https://xteko.blob.core.windows.net/neo/eruda-loader.js';document.body.appendChild(script);})();";
+[self.webView evaluateJavaScript:js completionHandler: nil];
+</code></pre></div></div>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/05/14-1.jpg?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2018/05/01/iOS-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95-WebView-%E4%BA%8C.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

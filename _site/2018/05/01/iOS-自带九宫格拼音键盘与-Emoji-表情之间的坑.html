@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS 自带九宫格拼音键盘与 Emoji 表情之间的坑 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS 自带九宫格拼音键盘与 Emoji 表情之间的坑" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="最近产品提了一个需求：要求某个“输入框”禁止输入 Emoji 表情，我们能想到的方案是：在 UITextField 的 textField:shouldChangeCharactersInRange:replacementString: 代理方法中判断即将输入的字符串是否包含 Emoji 表情，如果包含，就在该方法中返回 NO，不允许输入。" />
+<meta property="og:description" content="最近产品提了一个需求：要求某个“输入框”禁止输入 Emoji 表情，我们能想到的方案是：在 UITextField 的 textField:shouldChangeCharactersInRange:replacementString: 代理方法中判断即将输入的字符串是否包含 Emoji 表情，如果包含，就在该方法中返回 NO，不允许输入。" />
+<link rel="canonical" href="http://localhost:4000/2018/05/01/iOS-%E8%87%AA%E5%B8%A6%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%8B%BC%E9%9F%B3%E9%94%AE%E7%9B%98%E4%B8%8E-Emoji-%E8%A1%A8%E6%83%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%9D%91.html" />
+<meta property="og:url" content="http://localhost:4000/2018/05/01/iOS-%E8%87%AA%E5%B8%A6%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%8B%BC%E9%9F%B3%E9%94%AE%E7%9B%98%E4%B8%8E-Emoji-%E8%A1%A8%E6%83%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%9D%91.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"最近产品提了一个需求：要求某个“输入框”禁止输入 Emoji 表情，我们能想到的方案是：在 UITextField 的 textField:shouldChangeCharactersInRange:replacementString: 代理方法中判断即将输入的字符串是否包含 Emoji 表情，如果包含，就在该方法中返回 NO，不允许输入。","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/05/01/iOS-%E8%87%AA%E5%B8%A6%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%8B%BC%E9%9F%B3%E9%94%AE%E7%9B%98%E4%B8%8E-Emoji-%E8%A1%A8%E6%83%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%9D%91.html","headline":"iOS 自带九宫格拼音键盘与 Emoji 表情之间的坑","dateModified":"2018-05-01T08:00:00+08:00","datePublished":"2018-05-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/05/01/iOS-%E8%87%AA%E5%B8%A6%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%8B%BC%E9%9F%B3%E9%94%AE%E7%9B%98%E4%B8%8E-Emoji-%E8%A1%A8%E6%83%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%9D%91.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS 自带九宫格拼音键盘与 Emoji 表情之间的坑</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-01T08:00:00+08:00" itemprop="datePublished">May 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>最近产品提了一个需求：要求某个“输入框”禁止输入 Emoji 表情，我们能想到的方案是：在 <code class="highlighter-rouge">UITextField</code> 的 <code class="highlighter-rouge">textField:shouldChangeCharactersInRange:replacementString:</code> 代理方法中判断即将输入的字符串是否包含 Emoji 表情，如果包含，就在该方法中返回 <code class="highlighter-rouge">NO</code>，不允许输入。</p>
+
+<p>关于如何判断一字符串是否包含 Emoji 表情的方法，网上已经有很多代码片段，一般是通过 <code class="highlighter-rouge">Unicode</code> 编码范围来判断 ，详见这里：<a href="https://gist.github.com/cihancimen/4146056">https://gist.github.com/cihancimen/4146056</a> ，方法名记为：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (BOOL)stringContainsEmoji:(NSString *)string;
+</code></pre></div></div>
+
+<p>按照上述思路开发完后，Emoji 表情确实是被限制住无法输入了，但是当把键盘切换为 iOS 系统自带的九宫格拼音键盘准备输入汉字时，却发现拼音无法输入。这是怎么回事？</p>
+
+<p>首先通过观察系统自带拼音键盘的行为，可以发现，当通过拼音来输入汉字时，系统会先在输入框中“预输入”拼音字母作为占位，等用户在键盘上选中汉字时，输入框中的占位“拼音字母”就会被替换为所对应的汉字，如下图：</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/05/10-1.jpg?raw=true" alt="" /></p>
+
+<p>通过断点调试我们还发现，在输入拼音过程中，以“知识小集”（zhishixiaoji）为例，当我们通过点击第 9 个键来输入字母 <code class="highlighter-rouge">z</code> 时，在 UITextField 的代理方法中获取到的即将输入的字符不是 <code class="highlighter-rouge">z</code> ，而是一个符号 ➒ ，而输入结束后（<code class="highlighter-rouge">textFieldDidChange:</code>）该符号 ➒ 就会被替换为所对应的字母，然后当点击第 4 个键来输入字母 <code class="highlighter-rouge">h</code> 时，同样地得到即将输入的字符为 ➍ ，然后再被替换为 <code class="highlighter-rouge">h</code>，以此类推…</p>
+
+<p>我们猜测，苹果之所以这么做是因为，对于九宫格拼音键盘，一个键代表着 3 或 4 个字母，当你点击一个键时，它并不知道你要输入那个字母，所以用一个带圆圈的数字符号作为临时占位，等输入结束时才替换为相应的字母。</p>
+
+<p>在九宫格拼音键盘中，”ABC” 键 ~ “WXYZ” 键所对应的临时占位符号分别为 ➋➌ … ➒ ，表情 “^-^” 键所对应的为符号 ☻ ，而这些符号在 <code class="highlighter-rouge">stringContainsEmoji:</code> 方法中刚好都被判为是 Emoji，所以当输入框禁止输入 Emoji 表情时，就会导致拼音也无法输入。</p>
+
+<p>解决方案就是在 Emoji 判定方法中，过滤掉上述符号（对应的 <code class="highlighter-rouge">Unicode</code> 编码为 <code class="highlighter-rouge">U+278b</code> ~ <code class="highlighter-rouge">U+2792</code> 和 <code class="highlighter-rouge">U+263b</code>），如下：</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/05/10-2.png?raw=true" alt="" /></p>
+
+<p>但我们发现系统自带的“全键盘拼音输入”不会有上述问题，因为每个键都只代表一个字母：</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/05/10-3.jpg?raw=true" alt="" /></p>
+
+<p>而且，国内常用的第三方输入法也不会有这个问题，因为它们不会在输入框中“预输入”拼音字符（而是把拼音显示在键盘上方），只有等用户选中汉字时，才把汉字填写到输入框中，如下（搜狗输入法）：</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2018/05/10-4.jpg?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2018/05/01/iOS-%E8%87%AA%E5%B8%A6%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%8B%BC%E9%9F%B3%E9%94%AE%E7%9B%98%E4%B8%8E-Emoji-%E8%A1%A8%E6%83%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%9D%91.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

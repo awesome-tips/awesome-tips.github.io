@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>针对 objc_exception_throw 的实用调试技巧 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="针对 objc_exception_throw 的实用调试技巧" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="相信调试过程中发生崩溃这种事情，大家肯定都遇到过，一般也会给 Xcode 设一个全局共享的异常断点，如图1所示，（如果没有的话，可以设置一波）。当我们调试遇到抛出异常时，Xcode 会自动断点，输出一些关于 Exception 的日志信息。但是有些时候并不见得会输出有用的日志（或者压根就没有日志）只有对应的崩溃栈，如图2所示。" />
+<meta property="og:description" content="相信调试过程中发生崩溃这种事情，大家肯定都遇到过，一般也会给 Xcode 设一个全局共享的异常断点，如图1所示，（如果没有的话，可以设置一波）。当我们调试遇到抛出异常时，Xcode 会自动断点，输出一些关于 Exception 的日志信息。但是有些时候并不见得会输出有用的日志（或者压根就没有日志）只有对应的崩溃栈，如图2所示。" />
+<link rel="canonical" href="http://localhost:4000/2019/01/01/%E9%92%88%E5%AF%B9-objc_exception_throw-%E7%9A%84%E5%AE%9E%E7%94%A8%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7.html" />
+<meta property="og:url" content="http://localhost:4000/2019/01/01/%E9%92%88%E5%AF%B9-objc_exception_throw-%E7%9A%84%E5%AE%9E%E7%94%A8%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"相信调试过程中发生崩溃这种事情，大家肯定都遇到过，一般也会给 Xcode 设一个全局共享的异常断点，如图1所示，（如果没有的话，可以设置一波）。当我们调试遇到抛出异常时，Xcode 会自动断点，输出一些关于 Exception 的日志信息。但是有些时候并不见得会输出有用的日志（或者压根就没有日志）只有对应的崩溃栈，如图2所示。","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2019/01/01/%E9%92%88%E5%AF%B9-objc_exception_throw-%E7%9A%84%E5%AE%9E%E7%94%A8%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7.html","headline":"针对 objc_exception_throw 的实用调试技巧","dateModified":"2019-01-01T08:00:00+08:00","datePublished":"2019-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/01/01/%E9%92%88%E5%AF%B9-objc_exception_throw-%E7%9A%84%E5%AE%9E%E7%94%A8%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">针对 objc_exception_throw 的实用调试技巧</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>相信调试过程中发生崩溃这种事情，大家肯定都遇到过，一般也会给 Xcode 设一个全局共享的异常断点，如图1所示，（如果没有的话，可以设置一波）。当我们调试遇到抛出异常时，Xcode 会自动断点，输出一些关于 Exception 的日志信息。但是有些时候并不见得会输出有用的日志（或者压根就没有日志）只有对应的崩溃栈，如图2所示。</p>
+
+<p>示例中向 NSArray 发了一条无法响应的消息，崩溃后 Xcode 自动断点到了相应的断点位置（这里其实 Xcode 已经在 console 中输入了对应的崩溃信息，因为一时半会不知道该怎么制造 Xcode 不输出日志的环境，所以将就用这个示例来代替下），同时左边也有了对应的崩溃调用栈。我们可以将调用栈切到最上方的 objc_exception_throw，然后在 console 中输入 po $arg1，因为 arg1 代表的是对象本身，在这里就是 NSException，而它又复写了 description 方法，所以对其 print 输出的是对应的崩溃信息。</p>
+
+<p>以上其实我们还可以节省一个步骤，就是编辑一下这个全局异常端点，给起加一个 Debugger Command 的 Action，如图3所示，这样就可以在发生 objc_exception_throw 崩溃的时候，就可以自动输出对应的崩溃信息了，而不用再手动切换到栈顶的 objc_exception_throw 再输一遍 po $arg1。需要明确一点的是，这种方式仅适用于 objc_exception_throw 类型的崩溃（模拟器、真机都适用）。</p>
+
+<p>其他几个有意思的参数值，上面说到 arg1 是当前断点所在方法的接收对象，arg2 是被调用的方法名（在 po 的时候要做一个强转，如 po (SEL)$arg2)，如果有参数则 arg 依次递增。</p>
+
+<p>另外 lldb 的其它更多命令及便捷或扩展的方式，推荐 Facebook 的 <a href="https://github.com/facebook/chisel">Chisel</a>
+个人使用频率最高的就是真机调试动画，放慢动画速度的命令，运行过程中触发任意一个断点，执行 slowanim 即可（默认10倍速慢放，可自行在后面指定慢放倍数，如 slowanim 0.2 就是慢放5倍）。</p>
+
+<p>如果你有更多的小技巧欢迎分享，欢迎交流~</p>
+
+<p><img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2019/01/9-1.gif?raw=true" alt="" />
+<img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2019/01/9-2.jpg?raw=true" alt="" />
+<img src="https://github.com/awesome-tips/iOS-Tips/blob/master/images/2019/01/9-3.jpg?raw=true" alt="" /></p>
+
+<p>参考链接：<a href="https://www.natashatherobot.com/xcode-debugging-trick/">Xcode: One Weird Debugging Trick That Will Save Your Life</a></p>
+
+  </div><a class="u-url" href="/2019/01/01/%E9%92%88%E5%AF%B9-objc_exception_throw-%E7%9A%84%E5%AE%9E%E7%94%A8%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

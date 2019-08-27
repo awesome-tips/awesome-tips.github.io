@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>“偷窥”第三方APP头文件 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="“偷窥”第三方APP头文件" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="有时候在开发的过程中需要些黑科技，“偷窥”第三方 APP 使用了哪些第三方库，或猜猜它是如何实现的，咋么办？" />
+<meta property="og:description" content="有时候在开发的过程中需要些黑科技，“偷窥”第三方 APP 使用了哪些第三方库，或猜猜它是如何实现的，咋么办？" />
+<link rel="canonical" href="http://localhost:4000/2018/03/01/%E5%81%B7%E7%AA%A5-%E7%AC%AC%E4%B8%89%E6%96%B9APP%E5%A4%B4%E6%96%87%E4%BB%B6.html" />
+<meta property="og:url" content="http://localhost:4000/2018/03/01/%E5%81%B7%E7%AA%A5-%E7%AC%AC%E4%B8%89%E6%96%B9APP%E5%A4%B4%E6%96%87%E4%BB%B6.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-03-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"有时候在开发的过程中需要些黑科技，“偷窥”第三方 APP 使用了哪些第三方库，或猜猜它是如何实现的，咋么办？","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/03/01/%E5%81%B7%E7%AA%A5-%E7%AC%AC%E4%B8%89%E6%96%B9APP%E5%A4%B4%E6%96%87%E4%BB%B6.html","headline":"“偷窥”第三方APP头文件","dateModified":"2018-03-01T08:00:00+08:00","datePublished":"2018-03-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/01/%E5%81%B7%E7%AA%A5-%E7%AC%AC%E4%B8%89%E6%96%B9APP%E5%A4%B4%E6%96%87%E4%BB%B6.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">“偷窥”第三方APP头文件</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-03-01T08:00:00+08:00" itemprop="datePublished">Mar 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>有时候在开发的过程中需要些黑科技，“偷窥”第三方 APP 使用了哪些第三方库，或猜猜它是如何实现的，咋么办？</p>
+
+<p>其实我们可以使用 <code class="highlighter-rouge">class-dump</code> 这个工具查看某个 APP 的头文件。只需要找到第三方 APP 的 <code class="highlighter-rouge">xxx.app</code> 文件，然后执行 <code class="highlighter-rouge">class-dump</code> 命令即可。不过在执行 <code class="highlighter-rouge">class-dump</code> 命令前，需要确保 <code class="highlighter-rouge">xxx.app</code> 是砸过壳的，从 <code class="highlighter-rouge">APPStore</code> 下载的 <code class="highlighter-rouge">xxx.app</code> 文件是经过加密处理的，可以直接从各大越狱市场上下载第三方 <code class="highlighter-rouge">xxx.app</code> 文件，从越狱市场下载的 <code class="highlighter-rouge">xxx.app</code> 已被破解。可以直接使用 <code class="highlighter-rouge">class-dump</code> 导出头文件。</p>
+
+<h3 id="安装">安装</h3>
+
+<p>网上很多教程，不啰嗦了哈。</p>
+
+<h3 id="实战">实战</h3>
+
+<p>创建一个 <code class="highlighter-rouge">Demo</code>，然后打包导出 <code class="highlighter-rouge">ipa</code> 包，找到 <code class="highlighter-rouge">xxx.app</code>，这里 <code class="highlighter-rouge">xxx.app</code> 是未经过加密的。具体代码如下：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">ViewControllerDelegate</span><span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">didRefreshDataSuccess</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">:</span> <span class="nc">UIViewController</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">ViewControllerDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">pubName</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pubLoadDataWithAlbumID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">albumID</span> <span class="nf">count</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">count</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@interface</span> <span class="nc">ViewController1</span> <span class="p">(</span><span class="nl">Navigation</span><span class="p">)</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setRightBarItemWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span><span class="p">;</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>执行 <code class="highlighter-rouge">class-dump</code> 命令：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span><span class="o">-</span><span class="n">dump</span> <span class="o">-</span><span class="no">H</span> <span class="p">[</span><span class="n">xxx</span><span class="p">.</span><span class="nf">app</span><span class="err">所在的位置</span><span class="p">]</span> <span class="o">-</span><span class="n">o</span> <span class="p">[</span><span class="err">头文件导出的位置</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>比如：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span><span class="o">-</span><span class="n">dump</span> <span class="o">-</span><span class="no">H</span> <span class="no">Lefex</span><span class="p">.</span><span class="nf">app</span> <span class="o">-</span><span class="n">o</span> <span class="n">lefexheader</span>
+</code></pre></div></div>
+
+<p>最终导出的头文件如下：</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/03/9-1.jpg?raw=true" alt="" /></p>
+
+<h3 id="总结">总结</h3>
+
+<p>使用 <code class="highlighter-rouge">class-dump</code> 导出头文件有以下特点：</p>
+
+<ol>
+  <li>不管 <code class="highlighter-rouge">.h</code> 还是 <code class="highlighter-rouge">.m</code> 文件中的属性和方法都会被导出；</li>
+  <li>某个类的类别中的方法也会被导出，导出到源文件中，比如 <code class="highlighter-rouge">ViewController (Navigation)</code> 中的方法被导出到 <code class="highlighter-rouge">ViewController</code> 中；</li>
+  <li>实现的协议也会被导出，比如 <code class="highlighter-rouge">ViewControllerDelegate</code> 的方法被导出到 <code class="highlighter-rouge">ViewController</code> 中，如果 <code class="highlighter-rouge">ViewController</code> 不实现 <code class="highlighter-rouge">ViewControllerDelegate</code> 协议讲不会被导出；</li>
+  <li>协议中定义的方法不会被导出，只会导出到实现协议的类中；</li>
+</ol>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="http://stevenygard.com/projects/class-dump/">Class-dump</a></p>
+
+<p>可以参考这个 <a href="https://weibo.com/everettjf?from=usercardnew&amp;refer_flag=0000020001_">@everettjf</a>  http://everettjf.com/2016/07/09/classify-class-dump-headers-tool/ ，话说可以导出头文件并找出使用的第三方库。不过我试了下没安装成功就没深究，有兴趣的朋友可以看看。</p>
+
+  </div><a class="u-url" href="/2018/03/01/%E5%81%B7%E7%AA%A5-%E7%AC%AC%E4%B8%89%E6%96%B9APP%E5%A4%B4%E6%96%87%E4%BB%B6.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>删除iOS项目中未使用的图片 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="删除iOS项目中未使用的图片" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="【痛点】" />
+<meta property="og:description" content="【痛点】" />
+<link rel="canonical" href="http://localhost:4000/2017/10/01/%E5%88%A0%E9%99%A4iOS%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9B%BE%E7%89%87.html" />
+<meta property="og:url" content="http://localhost:4000/2017/10/01/%E5%88%A0%E9%99%A4iOS%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9B%BE%E7%89%87.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-10-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"【痛点】","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2017/10/01/%E5%88%A0%E9%99%A4iOS%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9B%BE%E7%89%87.html","headline":"删除iOS项目中未使用的图片","dateModified":"2017-10-01T08:00:00+08:00","datePublished":"2017-10-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/10/01/%E5%88%A0%E9%99%A4iOS%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9B%BE%E7%89%87.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">删除iOS项目中未使用的图片</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-10-01T08:00:00+08:00" itemprop="datePublished">Oct 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>【痛点】</p>
+
+<p>删除 iOS 项目中没有用到的图片市面上已经有很多种方式，但是我试过几个都不能很好地满足需求，因此使用 Python 写了这个脚本，它可能也不能很好的满足你的需求，因为这种静态查找始终会存在问题，每个人写的代码风格不一，导致匹配字符不一。所以只有掌握了脚本的写法，才能很好的满足自己的需求。如果你的项目中使用Objective-C，而且使用纯代码布局，使用这个脚本完全没有问题。当然你可以修改脚本来达到自己的需求。本文主要希望能够帮助更多的读者节省更多时间做一些有意义的工作，避免那些乏味重复的工作。</p>
+
+<p>【如何使用】</p>
+
+<ol>
+  <li>修改 <code class="highlighter-rouge">DESPATH</code> 为你项目的路径；</li>
+  <li>直接在脚本所在的目录下，打开终端执行 <code class="highlighter-rouge">python unUseImage.py</code>，这里的<code class="highlighter-rouge">unUseImage.py</code>为脚本文件名。你可以在<a href="https://github.com/lefex/TCZLocalizableTool/blob/master/LocalToos/unUseImage.py">这里</a>找到脚本文件；</li>
+  <li>执行完成后，桌面会出现一个 <code class="highlighter-rouge">unUseImage</code> 文件夹。文件夹中的 <code class="highlighter-rouge">error.log</code> 文件记录了可能存在未匹配到图片的文件目录，<code class="highlighter-rouge">image.log</code> 记录了项目中没使用的图片路径，<code class="highlighter-rouge">images</code>存放了未使用到的图片。</li>
+</ol>
+
+<p>【重要提示】</p>
+
+<p>当确认 <code class="highlighter-rouge">images</code> 文件夹中含有正在使用的图时，复制图片名字到<code class="highlighter-rouge">EXCEPT_IMAGES</code>中，再次执行脚本，确认 <code class="highlighter-rouge">images</code> 文件夹中不再包含使用的图后，修改<code class="highlighter-rouge">IS_OPEN_AUTO_DEL</code>为<code class="highlighter-rouge">True</code>，执行脚本，脚本将自动清除所有未使用的图。</p>
+
+<p>更好的阅读体验，请移步<a href="http://www.jianshu.com/p/dca77c25bf5d">更人性化的找出 iOS 中未使用的图</a></p>
+
+  </div><a class="u-url" href="/2017/10/01/%E5%88%A0%E9%99%A4iOS%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9B%BE%E7%89%87.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

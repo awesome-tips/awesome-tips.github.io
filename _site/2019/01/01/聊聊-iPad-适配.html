@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>聊聊 iPad 适配 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="聊聊 iPad 适配" />
+<meta name="author" content="halohily" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在最新版本中，我们为网易有道词典做了完全的 iPad 适配，你可以在 iPad 上横屏、分屏使用有道词典，也完全支持了屏幕旋转后的 UI 调整。今天来聊聊这次的适配体验。" />
+<meta property="og:description" content="在最新版本中，我们为网易有道词典做了完全的 iPad 适配，你可以在 iPad 上横屏、分屏使用有道词典，也完全支持了屏幕旋转后的 UI 调整。今天来聊聊这次的适配体验。" />
+<link rel="canonical" href="http://localhost:4000/2019/01/01/%E8%81%8A%E8%81%8A-iPad-%E9%80%82%E9%85%8D.html" />
+<meta property="og:url" content="http://localhost:4000/2019/01/01/%E8%81%8A%E8%81%8A-iPad-%E9%80%82%E9%85%8D.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在最新版本中，我们为网易有道词典做了完全的 iPad 适配，你可以在 iPad 上横屏、分屏使用有道词典，也完全支持了屏幕旋转后的 UI 调整。今天来聊聊这次的适配体验。","author":{"@type":"Person","name":"halohily"},"@type":"BlogPosting","url":"http://localhost:4000/2019/01/01/%E8%81%8A%E8%81%8A-iPad-%E9%80%82%E9%85%8D.html","headline":"聊聊 iPad 适配","dateModified":"2019-01-01T08:00:00+08:00","datePublished":"2019-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/01/01/%E8%81%8A%E8%81%8A-iPad-%E9%80%82%E9%85%8D.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">聊聊 iPad 适配</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">halohily</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在最新版本中，我们为网易有道词典做了完全的 iPad 适配，你可以在 iPad 上横屏、分屏使用有道词典，也完全支持了屏幕旋转后的 UI 调整。今天来聊聊这次的适配体验。</p>
+
+<p>千言万语总结成一句话：如果你正确使用了 <code class="highlighter-rouge">autolayout</code>（使用比例而非固定值），那么即使是原本仅支持竖屏的页面，在打开转屏开关后，页面也不会有太大的问题。况且苹果已经提升了 <code class="highlighter-rouge">autolayout</code> 的性能，所以如果你的 app 未来有支持 iPad 的潜在可能，那么尽可能地全部使用 <code class="highlighter-rouge">autolayout</code> 来布局吧。</p>
+
+<p>如果现有的大量页面都已经使用了计算 <code class="highlighter-rouge">frame</code> 的方式来布局，也有解决办法。<code class="highlighter-rouge">UIView</code> 的子类 要保证在 <code class="highlighter-rouge">layoutSubviews</code> 方法内进行布局（根据 self 宽高而不是屏幕或 window 尺寸），这本来也是一个标准做法。对于 <code class="highlighter-rouge">ViewController</code>，系统提供了 <code class="highlighter-rouge">viewWillLayoutSubviews</code> 方法，类似于 <code class="highlighter-rouge">layoutSubviews</code>方法，你可以在这里进行 <code class="highlighter-rouge">vc.view</code> 及其子 <code class="highlighter-rouge">view</code> 的布局。在转屏、分屏后这些方法都会被触发。</p>
+
+<p>需要注意的是，iPad 上不仅有旋转屏幕的操作，还有分屏的操作，系统也提供了进入分屏的系统通知，如果需要可以进行监听。比如大多数拍照 app 会在进入分屏后为用户弹一个分屏无法拍照的 <code class="highlighter-rouge">alert</code>。</p>
+
+  </div><a class="u-url" href="/2019/01/01/%E8%81%8A%E8%81%8A-iPad-%E9%80%82%E9%85%8D.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

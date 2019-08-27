@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Objective-C import 第三方库头文件总结 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Objective-C import 第三方库头文件总结" />
+<meta name="author" content="KANGZUBIN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="当我们的 iOS 工程要引用其它第三方开源库时，一般有以下几种方式：" />
+<meta property="og:description" content="当我们的 iOS 工程要引用其它第三方开源库时，一般有以下几种方式：" />
+<link rel="canonical" href="http://localhost:4000/2018/07/01/Objective-C-import-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6%E6%80%BB%E7%BB%93.html" />
+<meta property="og:url" content="http://localhost:4000/2018/07/01/Objective-C-import-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6%E6%80%BB%E7%BB%93.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"当我们的 iOS 工程要引用其它第三方开源库时，一般有以下几种方式：","author":{"@type":"Person","name":"KANGZUBIN"},"@type":"BlogPosting","url":"http://localhost:4000/2018/07/01/Objective-C-import-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6%E6%80%BB%E7%BB%93.html","headline":"Objective-C import 第三方库头文件总结","dateModified":"2018-07-01T08:00:00+08:00","datePublished":"2018-07-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/07/01/Objective-C-import-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6%E6%80%BB%E7%BB%93.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Objective-C import 第三方库头文件总结</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-01T08:00:00+08:00" itemprop="datePublished">Jul 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">KANGZUBIN</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>当我们的 iOS 工程要引用其它第三方开源库时，一般有以下几种方式：</p>
+
+<p>（1）下载源代码直接拖拽到工程中；</p>
+
+<p>（2）使用 CocoaPods 管理，当开启 <code class="highlighter-rouge">use_frameworks!</code> 标记时，第三方库会被编译成 <code class="highlighter-rouge">.framework</code> 引入工程，否则就会编译成 <code class="highlighter-rouge">.a</code> 静态库；</p>
+
+<p>（3）使用 Carthage 管理，第三方库会被编译成 <code class="highlighter-rouge">.framework</code> 然后导入工程；</p>
+
+<p>（4）直接下载作者编译好的 <code class="highlighter-rouge">.framework</code> 导入工程。</p>
+
+<p>但当我们在代码中要 import 第三方库的头文件时，对于这几种情况，写法都不太一样，以 <code class="highlighter-rouge">AFNetworking</code> 为例，总结如下：</p>
+
+<ul>
+  <li>对于（1）拖拽源码，只能以 <code class="highlighter-rouge">""</code> 引号的方式 import，</li>
+</ul>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "AFNetworking.h"
+</span></code></pre></div></div>
+
+<ul>
+  <li>对于（2）CocoaPods，如果开启 <code class="highlighter-rouge">use_frameworks!</code>，则将编译成 <code class="highlighter-rouge">.framework</code> 库，只能以 <code class="highlighter-rouge">&lt;&gt;</code> 尖括号的方式 import，<strong>此外，对于（3）和（4）也是这样</strong>，</li>
+</ul>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;AFNetworking/AFNetworking.h&gt;
+</span></code></pre></div></div>
+
+<ul>
+  <li>而对于 CocoaPods，如果不开启 <code class="highlighter-rouge">use_frameworks!</code>，则将编译成 <code class="highlighter-rouge">.a</code> 库，此时有如下 3 种方式 import，</li>
+</ul>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "AFNetworking.h"
+</span><span class="c1">// 或者</span>
+<span class="cp">#import &lt;AFNetworking.h&gt;
+</span><span class="c1">// 或者</span>
+<span class="cp">#import &lt;AFNetworking/AFNetworking.h&gt;
+</span></code></pre></div></div>
+
+<p>那么问题来了，如果我们在写一个 SDK 或者私有的 Pods 库，需要宿主 App 工程引用某一个第三方库，如上所述，宿主工程有很多方式引用第三方库，这样我们就无法确定应该以哪种方式 import 头文件，怎么办呢？这时候我们就可以使用 <code class="highlighter-rouge">__has_include()</code> 宏来判断。</p>
+
+<p><code class="highlighter-rouge">__has_include()</code> 宏接收一个预引入的头文件名称（引号或者尖括号都可以）作为参数，如果该头文件能够被引入则返回 <code class="highlighter-rouge">1</code>，否则返回 <code class="highlighter-rouge">0</code>，使用起来如下：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#if __has_include(&lt;AFNetworking/AFNetworking.h&gt;)
+#import &lt;AFNetworking/AFNetworking.h&gt;
+#else
+#import "AFNetworking.h"
+#endif
+</span></code></pre></div></div>
+
+  </div><a class="u-url" href="/2018/07/01/Objective-C-import-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6%E6%80%BB%E7%BB%93.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>我们可以利用 NSURLProtocol 做什么 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="我们可以利用 NSURLProtocol 做什么" />
+<meta name="author" content="halohily" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="今天和大家聊一聊 NSURLProtocol，可能你已经听说过它。因篇幅有限，这里不讲解具体的使用方式，主要是和大家聊一聊我们可以利用 NSURLProtocol 做的一系列事情，权当抛砖引玉，大家可以根据自己的需要去深入了解。" />
+<meta property="og:description" content="今天和大家聊一聊 NSURLProtocol，可能你已经听说过它。因篇幅有限，这里不讲解具体的使用方式，主要是和大家聊一聊我们可以利用 NSURLProtocol 做的一系列事情，权当抛砖引玉，大家可以根据自己的需要去深入了解。" />
+<link rel="canonical" href="http://localhost:4000/2018/04/01/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%88%A9%E7%94%A8-NSURLProtocol-%E5%81%9A%E4%BB%80%E4%B9%88.html" />
+<meta property="og:url" content="http://localhost:4000/2018/04/01/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%88%A9%E7%94%A8-NSURLProtocol-%E5%81%9A%E4%BB%80%E4%B9%88.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"今天和大家聊一聊 NSURLProtocol，可能你已经听说过它。因篇幅有限，这里不讲解具体的使用方式，主要是和大家聊一聊我们可以利用 NSURLProtocol 做的一系列事情，权当抛砖引玉，大家可以根据自己的需要去深入了解。","author":{"@type":"Person","name":"halohily"},"@type":"BlogPosting","url":"http://localhost:4000/2018/04/01/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%88%A9%E7%94%A8-NSURLProtocol-%E5%81%9A%E4%BB%80%E4%B9%88.html","headline":"我们可以利用 NSURLProtocol 做什么","dateModified":"2018-04-01T08:00:00+08:00","datePublished":"2018-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/01/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%88%A9%E7%94%A8-NSURLProtocol-%E5%81%9A%E4%BB%80%E4%B9%88.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">我们可以利用 NSURLProtocol 做什么</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">halohily</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>今天和大家聊一聊 <code class="highlighter-rouge">NSURLProtocol</code>，可能你已经听说过它。因篇幅有限，这里不讲解具体的使用方式，主要是和大家聊一聊我们可以利用 <code class="highlighter-rouge">NSURLProtocol</code> 做的一系列事情，权当抛砖引玉，大家可以根据自己的需要去深入了解。</p>
+
+<p>简单来说 <code class="highlighter-rouge">NSURLProtocol</code> 是苹果 <code class="highlighter-rouge">URL Loading System</code> 中的一个抽象类。通过实现其子类并注册到 app 中，我们可以拦截 <code class="highlighter-rouge">app</code> 中的网络请求。那么拦截网络请求可以做什么呢？这里举几个小例子：</p>
+
+<ul>
+  <li><code class="highlighter-rouge">app</code> 内置了测试服、正式服的切换开关，需要通过开关一键切换所有网络请求使用的 <code class="highlighter-rouge">server</code> 地址。</li>
+  <li>项目内部分模块使用了 <code class="highlighter-rouge">ReactNative</code>，需要动态配置由前端发出的网络请求 <code class="highlighter-rouge">server</code> 地址（特殊在于虽然是前端发出，但并非来自 <code class="highlighter-rouge">webview</code> ）。这个例子和例 1 类似。</li>
+  <li>项目内含有 <code class="highlighter-rouge">hybrid</code> 模块。对 <code class="highlighter-rouge">hybrid</code> 页面加速的一个策略，可以是客户端在合适时机提前缓存资源文件，并且以与 <code class="highlighter-rouge">webview</code> 加载资源的路径相对应的方式存储在本地。这样当 <code class="highlighter-rouge">webview</code> 加载资源时，通过拦截判断是否是本地已经存在的资源的请求，如果是，则使用本地资源构造 <code class="highlighter-rouge">response</code> 。这样可以显著提升被过多资源请求影响的加载速度。</li>
+  <li>限制 <code class="highlighter-rouge">app</code> 内 <code class="highlighter-rouge">webview</code> 的跳转行为，例如禁止向某域名下的跳转，或者对于某个域名下的跳转做重定向操作。当然这些使用 <code class="highlighter-rouge">webview</code> 的代理方法也可以做到。</li>
+  <li>对于 <code class="highlighter-rouge">app</code> 内发出的所有网络请求，需要添加公共的 <code class="highlighter-rouge">header</code> 内容。</li>
+  <li>需要统计 <code class="highlighter-rouge">app</code> 内各处对某个 <code class="highlighter-rouge">api</code> 的调用次数等数据。</li>
+  <li>需要统计 <code class="highlighter-rouge">app</code> 内的网络请求失败率。</li>
+</ul>
+
+<p>参考链接：</p>
+
+<ul>
+  <li>https://juejin.im/post/584f9d0a128fe10058b8c4b6</li>
+</ul>
+
+  </div><a class="u-url" href="/2018/04/01/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%88%A9%E7%94%A8-NSURLProtocol-%E5%81%9A%E4%BB%80%E4%B9%88.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

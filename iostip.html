@@ -1,7 +1,7 @@
 ---
-layout: nav-page
 title: 
 permalink: /iostip/
+layout: nav-page
 ---
 
 <div class="page-top-box">
@@ -11,12 +11,12 @@ permalink: /iostip/
 
 <div class="site-list-box">
 
-    {%- for item in site.data.iostip.list.datas -%}
+    {%- for item in site.posts -%}
     <div class="site-list-item">
-        <p class="site-list-item-title"><a class="site-list-item-title" target="_black" href="{{item.href}}">{{item.title}}</a><span class="site-list-item-tag">
-            {{item.tag}}
-        </span></p>
-        <p class="site-list-item-des"> <a class="site-list-item-des" target="_black" href="{{item.href}}">{{item.des}}</a></p>
+    <p class="site-list-item-title"><a class="site-list-item-title" target="_black" href="{{item.url}}">{{item.title}}</a>
+    
+    </p>
+        <p class="site-list-item-des site-iostips-list-item-des"> <a class="site-list-item-des" target="_black" href="{{item.url}}">{{ item.content | strip_html | truncatewords: 5 }}</a></p>
     </div>
     {%- endfor -%}
 </div>

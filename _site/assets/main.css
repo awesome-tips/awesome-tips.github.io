@@ -600,7 +600,8 @@ item
  * Posts
  */
 .post-header {
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  margin-top: 30px; }
 
 .post-title {
   font-size: 42px;

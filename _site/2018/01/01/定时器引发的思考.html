@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>定时器引发的思考 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="定时器引发的思考" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="当使用 AudioServicesPlaySystemSoundWithCompletion 播放完一段音频后，在回调中开启一个定时器，然后发现定时器不执行，代码是这样的：" />
+<meta property="og:description" content="当使用 AudioServicesPlaySystemSoundWithCompletion 播放完一段音频后，在回调中开启一个定时器，然后发现定时器不执行，代码是这样的：" />
+<link rel="canonical" href="http://localhost:4000/2018/01/01/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html" />
+<meta property="og:url" content="http://localhost:4000/2018/01/01/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"当使用 AudioServicesPlaySystemSoundWithCompletion 播放完一段音频后，在回调中开启一个定时器，然后发现定时器不执行，代码是这样的：","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/01/01/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html","headline":"定时器引发的思考","dateModified":"2018-01-01T08:00:00+08:00","datePublished":"2018-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/01/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">定时器引发的思考</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>当使用 <code class="highlighter-rouge">AudioServicesPlaySystemSoundWithCompletion</code> 播放完一段音频后，在回调中开启一个定时器，然后发现定时器不执行，代码是这样的：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">AudioServicesPlaySystemSoundWithCompletion</span><span class="p">(</span><span class="n">sysSoundID</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+    <span class="n">AudioServicesDisposeSystemSoundID</span><span class="p">(</span><span class="n">sysSoundID</span><span class="p">);</span>
+    <span class="n">NSTimer</span> <span class="o">*</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSTimer</span> <span class="nf">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="n">selector</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">lefexTimerAction</span><span class="o">:</span><span class="p">)</span> <span class="n">userInfo</span><span class="o">:</span><span class="nb">nil</span> <span class="n">repeats</span><span class="o">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">});</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">lefexTimerAction</span><span class="p">:(</span><span class="n">NSTimer</span><span class="o">*</span><span class="p">)</span><span class="nv">timer</span>
+<span class="p">{</span>
+   <span class="c1">// 这个方法并不会执行</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>如果我把代码改成下面这样，定时器可以正常执行，但是发现方法 <code class="highlighter-rouge">lefexTimerAction:</code> 并不在主线程中执行，而是在开启定时器对应的线程中执行，代码如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AudioServicesPlaySystemSoundWithCompletion(sysSoundID, ^{
+   AudioServicesDisposeSystemSoundID(sysSoundID);
+   NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(handlePageStayTimer:) userInfo:nil repeats:YES];
+   [[NSRunLoop currentRunLoop] run];
+ });
+</code></pre></div></div>
+
+<p>看到这里，相信你已经明白是什么原因了。</p>
+
+<p>系统音频播放完成后回调并不在主线程，导致开启定时器时不在主线程。<code class="highlighter-rouge">Timer</code> 和 <code class="highlighter-rouge">runLoop</code> 是一起工作的，没有 <code class="highlighter-rouge">runLoop</code>，定时器不能正常执行。而系统中只有 <code class="highlighter-rouge">mainRunLoop</code> 会默认开启，这就是为什么在主线程创建定时器可以正常执行的原因。</p>
+
+<p><code class="highlighter-rouge">runLoop</code> 会强引用 <code class="highlighter-rouge">timer</code>，这就是我们经常所说的为什么 <code class="highlighter-rouge">timer</code> 会导致内存泄漏，即使在 <code class="highlighter-rouge">dealloc</code> 中释放 <code class="highlighter-rouge">timer</code>，也不能避免内存泄漏，因为 <code class="highlighter-rouge">dealloc</code> 就不会执行。</p>
+
+<p>查看 <code class="highlighter-rouge">runLoop</code> 中的 <code class="highlighter-rouge">timer</code> 信息发现，它会记录 <code class="highlighter-rouge">timer</code> 下次要执行的时间，当 <code class="highlighter-rouge">runLoop</code> 到下一次循环的时候，会检测 <code class="highlighter-rouge">timer</code> 是否需要执行，这也就是 <code class="highlighter-rouge">timer</code> 不准的原因，因为每一次 <code class="highlighter-rouge">runloop</code> 后才会执行 <code class="highlighter-rouge">timer</code> 的事件。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+  <span class="n">valid</span> <span class="o">=</span> <span class="n">Yes</span><span class="p">,</span>
+  <span class="n">firing</span> <span class="o">=</span> <span class="n">No</span><span class="p">,</span>
+  <span class="n">interval</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">tolerance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">next</span> <span class="n">fire</span> <span class="n">date</span> <span class="o">=</span> <span class="mi">538315424</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">.</span><span class="mi">348737</span> <span class="err">@</span> <span class="mi">113761747014063</span><span class="p">),</span>
+  <span class="n">callout</span> <span class="o">=</span> <span class="p">(</span><span class="n">NSTimer</span><span class="p">)</span> <span class="p">[</span><span class="n">Lefex</span> <span class="nf">handlePageStayTimer</span><span class="p">:],</span>
+  <span class="n">context</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">CFRunLoopTimer</span> <span class="n">context</span> <span class="mh">0x600000226680</span><span class="o">&gt;</span>
+ <span class="p">}</span>
+</code></pre></div></div>
+
+<p>总结：
+从上面的问题来看，<code class="highlighter-rouge">NSTimer</code>对学习 <code class="highlighter-rouge">runLoop</code> 有很大帮助。<code class="highlighter-rouge">runLoop</code> 和线程是一一对应的，而除主线程外，其他线程对应的 <code class="highlighter-rouge">runLoop</code> 并没有创建，当调用 <code class="highlighter-rouge">[NSRunLoop currentRunLoop]</code> 时会创建这个线程对应的 <code class="highlighter-rouge">runLoop</code>，定时器能跑起来的前提是 <code class="highlighter-rouge">runLoop</code> 必须 <code class="highlighter-rouge">run</code>。</p>
+
+  </div><a class="u-url" href="/2018/01/01/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

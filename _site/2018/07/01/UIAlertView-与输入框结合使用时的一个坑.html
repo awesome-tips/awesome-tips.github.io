@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>UIAlertView 与输入框结合使用时的一个坑 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="UIAlertView 与输入框结合使用时的一个坑" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="相信 UIAlertView 大家应该都很熟悉，但是最近遇到一个坑。" />
+<meta property="og:description" content="相信 UIAlertView 大家应该都很熟悉，但是最近遇到一个坑。" />
+<link rel="canonical" href="http://localhost:4000/2018/07/01/UIAlertView-%E4%B8%8E%E8%BE%93%E5%85%A5%E6%A1%86%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html" />
+<meta property="og:url" content="http://localhost:4000/2018/07/01/UIAlertView-%E4%B8%8E%E8%BE%93%E5%85%A5%E6%A1%86%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"相信 UIAlertView 大家应该都很熟悉，但是最近遇到一个坑。","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2018/07/01/UIAlertView-%E4%B8%8E%E8%BE%93%E5%85%A5%E6%A1%86%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html","headline":"UIAlertView 与输入框结合使用时的一个坑","dateModified":"2018-07-01T08:00:00+08:00","datePublished":"2018-07-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/07/01/UIAlertView-%E4%B8%8E%E8%BE%93%E5%85%A5%E6%A1%86%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">UIAlertView 与输入框结合使用时的一个坑</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-01T08:00:00+08:00" itemprop="datePublished">Jul 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>相信 <code class="highlighter-rouge">UIAlertView</code> 大家应该都很熟悉，但是最近遇到一个坑。</p>
+
+<p>由于历史原因，项目中还在大量使用 <code class="highlighter-rouge">UIAlertView</code>。某天测试过来反馈说，评论框字符长度超过最大长度时，点击发送，弹出一个 <code class="highlighter-rouge">alert</code> 提示，点击确定后，评论框无法在被激活，也就是没法弹出键盘了。很是怪异，<code class="highlighter-rouge">debug</code> 无果，搜了一下 <code class="highlighter-rouge">stackoverflow</code>，发现有人遇到过类似的问题，可以点击末尾的参考链接来查看具体详情。</p>
+
+<p>他给出的解决方案就是把这种情况下的 <code class="highlighter-rouge">UIAlertView</code> 换成 <code class="highlighter-rouge">UIAlertController</code>。试了下这种方式，果然是可行的，由于之前 <code class="highlighter-rouge">UIAlertView</code> 是不依赖其它视图层级的，创建后直接 <code class="highlighter-rouge">show</code> 就可以了，所以很多地方直接写在了非视图控制器类中。在换成 <code class="highlighter-rouge">UIAlertController</code> 之后，由于它是继承自 <code class="highlighter-rouge">UIViewController</code> 的，所以必须要有 VC 把它 <code class="highlighter-rouge">present</code> 起来。解决方案也很简单，写一个 <code class="highlighter-rouge">UIViewController</code> 的分类获取当前顶部可见的 <code class="highlighter-rouge">ViewController</code>，然后在上面 <code class="highlighter-rouge">present</code> 出 <code class="highlighter-rouge">UIAlertController</code> 即可，获取顶部可见 <code class="highlighter-rouge">ViewController</code> 的代码随便一搜就可以找到，这边就不贴了。</p>
+
+<blockquote>
+  <p>PS：<code class="highlighter-rouge">UIAlertController</code> 是 <code class="highlighter-rouge">iOS8</code> 以后才提供的，不过相信大家也不用适配 <code class="highlighter-rouge">iOS8</code> 之前的系统了吧😂。如果还要适配，那就只能做版本区分了。。。</p>
+</blockquote>
+
+<p><strong>参考</strong></p>
+
+<p><a href="https://stackoverflow.com/questions/32744209/ios-9-keyboard-pops-up-after-uialertview-dismissed">iOS 9 - Keyboard pops up after UIAlertView dismissed</a></p>
+
+  </div><a class="u-url" href="/2018/07/01/UIAlertView-%E4%B8%8E%E8%BE%93%E5%85%A5%E6%A1%86%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

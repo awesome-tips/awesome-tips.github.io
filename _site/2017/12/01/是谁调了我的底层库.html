@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>是谁调了我的底层库 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="是谁调了我的底层库" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="调试的时候，往往底层库会埋一些 NSLog 来调试，使用下面这种方式打印出来的函数名称 __PRETTY_FUNCTION__ 是底层库的函数名。" />
+<meta property="og:description" content="调试的时候，往往底层库会埋一些 NSLog 来调试，使用下面这种方式打印出来的函数名称 __PRETTY_FUNCTION__ 是底层库的函数名。" />
+<link rel="canonical" href="http://localhost:4000/2017/12/01/%E6%98%AF%E8%B0%81%E8%B0%83%E4%BA%86%E6%88%91%E7%9A%84%E5%BA%95%E5%B1%82%E5%BA%93.html" />
+<meta property="og:url" content="http://localhost:4000/2017/12/01/%E6%98%AF%E8%B0%81%E8%B0%83%E4%BA%86%E6%88%91%E7%9A%84%E5%BA%95%E5%B1%82%E5%BA%93.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-12-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"调试的时候，往往底层库会埋一些 NSLog 来调试，使用下面这种方式打印出来的函数名称 __PRETTY_FUNCTION__ 是底层库的函数名。","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2017/12/01/%E6%98%AF%E8%B0%81%E8%B0%83%E4%BA%86%E6%88%91%E7%9A%84%E5%BA%95%E5%B1%82%E5%BA%93.html","headline":"是谁调了我的底层库","dateModified":"2017-12-01T08:00:00+08:00","datePublished":"2017-12-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/12/01/%E6%98%AF%E8%B0%81%E8%B0%83%E4%BA%86%E6%88%91%E7%9A%84%E5%BA%95%E5%B1%82%E5%BA%93.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">是谁调了我的底层库</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-12-01T08:00:00+08:00" itemprop="datePublished">Dec 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>调试的时候，往往底层库会埋一些 <code class="highlighter-rouge">NSLog</code> 来调试，使用下面这种方式打印出来的函数名称 <code class="highlighter-rouge">__PRETTY_FUNCTION__</code> 是底层库的函数名。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#   define LEFLog(fmt, ...) NSLog((@"%s (%d) =&gt; " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+</span></code></pre></div></div>
+
+<p>打印是这样的：+[Network post] 中打印了 <code class="highlighter-rouge">I am a log</code>，而不清楚是谁调用了。</p>
+
+<p><code class="highlighter-rouge">+[Network post] (22) =&gt; I am a log</code></p>
+
+<p>但是，我想要的是我在最顶层调用时的函数名，这样我可以很容易的看到是那个方法调用了底层库。</p>
+
+<p>不太理解？举个例子吧：
+每个 APP 都会有一个网络层，业务层会直接与网络层进行交互。调试的时候，我想知道 A 请求是在哪个页面中的哪个函数被调用了，咋么办？前提是 <code class="highlighter-rouge">NSLog</code> 在底层库。我们可以这样实现：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@implementation</span> <span class="nc">LEFLog</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">lastCallMethod</span>
+<span class="p">{</span>
+    <span class="n">NSArray</span> <span class="o">*</span><span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSThread</span> <span class="nf">callStackSymbols</span><span class="p">];</span>
+    <span class="n">NSInteger</span> <span class="n">maxCount</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">secondSymbol</span> <span class="o">=</span> <span class="n">maxCount</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="p">?</span> <span class="n">symbols</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">:</span> <span class="p">(</span><span class="n">maxCount</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">?</span> <span class="n">symbols</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="p">[</span><span class="n">symbols</span> <span class="nf">firstObject</span><span class="p">]);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">secondSymbol</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">@""</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">@"[+-]</span><span class="se">\\</span><span class="s">[.{0,}</span><span class="se">\\</span><span class="s">]"</span><span class="p">;</span>
+    <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+    <span class="n">NSRegularExpression</span> <span class="o">*</span><span class="n">express</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSRegularExpression</span> <span class="nf">regularExpressionWithPattern</span><span class="p">:</span><span class="n">pattern</span> <span class="nf">options</span><span class="p">:</span><span class="n">kNilOptions</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">error</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+        <span class="k">return</span> <span class="s">@""</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">NSTextCheckingResult</span> <span class="o">*</span><span class="n">checkResult</span> <span class="o">=</span> <span class="p">[[</span><span class="n">express</span> <span class="nf">matchesInString</span><span class="p">:</span><span class="n">secondSymbol</span> <span class="nf">options</span><span class="p">:</span><span class="n">NSMatchingReportCompletion</span> <span class="nf">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">secondSymbol</span><span class="p">.</span><span class="n">length</span><span class="p">)]</span> <span class="n">lastObject</span><span class="p">];</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">findStr</span> <span class="o">=</span> <span class="p">[</span><span class="n">secondSymbol</span> <span class="nf">substringWithRange</span><span class="p">:</span><span class="n">checkResult</span><span class="p">.</span><span class="n">range</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">findStr</span> <span class="p">?:</span> <span class="s">@""</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>然后定义一个宏：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#   define LEFLog(fmt, ...) NSLog((@"%@, %s (%d) =&gt; " fmt), [LEFLog lastCallMethod], __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__
+</span></code></pre></div></div>
+
+<p>打印结果是这样的：在 <code class="highlighter-rouge">LefexViewController</code>  中的 <code class="highlighter-rouge">viewDidLoad</code> 调用了 <code class="highlighter-rouge">Network </code> 的 <code class="highlighter-rouge">post</code> 方法，并打印 <code class="highlighter-rouge">I am a log</code>.</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-</span><span class="p">[</span><span class="n">LefexViewController</span> <span class="nf">viewDidLoad</span><span class="p">],</span> <span class="o">+</span><span class="p">[</span><span class="n">Network</span> <span class="nf">post</span><span class="p">]</span> <span class="p">(</span><span class="mi">22</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">I</span> <span class="n">am</span> <span class="n">a</span> <span class="n">log</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/2017/12/01/%E6%98%AF%E8%B0%81%E8%B0%83%E4%BA%86%E6%88%91%E7%9A%84%E5%BA%95%E5%B1%82%E5%BA%93.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

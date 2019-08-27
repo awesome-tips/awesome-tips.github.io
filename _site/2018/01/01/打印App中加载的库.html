@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>打印App中加载的库 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="打印App中加载的库" />
+<meta name="author" content="南峰子_老驴" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="之前分享过配置环境变量 DYLD_PRINT_STATISTICS，来在控制台打印出程序启动过程中各个阶段所消耗的时间。今天再分享两个环境变量：DYLD_PRINT_LIBRARIES 和 DYLD_PRINT_LIBRARIES_POST_LAUNCH，这两个变量用于打印 dyld 加载的库，如下代码所示：" />
+<meta property="og:description" content="之前分享过配置环境变量 DYLD_PRINT_STATISTICS，来在控制台打印出程序启动过程中各个阶段所消耗的时间。今天再分享两个环境变量：DYLD_PRINT_LIBRARIES 和 DYLD_PRINT_LIBRARIES_POST_LAUNCH，这两个变量用于打印 dyld 加载的库，如下代码所示：" />
+<link rel="canonical" href="http://localhost:4000/2018/01/01/%E6%89%93%E5%8D%B0App%E4%B8%AD%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%BA%93.html" />
+<meta property="og:url" content="http://localhost:4000/2018/01/01/%E6%89%93%E5%8D%B0App%E4%B8%AD%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%BA%93.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"之前分享过配置环境变量 DYLD_PRINT_STATISTICS，来在控制台打印出程序启动过程中各个阶段所消耗的时间。今天再分享两个环境变量：DYLD_PRINT_LIBRARIES 和 DYLD_PRINT_LIBRARIES_POST_LAUNCH，这两个变量用于打印 dyld 加载的库，如下代码所示：","author":{"@type":"Person","name":"南峰子_老驴"},"@type":"BlogPosting","url":"http://localhost:4000/2018/01/01/%E6%89%93%E5%8D%B0App%E4%B8%AD%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%BA%93.html","headline":"打印App中加载的库","dateModified":"2018-01-01T08:00:00+08:00","datePublished":"2018-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/01/%E6%89%93%E5%8D%B0App%E4%B8%AD%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%BA%93.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">打印App中加载的库</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">南峰子_老驴</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>之前分享过配置环境变量 <code class="highlighter-rouge">DYLD_PRINT_STATISTICS</code>，来在控制台打印出程序启动过程中各个阶段所消耗的时间。今天再分享两个环境变量：<code class="highlighter-rouge">DYLD_PRINT_LIBRARIES</code> 和 <code class="highlighter-rouge">DYLD_PRINT_LIBRARIES_POST_LAUNCH</code>，这两个变量用于打印 <code class="highlighter-rouge">dyld</code> 加载的库，如下代码所示：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">dyld:</span> <span class="nl">loaded:</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">containers</span><span class="o">/</span><span class="n">Bundle</span><span class="o">/</span><span class="n">Application</span><span class="o">/</span><span class="mi">717397</span><span class="n">DD</span><span class="o">-</span><span class="n">AE3E</span><span class="o">-</span><span class="mi">457</span><span class="n">F</span><span class="o">-</span><span class="n">A446</span><span class="o">-</span><span class="mi">609883</span><span class="n">FF865C</span><span class="o">/</span><span class="n">ChangeIcon</span><span class="p">.</span><span class="n">app</span><span class="o">/</span><span class="n">ChangeIcon</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libBacktraceRecording</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libMainThreadChecker</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">PrivateFrameworks</span><span class="o">/</span><span class="n">DTDDISupport</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">libViewDebuggerSupport</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">Foundation</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Foundation</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libobjc</span><span class="p">.</span><span class="n">A</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libSystem</span><span class="p">.</span><span class="n">B</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">CoreFoundation</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">CoreFoundation</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">UIKit</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">UIKit</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libarchive</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libicucore</span><span class="p">.</span><span class="n">A</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libxml2</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libz</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="n">dylib</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">CFNetwork</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">CFNetwork</span>
+<span class="n">dyld</span><span class="o">:</span> <span class="n">loaded</span><span class="o">:</span> <span class="o">/</span><span class="n">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">SystemConfiguration</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">SystemConfiguration</span>
+<span class="p">......</span>
+</code></pre></div></div>
+
+<p>两者的区别在于 <code class="highlighter-rouge">DYLD_PRINT_LIBRARIES</code> 会打印出所有被加载的库，而 <code class="highlighter-rouge">DYLD_PRINT_LIBRARIES_POST_LAUNCH</code> 打印的是通过 <code class="highlighter-rouge">dlopen</code> 调用返回的库，包括动态库的依赖库，主要发生在 <code class="highlighter-rouge">main</code> 函数运行之后。</p>
+
+<p>参考：<a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/DynamicLibraries/100-Articles/LoggingDynamicLoaderEvents.html">Logging Dynamic Loader Events</a></p>
+
+  </div><a class="u-url" href="/2018/01/01/%E6%89%93%E5%8D%B0App%E4%B8%AD%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%BA%93.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

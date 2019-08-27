@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>-warn-long-expression-type-checking标识 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="-warn-long-expression-type-checking标识" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Swift的类型检测(type-checker)是编译时的一个性能瓶颈。" />
+<meta property="og:description" content="Swift的类型检测(type-checker)是编译时的一个性能瓶颈。" />
+<link rel="canonical" href="http://localhost:4000/2017/09/01/warn-long-expression-type-checking%E6%A0%87%E8%AF%86.html" />
+<meta property="og:url" content="http://localhost:4000/2017/09/01/warn-long-expression-type-checking%E6%A0%87%E8%AF%86.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"Swift的类型检测(type-checker)是编译时的一个性能瓶颈。","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/09/01/warn-long-expression-type-checking%E6%A0%87%E8%AF%86.html","headline":"-warn-long-expression-type-checking标识","dateModified":"2017-09-01T08:00:00+08:00","datePublished":"2017-09-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/09/01/warn-long-expression-type-checking%E6%A0%87%E8%AF%86.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">-warn-long-expression-type-checking标识</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-09-01T08:00:00+08:00" itemprop="datePublished">Sep 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Swift的类型检测(<code class="highlighter-rouge">type-checker</code>)是编译时的一个性能瓶颈。</p>
+
+<p>在Xcode 9中添加了一个编译器标识位<code class="highlighter-rouge">-warn-long-expression-type-checking</code>，可以对那些耗时长的类型检测操作给出警告。</p>
+
+<p>我们可以在<code class="highlighter-rouge">Build Settings</code>-&gt;<code class="highlighter-rouge">Swift Compiler - Custom Flags</code>-&gt;<code class="highlighter-rouge">Other Swift Flags</code>中添加这个标识：<code class="highlighter-rouge">-Xfrontend -warn-long-expression-type-checking=&lt;limit&gt;</code>；其中<code class="highlighter-rouge">&lt;limit&gt;</code>是个阈值，以毫秒为单位，超出这个值的类型检测就给出警告。</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/09/27-1-1.png?raw=true" alt="" /></p>
+
+<p>编译的警告信息如下图所示。</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/09/27-1-2.png?raw=true" alt="" /></p>
+
+<p>获取警告信息之后，就可以根据需要去优化对应的操作。至于<code class="highlighter-rouge">&lt;limit&gt;</code>，可以凭经验设置，设置低了，可能会产生大量的警告信息。建议从高到低设置，先优化耗时高的。另外，建议只在<code class="highlighter-rouge">DEBUG</code>模式下开启。</p>
+
+<p>另外，在Xcode 9之前可以使用<code class="highlighter-rouge">-warn-long-function-bodies</code>标识(Xcode 9仍然保留)，这个是警告哪个方法的类型检测超过阈值。可以尝试一下。</p>
+
+<p>参考</p>
+
+<ol>
+  <li><a href="https://www.jessesquires.com/blog/measuring-compile-times-xcode9/">Measuring Swift compile times in Xcode 9</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2017/09/01/warn-long-expression-type-checking%E6%A0%87%E8%AF%86.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

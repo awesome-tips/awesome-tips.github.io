@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>SwiftLint | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="SwiftLint" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="realm开源了一套Swift代码规范检测工具SwiftLint，它可以对代码做静态分析，以确定代码是否遵循所定制的规范(目前主要基于Github的编码规范)。" />
+<meta property="og:description" content="realm开源了一套Swift代码规范检测工具SwiftLint，它可以对代码做静态分析，以确定代码是否遵循所定制的规范(目前主要基于Github的编码规范)。" />
+<link rel="canonical" href="http://localhost:4000/2017/02/01/SwiftLint.html" />
+<meta property="og:url" content="http://localhost:4000/2017/02/01/SwiftLint.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-02-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"realm开源了一套Swift代码规范检测工具SwiftLint，它可以对代码做静态分析，以确定代码是否遵循所定制的规范(目前主要基于Github的编码规范)。","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/02/01/SwiftLint.html","headline":"SwiftLint","dateModified":"2017-02-01T08:00:00+08:00","datePublished":"2017-02-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/02/01/SwiftLint.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">SwiftLint</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-02-01T08:00:00+08:00" itemprop="datePublished">Feb 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><code class="highlighter-rouge">realm</code>开源了一套<code class="highlighter-rouge">Swift</code>代码规范检测工具<a href="https://github.com/realm/SwiftLint">SwiftLint</a>，它可以对代码做静态分析，以确定代码是否遵循所定制的规范(目前主要基于<a href="https://github.com/github/swift-style-guide">Github的编码规范</a>)。</p>
+
+<p>SwiftLint目前有70+条<a href="https://github.com/realm/SwiftLint/blob/master/Source/SwiftLintFramework/Rules">规则</a>，同时社区还在不断贡献新的规则。支持的编辑器包括<code class="highlighter-rouge">Xcode</code>、<code class="highlighter-rouge">AppCode</code>、<code class="highlighter-rouge">Atom</code>，同时还支持命令行。</p>
+
+<p>其执行的基本效果如下图所示。</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/02/04-1-1.png?raw=true" alt="" /></p>
+
+
+  </div><a class="u-url" href="/2017/02/01/SwiftLint.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

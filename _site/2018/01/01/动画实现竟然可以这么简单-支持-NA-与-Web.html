@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>动画实现竟然可以这么简单，支持 NA 与 Web | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="动画实现竟然可以这么简单，支持 NA 与 Web" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="你有没有想过，一个复杂的类似 Twitter 点赞动画使用一行代码就可以完成，而且基本不需要调整什么参数就可以达到 UE 的要求，从几天的工作量可以缩短到几分钟。而这一切多亏了 Lottie，它可以帮我们实现这一切。只需要有个由 Bodymovin 导出的 Json 文件，即可轻松实现 UE 提供的动效。" />
+<meta property="og:description" content="你有没有想过，一个复杂的类似 Twitter 点赞动画使用一行代码就可以完成，而且基本不需要调整什么参数就可以达到 UE 的要求，从几天的工作量可以缩短到几分钟。而这一切多亏了 Lottie，它可以帮我们实现这一切。只需要有个由 Bodymovin 导出的 Json 文件，即可轻松实现 UE 提供的动效。" />
+<link rel="canonical" href="http://localhost:4000/2018/01/01/%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0%E7%AB%9F%E7%84%B6%E5%8F%AF%E4%BB%A5%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95-%E6%94%AF%E6%8C%81-NA-%E4%B8%8E-Web.html" />
+<meta property="og:url" content="http://localhost:4000/2018/01/01/%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0%E7%AB%9F%E7%84%B6%E5%8F%AF%E4%BB%A5%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95-%E6%94%AF%E6%8C%81-NA-%E4%B8%8E-Web.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"你有没有想过，一个复杂的类似 Twitter 点赞动画使用一行代码就可以完成，而且基本不需要调整什么参数就可以达到 UE 的要求，从几天的工作量可以缩短到几分钟。而这一切多亏了 Lottie，它可以帮我们实现这一切。只需要有个由 Bodymovin 导出的 Json 文件，即可轻松实现 UE 提供的动效。","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/01/01/%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0%E7%AB%9F%E7%84%B6%E5%8F%AF%E4%BB%A5%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95-%E6%94%AF%E6%8C%81-NA-%E4%B8%8E-Web.html","headline":"动画实现竟然可以这么简单，支持 NA 与 Web","dateModified":"2018-01-01T08:00:00+08:00","datePublished":"2018-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/01/%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0%E7%AB%9F%E7%84%B6%E5%8F%AF%E4%BB%A5%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95-%E6%94%AF%E6%8C%81-NA-%E4%B8%8E-Web.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">动画实现竟然可以这么简单，支持 NA 与 Web</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>你有没有想过，一个复杂的类似 <code class="highlighter-rouge">Twitter</code> 点赞动画使用一行代码就可以完成，而且基本不需要调整什么参数就可以达到 UE 的要求，从几天的工作量可以缩短到几分钟。而这一切多亏了 <code class="highlighter-rouge">Lottie</code>，它可以帮我们实现这一切。只需要有个由 <code class="highlighter-rouge">Bodymovin</code> 导出的 <code class="highlighter-rouge">Json</code> 文件，即可轻松实现 <code class="highlighter-rouge">UE</code> 提供的动效。</p>
+
+<p><code class="highlighter-rouge">Lottie</code> 是由 <a href="http://airbnb.io">Airbnb</a> 开源的库，它支持 iOS, macOS， Android ，React Native 和 Web。它主要通过解析一个由 <code class="highlighter-rouge">Bodymovin</code> 导出的 <code class="highlighter-rouge">Json</code> 文件，然后在 <code class="highlighter-rouge">NA</code> 和 <code class="highlighter-rouge">Web</code> 上渲染动画。而这些动画最初通过 <code class="highlighter-rouge">Adobe After Effects</code> 软件设计。</p>
+
+<p><code class="highlighter-rouge">Adobe After Effects</code> 简称 “AE” 是 <code class="highlighter-rouge">Adobe</code> 公司推出的一款图形视频处理软件，适用于从事设计和视频特技的机构，包括电视台、动画制作公司、个人后期制作工作室以及多媒体工作室。</p>
+
+<p><code class="highlighter-rouge">Bodymovin</code> 是 <code class="highlighter-rouge">Adobe After Effects</code> 的一个插件，可以把通过 <code class="highlighter-rouge">AE</code> 做出的动画，导出为 <code class="highlighter-rouge">Json</code> 文件，而 <code class="highlighter-rouge">Lottie</code> 直接使用导出的 <code class="highlighter-rouge">Json</code> 文件在手机端渲染动画。</p>
+
+<p>看看具体的一个 <code class="highlighter-rouge">Twitter</code> 点赞动画实例：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">LOTAnimatedSwitch</span> <span class="o">*</span><span class="n">heartIcon</span> <span class="o">=</span> <span class="p">[</span><span class="n">LOTAnimatedSwitch</span> <span class="nf">switchNamed</span><span class="p">:</span><span class="s">@"TwitterHeart"</span><span class="p">];</span>
+<span class="n">heartIcon</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">heartIcon</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">Lottie</code> 可以直接创建一个动画视图添加到另一个视图上，既可以完成显示。而它的原理就是通过解析 <code class="highlighter-rouge">Json</code> 文件生成一个 <code class="highlighter-rouge">LOTComposition</code> 类，来管理动画所需要的参数，然后利用原生类实现动画效果。目前主要支持的动画特性有：</p>
+
+<ol>
+  <li>转场动画；</li>
+  <li>通过 <code class="highlighter-rouge">Json</code> 文件渲染动画；</li>
+  <li>可以通过一个动画播放器来播放动画，拖到进度条，查看动画的实现，这对自己实现一个原生动画非常有帮助；</li>
+  <li>在运行时修改动画；</li>
+</ol>
+
+  </div><a class="u-url" href="/2018/01/01/%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0%E7%AB%9F%E7%84%B6%E5%8F%AF%E4%BB%A5%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95-%E6%94%AF%E6%8C%81-NA-%E4%B8%8E-Web.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>解决React Native引入realm导致编译卡顿问题 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="解决React Native引入realm导致编译卡顿问题" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在React Native项目中引入realm后，在编译阶段，网络状况不好的时候会卡在realm模块下载的地方。现象是如果在终端用react-native run-ios，则会卡在Download realm-sync-cocoa-${version}.tar.xz，如果是Xcode，则会卡在Build ${ProjectName}: RealmJS这一块。" />
+<meta property="og:description" content="在React Native项目中引入realm后，在编译阶段，网络状况不好的时候会卡在realm模块下载的地方。现象是如果在终端用react-native run-ios，则会卡在Download realm-sync-cocoa-${version}.tar.xz，如果是Xcode，则会卡在Build ${ProjectName}: RealmJS这一块。" />
+<link rel="canonical" href="http://localhost:4000/2017/11/01/%E8%A7%A3%E5%86%B3React-Native%E5%BC%95%E5%85%A5realm%E5%AF%BC%E8%87%B4%E7%BC%96%E8%AF%91%E5%8D%A1%E9%A1%BF%E9%97%AE%E9%A2%98.html" />
+<meta property="og:url" content="http://localhost:4000/2017/11/01/%E8%A7%A3%E5%86%B3React-Native%E5%BC%95%E5%85%A5realm%E5%AF%BC%E8%87%B4%E7%BC%96%E8%AF%91%E5%8D%A1%E9%A1%BF%E9%97%AE%E9%A2%98.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-11-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在React Native项目中引入realm后，在编译阶段，网络状况不好的时候会卡在realm模块下载的地方。现象是如果在终端用react-native run-ios，则会卡在Download realm-sync-cocoa-${version}.tar.xz，如果是Xcode，则会卡在Build ${ProjectName}: RealmJS这一块。","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/11/01/%E8%A7%A3%E5%86%B3React-Native%E5%BC%95%E5%85%A5realm%E5%AF%BC%E8%87%B4%E7%BC%96%E8%AF%91%E5%8D%A1%E9%A1%BF%E9%97%AE%E9%A2%98.html","headline":"解决React Native引入realm导致编译卡顿问题","dateModified":"2017-11-01T08:00:00+08:00","datePublished":"2017-11-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/11/01/%E8%A7%A3%E5%86%B3React-Native%E5%BC%95%E5%85%A5realm%E5%AF%BC%E8%87%B4%E7%BC%96%E8%AF%91%E5%8D%A1%E9%A1%BF%E9%97%AE%E9%A2%98.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">解决React Native引入realm导致编译卡顿问题</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-11-01T08:00:00+08:00" itemprop="datePublished">Nov 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在<code class="highlighter-rouge">React Native</code>项目中引入<code class="highlighter-rouge">realm</code>后，在编译阶段，网络状况不好的时候会卡在realm模块下载的地方。现象是如果在终端用<code class="highlighter-rouge">react-native run-ios</code>，则会卡在<code class="highlighter-rouge">Download realm-sync-cocoa-${version}.tar.xz</code>，如果是Xcode，则会卡在<code class="highlighter-rouge">Build ${ProjectName}: RealmJS</code>这一块。</p>
+
+<p>这主要是因为realm的库太大(<code class="highlighter-rouge">realm-sync-cocoa-${version}.tar.xz</code>包大概是50+M)。所以我们可以考虑把包先下载到本地，以减少每次编译的时间。</p>
+
+<ol>
+  <li>我们可以从<code class="highlighter-rouge">realm-cocoa</code>的<a href="https://github.com/realm/realm-cocoa/blob/master/build.sh#L289">build.sh文件</a>中找到<code class="highlighter-rouge">realm-sync-cocoa-${version}.tar.xz</code>的下载地址(注：${version}是具体的版本号)，下载文件。</li>
+  <li>在命令行输入<code class="highlighter-rouge">getconf DARWIN_USER_TEMP_DIR</code>，获取文件下载的临时目录</li>
+  <li>将下载的文件拷贝到临时目录</li>
+  <li>这样基本就OK。</li>
+</ol>
+
+<p>如果还不行，则可以考虑以下操作：</p>
+
+<ol>
+  <li>修改下载的脚本代码了。找到<code class="highlighter-rouge">node_modules/realm/scripts/download_realm.js</code>；</li>
+  <li>找到<code class="highlighter-rouge">download()</code>函数，将其中的<code class="highlighter-rouge">saveFile()</code>函数作如下修改；</li>
+</ol>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">saveFile</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">isTTY</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">printProgress</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'Content-Length'</span><span class="p">)),</span> <span class="nx">archive</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Downloading </span><span class="p">${</span><span class="nx">archive</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+		<span class="c1">// const file = fs.createWriteStream(destination);</span>
+		<span class="c1">// response.body.pipe(file).once('finish', () =&gt; file.close(resolve));</span>
+		<span class="nx">resolve</span><span class="p">();</span>
+	<span class="p">}).</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">utimes</span><span class="p">(</span><span class="nx">destination</span><span class="p">,</span> <span class="nx">lastModified</span><span class="p">,</span> <span class="nx">lastModified</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>最后运行<code class="highlighter-rouge">react-native run-ios</code>。</p>
+
+<p>参考</p>
+
+<ol>
+  <li><a href="https://github.com/realm/realm-cocoa/issues/2713">Core occasionally cannot be downloaded from China</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2017/11/01/%E8%A7%A3%E5%86%B3React-Native%E5%BC%95%E5%85%A5realm%E5%AF%BC%E8%87%B4%E7%BC%96%E8%AF%91%E5%8D%A1%E9%A1%BF%E9%97%AE%E9%A2%98.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

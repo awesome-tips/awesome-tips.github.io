@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>为什么音频播放器突然没声音了呢？ | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="为什么音频播放器突然没声音了呢？" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="做音频的同学可能都会遇到播放的音频突然没声音的情况，遇到这种情况后，一般控制台会抛出下面的错误：" />
+<meta property="og:description" content="做音频的同学可能都会遇到播放的音频突然没声音的情况，遇到这种情况后，一般控制台会抛出下面的错误：" />
+<link rel="canonical" href="http://localhost:4000/2018/01/01/%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8%E7%AA%81%E7%84%B6%E6%B2%A1%E5%A3%B0%E9%9F%B3%E4%BA%86%E5%91%A2.html" />
+<meta property="og:url" content="http://localhost:4000/2018/01/01/%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8%E7%AA%81%E7%84%B6%E6%B2%A1%E5%A3%B0%E9%9F%B3%E4%BA%86%E5%91%A2.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"做音频的同学可能都会遇到播放的音频突然没声音的情况，遇到这种情况后，一般控制台会抛出下面的错误：","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2018/01/01/%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8%E7%AA%81%E7%84%B6%E6%B2%A1%E5%A3%B0%E9%9F%B3%E4%BA%86%E5%91%A2.html","headline":"为什么音频播放器突然没声音了呢？","dateModified":"2018-01-01T08:00:00+08:00","datePublished":"2018-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/01/%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8%E7%AA%81%E7%84%B6%E6%B2%A1%E5%A3%B0%E9%9F%B3%E4%BA%86%E5%91%A2.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">为什么音频播放器突然没声音了呢？</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>做音频的同学可能都会遇到播放的音频突然没声音的情况，遇到这种情况后，一般控制台会抛出下面的错误：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">AVAudioSession</span> <span class="nf">setActive</span><span class="p">:</span><span class="nf">withOptions</span><span class="p">:</span><span class="n">error</span><span class="o">:</span><span class="p">]</span><span class="o">:</span> <span class="n">Deactivating</span> <span class="n">an</span> <span class="n">audio</span> <span class="n">session</span> <span class="n">that</span> <span class="n">has</span> <span class="n">running</span> <span class="n">I</span><span class="o">/</span><span class="n">O</span><span class="p">.</span> <span class="n">All</span> <span class="n">I</span><span class="o">/</span><span class="n">O</span> <span class="n">should</span> <span class="n">be</span> <span class="n">stopped</span> <span class="n">or</span> <span class="n">paused</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">deactivating</span> <span class="n">the</span> <span class="n">audio</span> <span class="n">session</span><span class="p">.</span><span class="err">`</span>
+</code></pre></div></div>
+
+<p>遇到这个错误，会导致音频不能正常播放的情况。出现这种情况的主要原因当你设置</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[[</span><span class="n">AVAudioSession</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">setActive</span><span class="p">:</span><span class="nb">NO</span> <span class="nf">withOptions</span><span class="p">:</span><span class="n">AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation</span> <span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>时还有某些操作占用了 <code class="highlighter-rouge">AVAudioSession</code> 权限，必须暂停或停止对 <code class="highlighter-rouge">AVAudioSession</code> 的使用。比如使用 <code class="highlighter-rouge">AVAudioPlayer</code> 播放某一音频时，此时音频正在播放，直接设置 <code class="highlighter-rouge">AVAudioSession</code> 的 <code class="highlighter-rouge">active</code> 为 <code class="highlighter-rouge">NO</code>，就会报上面提到的错误。而正确的做法是先暂停播放，再设置 <code class="highlighter-rouge">AVAudioSession</code> 的 <code class="highlighter-rouge">active</code> 为 <code class="highlighter-rouge">NO</code>。其正确的做法像下面代码所示，这样的好处是，当遇到设置失败后可以第一时间知道出错的时间点。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+<span class="n">BOOL</span> <span class="n">isSuccess</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AVAudioSession</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">setActive</span><span class="p">:</span><span class="n">active</span> <span class="nf">withOptions</span><span class="p">:</span><span class="n">AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">error</span><span class="p">];</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">isSuccess</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">NSLog</span><span class="p">(</span><span class="s">@"恭喜你成功设置"</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="n">NSLog</span><span class="p">(</span><span class="s">@"设置失败"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>当然如果应用中有多个地方使用 <code class="highlighter-rouge">AVAudioSession</code>，建议项目中统一处理 <code class="highlighter-rouge">AVAudioSession</code> 的 <code class="highlighter-rouge">active</code>，这样避免出现错误，一旦出现错误，调试起来就非常费劲。</p>
+
+  </div><a class="u-url" href="/2018/01/01/%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8%E7%AA%81%E7%84%B6%E6%B2%A1%E5%A3%B0%E9%9F%B3%E4%BA%86%E5%91%A2.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

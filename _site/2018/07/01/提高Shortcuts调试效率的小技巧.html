@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>提高Shortcuts调试效率的小技巧 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="提高Shortcuts调试效率的小技巧" />
+<meta name="author" content="高老师很忙" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="iOS12提供了Shortcuts的功能，今天给大家介绍2个苹果提供的提高Shortcuts调试效率的小技巧。" />
+<meta property="og:description" content="iOS12提供了Shortcuts的功能，今天给大家介绍2个苹果提供的提高Shortcuts调试效率的小技巧。" />
+<link rel="canonical" href="http://localhost:4000/2018/07/01/%E6%8F%90%E9%AB%98Shortcuts%E8%B0%83%E8%AF%95%E6%95%88%E7%8E%87%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7.html" />
+<meta property="og:url" content="http://localhost:4000/2018/07/01/%E6%8F%90%E9%AB%98Shortcuts%E8%B0%83%E8%AF%95%E6%95%88%E7%8E%87%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"iOS12提供了Shortcuts的功能，今天给大家介绍2个苹果提供的提高Shortcuts调试效率的小技巧。","author":{"@type":"Person","name":"高老师很忙"},"@type":"BlogPosting","url":"http://localhost:4000/2018/07/01/%E6%8F%90%E9%AB%98Shortcuts%E8%B0%83%E8%AF%95%E6%95%88%E7%8E%87%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7.html","headline":"提高Shortcuts调试效率的小技巧","dateModified":"2018-07-01T08:00:00+08:00","datePublished":"2018-07-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/07/01/%E6%8F%90%E9%AB%98Shortcuts%E8%B0%83%E8%AF%95%E6%95%88%E7%8E%87%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">提高Shortcuts调试效率的小技巧</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-01T08:00:00+08:00" itemprop="datePublished">Jul 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">高老师很忙</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>iOS12提供了<code class="highlighter-rouge">Shortcuts</code>的功能，今天给大家介绍2个苹果提供的提高<code class="highlighter-rouge">Shortcuts</code>调试效率的小技巧。</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Shortcuts</code>是可以通过Siri唤起的，如果每次调试的时候都要和Siri说一次短语，既浪费时间又打扰旁边正在工作的同事，Xcode提供了<code class="highlighter-rouge">Siri Intent Query</code>功能，在调试<code class="highlighter-rouge">Intents Extension</code>或者<code class="highlighter-rouge">Intens UI Extension</code>的target时，直接在里面输入你要说的短语，就可去省去调戏Siri的时间啦。</li>
+</ul>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/07/4-1.png?raw=true" alt="" /></p>
+
+<ul>
+  <li>在<code class="highlighter-rouge">iPhone设置</code>-&gt;<code class="highlighter-rouge">开发者</code>里面提供了<code class="highlighter-rouge">Display Recent Shorts</code>和<code class="highlighter-rouge">Display Donations on Lock Screen</code>的开关，可以忽略系统当前的建议和预测，显示我们需要调试的<code class="highlighter-rouge">Shortcuts</code>；同时还支持<code class="highlighter-rouge">Force Sync Shortcuts to Watch</code>的功能，手动去强制同步到Watch，会节省很多时间哦！</li>
+</ul>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/07/4-2.png?raw=true" alt="" /></p>
+
+<p>我觉得这2个小技巧还是很实用的，如果有其它小技巧欢迎一起交流！</p>
+
+  </div><a class="u-url" href="/2018/07/01/%E6%8F%90%E9%AB%98Shortcuts%E8%B0%83%E8%AF%95%E6%95%88%E7%8E%87%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

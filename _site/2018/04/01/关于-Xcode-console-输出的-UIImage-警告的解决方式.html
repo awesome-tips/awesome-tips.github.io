@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>关于 Xcode console 输出的 UIImage 警告的解决方式 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="关于 Xcode console 输出的 UIImage 警告的解决方式" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="最近项目中遇到 Xcode console 偶尔输出 [framework] CUICatalog: Invalid asset name supplied: &#39;(null)&#39; 这样一段 warning，毫无头绪。在爆栈上看到有人遇到一样的问题，原因是由于 [UIImage imageNamed:] 传了 nil 或者传入的 string 的 length 为0。至于怎么找到具体是哪里传了 nil，可以打一个全局断点，然后加一个条件来判断入参是否为空，即可找到有问题的地方。如图所示" />
+<meta property="og:description" content="最近项目中遇到 Xcode console 偶尔输出 [framework] CUICatalog: Invalid asset name supplied: &#39;(null)&#39; 这样一段 warning，毫无头绪。在爆栈上看到有人遇到一样的问题，原因是由于 [UIImage imageNamed:] 传了 nil 或者传入的 string 的 length 为0。至于怎么找到具体是哪里传了 nil，可以打一个全局断点，然后加一个条件来判断入参是否为空，即可找到有问题的地方。如图所示" />
+<link rel="canonical" href="http://localhost:4000/2018/04/01/%E5%85%B3%E4%BA%8E-Xcode-console-%E8%BE%93%E5%87%BA%E7%9A%84-UIImage-%E8%AD%A6%E5%91%8A%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F.html" />
+<meta property="og:url" content="http://localhost:4000/2018/04/01/%E5%85%B3%E4%BA%8E-Xcode-console-%E8%BE%93%E5%87%BA%E7%9A%84-UIImage-%E8%AD%A6%E5%91%8A%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"最近项目中遇到 Xcode console 偶尔输出 [framework] CUICatalog: Invalid asset name supplied: &#39;(null)&#39; 这样一段 warning，毫无头绪。在爆栈上看到有人遇到一样的问题，原因是由于 [UIImage imageNamed:] 传了 nil 或者传入的 string 的 length 为0。至于怎么找到具体是哪里传了 nil，可以打一个全局断点，然后加一个条件来判断入参是否为空，即可找到有问题的地方。如图所示","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2018/04/01/%E5%85%B3%E4%BA%8E-Xcode-console-%E8%BE%93%E5%87%BA%E7%9A%84-UIImage-%E8%AD%A6%E5%91%8A%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F.html","headline":"关于 Xcode console 输出的 UIImage 警告的解决方式","dateModified":"2018-04-01T08:00:00+08:00","datePublished":"2018-04-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/01/%E5%85%B3%E4%BA%8E-Xcode-console-%E8%BE%93%E5%87%BA%E7%9A%84-UIImage-%E8%AD%A6%E5%91%8A%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">关于 Xcode console 输出的 UIImage 警告的解决方式</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-01T08:00:00+08:00" itemprop="datePublished">Apr 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>最近项目中遇到 Xcode console 偶尔输出 <code class="highlighter-rouge">[framework] CUICatalog: Invalid asset name supplied: '(null)'</code> 这样一段 <code class="highlighter-rouge">warning</code>，毫无头绪。在爆栈上看到有人遇到一样的问题，原因是由于 <code class="highlighter-rouge">[UIImage imageNamed:]</code> 传了 <code class="highlighter-rouge">nil</code> 或者传入的 <code class="highlighter-rouge">string</code> 的 <code class="highlighter-rouge">length</code> 为0。至于怎么找到具体是哪里传了 <code class="highlighter-rouge">nil</code>，可以打一个全局断点，然后加一个条件来判断入参是否为空，即可找到有问题的地方。如图所示</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/4-1.jpg?raw=true" alt="" /></p>
+
+<p>还有遇到 <code class="highlighter-rouge">Could not load the "some-image-name" image referenced from a nib in the bundle with identifier "com.xxxx"</code> 这种情况，一般情况下是这张图片被删除了，但是 <code class="highlighter-rouge">Xib/Storyboard</code> 中还引用了这张图片，表现形式主要是 <code class="highlighter-rouge">UIImageView</code> 的 <code class="highlighter-rouge">image</code> 属性一栏是 <code class="highlighter-rouge">Unknown</code>，如下图</p>
+
+<p><img src="https://github.com/iOS-Tips/iOS-tech-set/blob/master/images/2018/04/4-2.png?raw=true" alt="" /></p>
+
+<p>只要把这个 <code class="highlighter-rouge">Unknown</code> 改成对应图片即可。</p>
+
+<p>参考链接：
+<a href="http://t.cn/R06T3OW">Error: CUICatalog: Invalid asset name supplied</a>
+<a href="http://t.cn/RmXu0sN">Could not load the “xxx” image referenced from a nib in the bundle with identifier</a></p>
+
+  </div><a class="u-url" href="/2018/04/01/%E5%85%B3%E4%BA%8E-Xcode-console-%E8%BE%93%E5%87%BA%E7%9A%84-UIImage-%E8%AD%A6%E5%91%8A%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

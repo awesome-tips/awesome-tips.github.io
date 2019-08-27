@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>iOS快速解析崩溃日志 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="iOS快速解析崩溃日志" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="平时我们拿到一份崩溃日志，需要解析，一般操作是取到对应的 dSYM 和对应的二进制文件，然后拿到相应的崩溃日志 uuid 、二进制的 uuid、dSYM 的 uuid 通过命令行来解析。这些操作感觉比较耗时。下面介绍几种情况下的快速解析的方法：" />
+<meta property="og:description" content="平时我们拿到一份崩溃日志，需要解析，一般操作是取到对应的 dSYM 和对应的二进制文件，然后拿到相应的崩溃日志 uuid 、二进制的 uuid、dSYM 的 uuid 通过命令行来解析。这些操作感觉比较耗时。下面介绍几种情况下的快速解析的方法：" />
+<link rel="canonical" href="http://localhost:4000/2017/12/01/iOS%E5%BF%AB%E9%80%9F%E8%A7%A3%E6%9E%90%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97.html" />
+<meta property="og:url" content="http://localhost:4000/2017/12/01/iOS%E5%BF%AB%E9%80%9F%E8%A7%A3%E6%9E%90%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-12-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"平时我们拿到一份崩溃日志，需要解析，一般操作是取到对应的 dSYM 和对应的二进制文件，然后拿到相应的崩溃日志 uuid 、二进制的 uuid、dSYM 的 uuid 通过命令行来解析。这些操作感觉比较耗时。下面介绍几种情况下的快速解析的方法：","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2017/12/01/iOS%E5%BF%AB%E9%80%9F%E8%A7%A3%E6%9E%90%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97.html","headline":"iOS快速解析崩溃日志","dateModified":"2017-12-01T08:00:00+08:00","datePublished":"2017-12-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/12/01/iOS%E5%BF%AB%E9%80%9F%E8%A7%A3%E6%9E%90%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">iOS快速解析崩溃日志</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-12-01T08:00:00+08:00" itemprop="datePublished">Dec 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>平时我们拿到一份崩溃日志，需要解析，一般操作是取到对应的 dSYM 和对应的二进制文件，然后拿到相应的崩溃日志 uuid 、二进制的 uuid、dSYM 的 uuid 通过命令行来解析。这些操作感觉比较耗时。下面介绍几种情况下的快速解析的方法：</p>
+
+<ul>
+  <li>1、自己设备上 Xcode 编译的包发生闪退：连上手机打开 Xcode，cmd+shift+2 呼出 Device 的 Window，如图1所示，然后点击 View Device Logs，然后选中对应时间段自己 app 的崩溃日志。如果此时对应的调用栈还没有符号化，可以选中日志后右键如图2所示 Re-Symbolicate Log 即可。</li>
+</ul>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/12/10-1.jpg?raw=true" alt="" /></p>
+
+<ul>
+  <li>
+    <p>2、如果是打包服务器或者 Appstore 的包发生闪退：拷贝对应的包和 dSYM 到任意文件夹下，注意将 dSYM 解压以及 .ipa 里面的 .app 取出。然后按照情况1的方式处理即可，Xcode 会自动索引二进制及 dSYM。</p>
+  </li>
+  <li>
+    <p>3、如果拿到别的设备导出的未符号化的崩溃日志，可以将日志拖至图2所示的列表中，注意此时上面 tab 记得选 All Logs 而不是 This Device，然后参考情况2，找到崩溃日志对应的二进制包和 dSYM 文件，按照情况2处理即可。可能会遇到系统库的一些方法无法符号化的问题，只需要找到对应的设备连上电脑，让 Xcode 读取一遍该设备(同机型和系统版本的也可以)的符号表，然后再 Re-Symbolicate 一遍就行。</p>
+  </li>
+  <li>
+    <p>4、遇到线上用户崩溃，无法拿到完整崩溃日志，可以让用户到【设置-&gt;分析-&gt;分析数据】里面找到对应时间点的崩溃日志，然后截图，根据一个开源工具 <a href="https://github.com/answer-huang/dSYMTools">dSYMTools</a>，把崩溃栈的关键地址输入到文本框中即可解析出崩溃的那个方法，具体使用方法参考 <a href="https://github.com/answer-huang/dSYMTools">ReadMe</a>。</p>
+  </li>
+</ul>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/12/10-2.jpg?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2017/12/01/iOS%E5%BF%AB%E9%80%9F%E8%A7%A3%E6%9E%90%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

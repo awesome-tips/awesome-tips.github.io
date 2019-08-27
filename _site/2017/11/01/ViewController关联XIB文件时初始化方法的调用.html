@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>ViewController关联XIB文件时初始化方法的调用 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="ViewController关联XIB文件时初始化方法的调用" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在新建一个 ViewController 文件时，如果同时也勾选了 Also create XIB file，那么ViewController *viewController = [[ViewController alloc] init] 得到的是和 initWithNibName:bundle: 初始化得到的 UI 一致的。原因是 init 方法最终都会调到指定构造器 initWithNibName:bundle:，但此时 nibName 为 nil，而且没有 VC 复写 loadView 的情况下，则系统会有一套自己的寻找机制来看是否有对应的 xib 文件，如果有，则加载 xib 文件。具体可参考苹果官方文档的解释：" />
+<meta property="og:description" content="在新建一个 ViewController 文件时，如果同时也勾选了 Also create XIB file，那么ViewController *viewController = [[ViewController alloc] init] 得到的是和 initWithNibName:bundle: 初始化得到的 UI 一致的。原因是 init 方法最终都会调到指定构造器 initWithNibName:bundle:，但此时 nibName 为 nil，而且没有 VC 复写 loadView 的情况下，则系统会有一套自己的寻找机制来看是否有对应的 xib 文件，如果有，则加载 xib 文件。具体可参考苹果官方文档的解释：" />
+<link rel="canonical" href="http://localhost:4000/2017/11/01/ViewController%E5%85%B3%E8%81%94XIB%E6%96%87%E4%BB%B6%E6%97%B6%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8.html" />
+<meta property="og:url" content="http://localhost:4000/2017/11/01/ViewController%E5%85%B3%E8%81%94XIB%E6%96%87%E4%BB%B6%E6%97%B6%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-11-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在新建一个 ViewController 文件时，如果同时也勾选了 Also create XIB file，那么ViewController *viewController = [[ViewController alloc] init] 得到的是和 initWithNibName:bundle: 初始化得到的 UI 一致的。原因是 init 方法最终都会调到指定构造器 initWithNibName:bundle:，但此时 nibName 为 nil，而且没有 VC 复写 loadView 的情况下，则系统会有一套自己的寻找机制来看是否有对应的 xib 文件，如果有，则加载 xib 文件。具体可参考苹果官方文档的解释：","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2017/11/01/ViewController%E5%85%B3%E8%81%94XIB%E6%96%87%E4%BB%B6%E6%97%B6%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8.html","headline":"ViewController关联XIB文件时初始化方法的调用","dateModified":"2017-11-01T08:00:00+08:00","datePublished":"2017-11-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/11/01/ViewController%E5%85%B3%E8%81%94XIB%E6%96%87%E4%BB%B6%E6%97%B6%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">ViewController关联XIB文件时初始化方法的调用</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-11-01T08:00:00+08:00" itemprop="datePublished">Nov 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在新建一个 <code class="highlighter-rouge">ViewController</code> 文件时，如果同时也勾选了 <code class="highlighter-rouge">Also create XIB file</code>，那么<code class="highlighter-rouge">ViewController *viewController = [[ViewController alloc] init]</code> 得到的是和 <code class="highlighter-rouge">initWithNibName:bundle:</code> 初始化得到的 UI 一致的。原因是 <code class="highlighter-rouge">init</code> 方法最终都会调到指定构造器 <code class="highlighter-rouge">initWithNibName:bundle:</code>，但此时 <code class="highlighter-rouge">nibName</code> 为 <code class="highlighter-rouge">nil</code>，而且没有 VC 复写 <code class="highlighter-rouge">loadView</code> 的情况下，则系统会有一套自己的寻找机制来看是否有对应的 xib 文件，如果有，则加载 xib 文件。具体可参考苹果官方文档的<a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621487-nibname?language=objc">解释</a>：</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/11/9-1.jpg?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2017/11/01/ViewController%E5%85%B3%E8%81%94XIB%E6%96%87%E4%BB%B6%E6%97%B6%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

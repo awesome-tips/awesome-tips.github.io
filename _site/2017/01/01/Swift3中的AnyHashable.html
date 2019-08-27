@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Swift3中的AnyHashable | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Swift3中的AnyHashable" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在Swift 3的标准库中添加了AnyHashable这一新类型，其用途是在需要Hash值的集合中，可以混合使用多种Hashable类型。例如，字典的key值，其要求是Hashable类型，如果希望key值是任意实现了Hashable协议的类型，则在声明字典时，可以使用AnyHashable作为key的类型，如下代码所示：" />
+<meta property="og:description" content="在Swift 3的标准库中添加了AnyHashable这一新类型，其用途是在需要Hash值的集合中，可以混合使用多种Hashable类型。例如，字典的key值，其要求是Hashable类型，如果希望key值是任意实现了Hashable协议的类型，则在声明字典时，可以使用AnyHashable作为key的类型，如下代码所示：" />
+<link rel="canonical" href="http://localhost:4000/2017/01/01/Swift3%E4%B8%AD%E7%9A%84AnyHashable.html" />
+<meta property="og:url" content="http://localhost:4000/2017/01/01/Swift3%E4%B8%AD%E7%9A%84AnyHashable.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-01-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"在Swift 3的标准库中添加了AnyHashable这一新类型，其用途是在需要Hash值的集合中，可以混合使用多种Hashable类型。例如，字典的key值，其要求是Hashable类型，如果希望key值是任意实现了Hashable协议的类型，则在声明字典时，可以使用AnyHashable作为key的类型，如下代码所示：","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/01/01/Swift3%E4%B8%AD%E7%9A%84AnyHashable.html","headline":"Swift3中的AnyHashable","dateModified":"2017-01-01T08:00:00+08:00","datePublished":"2017-01-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/01/01/Swift3%E4%B8%AD%E7%9A%84AnyHashable.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Swift3中的AnyHashable</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-01-01T08:00:00+08:00" itemprop="datePublished">Jan 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在<code class="highlighter-rouge">Swift 3</code>的标准库中添加了<code class="highlighter-rouge">AnyHashable</code>这一新类型，其用途是在需要<code class="highlighter-rouge">Hash</code>值的集合中，可以混合使用多种<code class="highlighter-rouge">Hashable</code>类型。例如，字典的<code class="highlighter-rouge">key</code>值，其要求是<code class="highlighter-rouge">Hashable</code>类型，如果希望<code class="highlighter-rouge">key</code>值是任意实现了<code class="highlighter-rouge">Hashable</code>协议的类型，则在声明字典时，可以使用<code class="highlighter-rouge">AnyHashable</code>作为<code class="highlighter-rouge">key</code>的类型，如下代码所示：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">description</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="kt">AnyHashable</span><span class="p">(</span><span class="s">"😄"</span><span class="p">):</span> <span class="s">"emoji"</span><span class="p">,</span>
+    <span class="kt">AnyHashable</span><span class="p">(</span><span class="mi">42</span><span class="p">):</span> <span class="s">"an Int"</span><span class="p">,</span>
+    <span class="kt">AnyHashable</span><span class="p">(</span><span class="mf">34.2</span><span class="p">):</span> <span class="s">"a Double"</span><span class="p">,</span>
+    <span class="kt">AnyHashable</span><span class="p">(</span><span class="kt">Set</span><span class="p">([</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">])):</span> <span class="s">"a set of strings"</span>
+<span class="p">]</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">description</span><span class="p">[</span><span class="kt">AnyHashable</span><span class="p">(</span><span class="mi">42</span><span class="p">)]</span><span class="o">!</span><span class="p">)</span>        <span class="c1">// an Int</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">description</span><span class="p">[</span><span class="kt">AnyHashable</span><span class="p">(</span><span class="mi">34</span><span class="p">)])</span>         <span class="c1">// nil</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">description</span><span class="p">[</span><span class="kt">AnyHashable</span><span class="p">(</span><span class="kt">Set</span><span class="p">([</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">]))]</span><span class="o">!</span><span class="p">)</span>   <span class="c1">// a set of strings</span>
+</code></pre></div></div>
+
+<p>早先，在<code class="highlighter-rouge">ObjC</code>与<code class="highlighter-rouge">Swift</code>混合编程中，<code class="highlighter-rouge">ObjC</code>的<code class="highlighter-rouge">NSDictionary</code>导入到<code class="highlighter-rouge">Swift</code>时，是转换成<code class="highlighter-rouge">[NSObject: AnyObject]</code>类型。使用<code class="highlighter-rouge">NSObject</code>作为<code class="highlighter-rouge">key</code>的类型，因为<code class="highlighter-rouge">NSObject</code>是最接近于<code class="highlighter-rouge">AnyObject</code>且实现了<code class="highlighter-rouge">Hashable</code>的类型。不过<code class="highlighter-rouge">Swift</code>希望在标准库中限制<code class="highlighter-rouge">AnyObject</code>的使用，而更多的使用<code class="highlighter-rouge">Any</code>，所以加入了<code class="highlighter-rouge">AnyHashable</code>类型。</p>
+
+<p>参考</p>
+
+<ol>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0131-anyhashable.md">Add AnyHashable to the standard library</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2017/01/01/Swift3%E4%B8%AD%E7%9A%84AnyHashable.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

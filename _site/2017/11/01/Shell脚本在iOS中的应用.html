@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Shell脚本在iOS中的应用 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Shell脚本在iOS中的应用" />
+<meta name="author" content="Lefe_x" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="使用 Pod 的同学经常会遇到 &quot;error: The sandbox is not in sync with the Podfile.lock. Run &#39;pod install&#39; or update your CocoaPods installation.&quot; 错误，如下图所示。其实是 [CP] Check Pods Manifest.lock 这个脚本所起的作用。" />
+<meta property="og:description" content="使用 Pod 的同学经常会遇到 &quot;error: The sandbox is not in sync with the Podfile.lock. Run &#39;pod install&#39; or update your CocoaPods installation.&quot; 错误，如下图所示。其实是 [CP] Check Pods Manifest.lock 这个脚本所起的作用。" />
+<link rel="canonical" href="http://localhost:4000/2017/11/01/Shell%E8%84%9A%E6%9C%AC%E5%9C%A8iOS%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.html" />
+<meta property="og:url" content="http://localhost:4000/2017/11/01/Shell%E8%84%9A%E6%9C%AC%E5%9C%A8iOS%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-11-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"使用 Pod 的同学经常会遇到 &quot;error: The sandbox is not in sync with the Podfile.lock. Run &#39;pod install&#39; or update your CocoaPods installation.&quot; 错误，如下图所示。其实是 [CP] Check Pods Manifest.lock 这个脚本所起的作用。","author":{"@type":"Person","name":"Lefe_x"},"@type":"BlogPosting","url":"http://localhost:4000/2017/11/01/Shell%E8%84%9A%E6%9C%AC%E5%9C%A8iOS%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.html","headline":"Shell脚本在iOS中的应用","dateModified":"2017-11-01T08:00:00+08:00","datePublished":"2017-11-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/11/01/Shell%E8%84%9A%E6%9C%AC%E5%9C%A8iOS%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Shell脚本在iOS中的应用</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-11-01T08:00:00+08:00" itemprop="datePublished">Nov 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Lefe_x</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>使用 Pod 的同学经常会遇到 <code class="highlighter-rouge">"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation."</code> 错误，如下图所示。其实是 <code class="highlighter-rouge">[CP] Check Pods Manifest.lock</code> 这个脚本所起的作用。</p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/11/5-1.PNG?raw=true" alt="" /></p>
+
+<p>Pod 中有 <code class="highlighter-rouge">Manifest.lock</code> 和 <code class="highlighter-rouge">Podfile.lock</code> 这两个文件，只要这两个文件的内容不一样就会报错上面这个错误。<code class="highlighter-rouge">Podfile.lock</code> 是大家共用的文件（用来保证我们每个人的Pod库版本一样），而 <code class="highlighter-rouge">Manifest.lock</code> 是本地的文件（自己用）。下图中这个脚本正是做这样的事情。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diff <span class="s2">"</span><span class="k">${</span><span class="nv">PODS_PODFILE_DIR_PATH</span><span class="k">}</span><span class="s2">/Podfile.lock"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PODS_ROOT</span><span class="k">}</span><span class="s2">/Manifest.lock"</span> <span class="o">&gt;</span> /dev/null
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="o">!=</span> 0 <span class="o">]</span> <span class="p">;</span> <span class="k">then</span>
+    <span class="c"># print error to STDERR</span>
+    <span class="nb">echo</span> <span class="s2">"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation."</span> <span class="o">&gt;</span>&amp;2
+    <span class="nb">exit </span>1
+<span class="k">fi</span>
+<span class="c"># This output is used by Xcode 'outputs' to avoid re-running this script phase.</span>
+<span class="nb">echo</span> <span class="s2">"SUCCESS"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SCRIPT_OUTPUT_FILE_0</span><span class="k">}</span><span class="s2">"</span>
+
+</code></pre></div></div>
+
+<p><strong>解释下这个脚本</strong></p>
+
+<p><code class="highlighter-rouge">shell</code> 脚本总是以：<code class="highlighter-rouge"><span class="c">#!/bin/bash</span></code> 或者 <code class="highlighter-rouge"><span class="c">#!/bin/sh</span></code> 开头，它主要告诉系统执行这个文件需要哪个解释器，进入 <code class="highlighter-rouge">/bin</code> 目录下可以看到 bash 和 sh 解释器；</p>
+
+<ul>
+  <li><code class="highlighter-rouge">diff</code> 命令：判断两个文件的不同，比如 <code class="highlighter-rouge">diff /Users/lefe/Desktop/project/Kmart/Podfile.lock /Users/lefe/Desktop/project/Kmart/pods/Manifest.lock &gt;~/Desktop/shell.log</code> 比较两个文件的不同，并重定向到 <code class="highlighter-rouge">shell.log</code> 文件中；</li>
+  <li><code class="highlighter-rouge">&gt;</code> 重定向符号，可以把输出命令输出到某个文件中而不是控制台；</li>
+  <li><code class="highlighter-rouge">echo</code> 是脚本的输出，相当于 <code class="highlighter-rouge">printf</code>；</li>
+  <li><code class="highlighter-rouge">exit 1</code> 退出，有了这个命令 Xcode 就会报错，你可以在 Xcode 中新建一个脚本，试试下面这个脚本：</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"This is a test shell created by Lefe_x"</span>
+<span class="nb">exit </span>1
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">$?：</code> 指上条命令执行的结果，也就是 <code class="highlighter-rouge">diff</code> 执行的结果；</p>
+  </li>
+  <li>
+    <p>下面是 shell 中的 if 语句：</p>
+  </li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if </span>条件 <span class="p">;</span> <span class="k">then
+fi</span>
+</code></pre></div></div>
+
+<p><strong>如何在终端执行脚本</strong></p>
+
+<p>假如有个叫 <code class="highlighter-rouge">podlgsk.sh</code> 的脚本，只要给予它执行权限（<code class="highlighter-rouge">chmod +x podlgsk.sh</code>），注意只需要给一次执行权限就行，下次运行脚本时就不需要给予执行权限了，然后直接 <code class="highlighter-rouge">./podlgsk.sh</code> 即可。</p>
+
+<p><strong>小结</strong></p>
+
+<p>其实 <code class="highlighter-rouge">Shell</code> 脚本就是把一些 <code class="highlighter-rouge">linux</code> 命令组合到一起，经过一些处理（比如：if 判断，循环等）后所形成的文件。（不知道总结的是否恰当）</p>
+
+  </div><a class="u-url" href="/2017/11/01/Shell%E8%84%9A%E6%9C%AC%E5%9C%A8iOS%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

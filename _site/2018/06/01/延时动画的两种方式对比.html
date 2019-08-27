@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>延时动画的两种方式对比 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="延时动画的两种方式对比" />
+<meta name="author" content="Vong_HUST" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="一般情况下，做延时动画有下面常见的两种方式，方式1采用 UIView 提供的带延迟参数的类方法，方式2则是使用 NSObject 的实例方法来延迟执行某个方法。如下图所示，二者都能在3秒之后做一个时长为0.3秒的渐隐动画，那区别在哪呢？" />
+<meta property="og:description" content="一般情况下，做延时动画有下面常见的两种方式，方式1采用 UIView 提供的带延迟参数的类方法，方式2则是使用 NSObject 的实例方法来延迟执行某个方法。如下图所示，二者都能在3秒之后做一个时长为0.3秒的渐隐动画，那区别在哪呢？" />
+<link rel="canonical" href="http://localhost:4000/2018/06/01/%E5%BB%B6%E6%97%B6%E5%8A%A8%E7%94%BB%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94.html" />
+<meta property="og:url" content="http://localhost:4000/2018/06/01/%E5%BB%B6%E6%97%B6%E5%8A%A8%E7%94%BB%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-06-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"一般情况下，做延时动画有下面常见的两种方式，方式1采用 UIView 提供的带延迟参数的类方法，方式2则是使用 NSObject 的实例方法来延迟执行某个方法。如下图所示，二者都能在3秒之后做一个时长为0.3秒的渐隐动画，那区别在哪呢？","author":{"@type":"Person","name":"Vong_HUST"},"@type":"BlogPosting","url":"http://localhost:4000/2018/06/01/%E5%BB%B6%E6%97%B6%E5%8A%A8%E7%94%BB%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94.html","headline":"延时动画的两种方式对比","dateModified":"2018-06-01T08:00:00+08:00","datePublished":"2018-06-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/06/01/%E5%BB%B6%E6%97%B6%E5%8A%A8%E7%94%BB%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">延时动画的两种方式对比</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-06-01T08:00:00+08:00" itemprop="datePublished">Jun 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Vong_HUST</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>一般情况下，做延时动画有下面常见的两种方式，方式1采用 <code class="highlighter-rouge">UIView</code> 提供的带延迟参数的类方法，方式2则是使用 <code class="highlighter-rouge">NSObject</code> 的实例方法来延迟执行某个方法。如下图所示，二者都能在3秒之后做一个时长为0.3秒的渐隐动画，那区别在哪呢？</p>
+
+<p>区别就在于：方式1在执行 <code class="highlighter-rouge">[self dismissWithDelay:3];</code> 后，<code class="highlighter-rouge">self</code> 的 <code class="highlighter-rouge">alpha</code> 会马上变成0（但还是可见的），导致点击事件不响应，方式2则可以正常响应。</p>
+
+<p>原因在于 <code class="highlighter-rouge">UIView</code> 的动画类方法，只是对 <code class="highlighter-rouge">CoreAnimation</code> 的封装，在调用了该方法后，相当于给 <code class="highlighter-rouge">self.layer</code> 加了一个 <code class="highlighter-rouge">opacity</code> 的 <code class="highlighter-rouge">CABasicAnimation</code>。<code class="highlighter-rouge">self</code> 的 <code class="highlighter-rouge">modelLayer</code> 的透明度（<code class="highlighter-rouge">opacity</code>）已经被设置成了动画结束时的值（0）（<code class="highlighter-rouge">modelLayer</code> 的属性和 <code class="highlighter-rouge">view</code> 的对应属性是一致的，比如这里的 <code class="highlighter-rouge">modelLayer</code> 的 <code class="highlighter-rouge">opacity</code> 和 <code class="highlighter-rouge">view</code> 的 <code class="highlighter-rouge">alpha</code>），进而导致无法响应点击事件。<code class="highlighter-rouge">presentationLayer</code> 则是动画过程中近似我们实时看到的内容。</p>
+
+<p>所以一般情况下，如果延时动画操作的是 <code class="highlighter-rouge">alpha</code> 或者 <code class="highlighter-rouge">hidden</code> 属性，建议采用 <code class="highlighter-rouge">performSelector:withObject:afterDelay:</code> 的方式，这样可以在延迟时间未到之前还是能够响应对应的交互。</p>
+
+<p>PS：如果想在延时还未到的时候取消，方式1可以采用 <code class="highlighter-rouge">[self.layer removeAllAnimations]</code>，方式2可以采用 <code class="highlighter-rouge">[NSObject cancelPreviousPerformRequestsWithTarget:self]</code> 的方式。</p>
+
+<p>更多关于 <code class="highlighter-rouge">CoreAnimation</code> 的内容可以查看 <a href="https://objccn.io/issue-12-1/">动画解释</a> 以及 <a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques">iOS-Core-Animation-Advanced-Techniques</a>。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 方式1</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dismissWithDelay</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">delay</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span>
+                          <span class="nf">delay</span><span class="p">:</span><span class="n">delay</span>
+                        <span class="nl">options:</span><span class="n">UIViewAnimationOptionCurveEaseInOut</span><span class="o">|</span><span class="n">UIViewAnimationOptionAllowUserInteraction</span>
+                     <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
+                         <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="n">f</span><span class="p">;</span>
+                     <span class="p">}</span>
+                     <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+                         
+                     <span class="p">}];</span>
+<span class="p">}</span>
+
+<span class="p">[</span><span class="n">self</span> <span class="nf">dismissWithDelay</span><span class="p">:</span><span class="mi">3</span><span class="p">];</span>
+
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%f, %f, %f"</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">presentationLayer</span><span class="p">.</span><span class="n">opacity</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">modelLayer</span><span class="p">.</span><span class="n">opacity</span><span class="p">);</span>      <span class="c1">// ---&gt; 0.000000, 1.000000, 0.000000</span>
+
+<span class="c1">// 方式2</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dismiss</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span>
+                          <span class="nf">delay</span><span class="p">:</span><span class="mi">0</span>
+                        <span class="n">options</span><span class="o">:</span><span class="n">UIViewAnimationOptionCurveEaseInOut</span><span class="o">|</span><span class="n">UIViewAnimationOptionAllowUserInteraction</span>
+                     <span class="n">animations</span><span class="o">:^</span><span class="p">{</span>
+                         <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="n">f</span><span class="p">;</span>
+                     <span class="p">}</span>
+                     <span class="n">completion</span><span class="o">:^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+                         
+                     <span class="p">}];</span>
+<span class="p">}</span>
+
+<span class="p">[</span><span class="n">self</span> <span class="nf">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">dismiss</span><span class="p">)</span> <span class="nf">withObject</span><span class="p">:</span><span class="nb">nil</span> <span class="n">afterDelay</span><span class="o">:</span><span class="mi">3</span> <span class="n">inModes</span><span class="o">:</span><span class="p">@[</span><span class="n">NSRunLoopCommonModes</span><span class="p">]];</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%f, %f, %f"</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">presentationLayer</span><span class="p">.</span><span class="n">opacity</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">modelLayer</span><span class="p">.</span><span class="n">opacity</span><span class="p">);</span>      <span class="c1">// ---&gt; 1.000000, 1.000000, 1.000000</span>
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/2018/06/01/%E5%BB%B6%E6%97%B6%E5%8A%A8%E7%94%BB%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>CoreAnimation 与 pop 的对比 | 知识小集</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="CoreAnimation 与 pop 的对比" />
+<meta name="author" content="知识小集成员" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="最近在 Medium 上看到一篇《Should you use POP?》的文章，文章主要通过以下几个方面来对比了 pop 和 Core Animation。" />
+<meta property="og:description" content="最近在 Medium 上看到一篇《Should you use POP?》的文章，文章主要通过以下几个方面来对比了 pop 和 Core Animation。" />
+<link rel="canonical" href="http://localhost:4000/2017/12/01/CoreAnimation-%E4%B8%8E-pop-%E7%9A%84%E5%AF%B9%E6%AF%94.html" />
+<meta property="og:url" content="http://localhost:4000/2017/12/01/CoreAnimation-%E4%B8%8E-pop-%E7%9A%84%E5%AF%B9%E6%AF%94.html" />
+<meta property="og:site_name" content="知识小集" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-12-01T08:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"最近在 Medium 上看到一篇《Should you use POP?》的文章，文章主要通过以下几个方面来对比了 pop 和 Core Animation。","author":{"@type":"Person","name":"知识小集成员"},"@type":"BlogPosting","url":"http://localhost:4000/2017/12/01/CoreAnimation-%E4%B8%8E-pop-%E7%9A%84%E5%AF%B9%E6%AF%94.html","headline":"CoreAnimation 与 pop 的对比","dateModified":"2017-12-01T08:00:00+08:00","datePublished":"2017-12-01T08:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/12/01/CoreAnimation-%E4%B8%8E-pop-%E7%9A%84%E5%AF%B9%E6%AF%94.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="知识小集" /></head>
+<body><header class="site-header">
+  <div class="site-nav-box">
+      <p class="site-nav-item"><a class="site-nav-item" href="/">知识小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/iostip/">#iOS小集</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/flutter/">Flutter</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/resource/">资源推荐</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" href="/about/">团队</a></p>
+      
+      <p class="site-nav-item"><a class="site-nav-item" target="_black" href="https://lefex.github.io/fe/">前端</a></p>
+      </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper-content">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">CoreAnimation 与 pop 的对比</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-12-01T08:00:00+08:00" itemprop="datePublished">Dec 1, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">知识小集成员</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>最近在 <code class="highlighter-rouge">Medium</code> 上看到一篇《Should you use POP?》的文章，文章主要通过以下几个方面来对比了 <code class="highlighter-rouge">pop</code> 和 <code class="highlighter-rouge">Core Animation</code>。</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">Core Animation</code> 工作原理：每次添加动画时 <code class="highlighter-rouge">QuartzCore</code> 会打包其参数，然后通过进程间通信的方式传递给一个名为 <code class="highlighter-rouge">backboardd</code> 的后台进程。然后该进程通过 <code class="highlighter-rouge">OpenGL</code> 渲染和处理 <code class="highlighter-rouge">layer</code> 的层级以及 <code class="highlighter-rouge">layer</code> 上的动画。最重要的一点就是该进程完全独立于你的应用，应用只会拿到动画开始和结束的回调（<code class="highlighter-rouge">CAAnimationDelegate</code>），不负责动画的渲染（显式动画除外）。也就是主线程和 <code class="highlighter-rouge">CoreAnimation</code> 不会互相影响，也就是即使主线程阻塞了，<code class="highlighter-rouge">CoreAnimation</code> 依旧在执行。</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">pop</code> 的工作原理：使用 <code class="highlighter-rouge">CADisplayLink</code> 来开启一个 <code class="highlighter-rouge">fps=60</code> 的渲染工作。每当 <code class="highlighter-rouge">CADisplayLink</code> 回调触发时，更新一下动画的进度。也就是每一帧发生改变时都需要通知 <code class="highlighter-rouge">backboardd</code> 来渲染，因为它对于 <code class="highlighter-rouge">layer</code> 的变化并不知情。</p>
+  </li>
+  <li>
+    <p>由于 <code class="highlighter-rouge">pop</code> 必须在主线程上处理动画，所以 <code class="highlighter-rouge">pop</code> 动画很有可能发生卡顿。作者写了一个 <code class="highlighter-rouge">Demo</code> 来演示对应效果，效果如下图，左边为 <code class="highlighter-rouge">Core Animation</code> 的方式，右边为 <code class="highlighter-rouge">pop</code> 的方式。</p>
+  </li>
+</ul>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/12/9-1.gif?raw=true" alt="" /></p>
+
+<ul>
+  <li>作者对比了 <code class="highlighter-rouge">Core Animation</code> 和 <code class="highlighter-rouge">pop</code> 的性能。同样动画效果情况下(运行10s)，使用 <code class="highlighter-rouge">Time Profiler</code> 看 <code class="highlighter-rouge">backboardd</code> (<code class="highlighter-rouge">CoreAnimation</code>) 和应用(<code class="highlighter-rouge">pop</code>) <code class="highlighter-rouge">CPU</code> 消耗，<code class="highlighter-rouge">iPhone4 iOS7.1.2</code> 和 <code class="highlighter-rouge">iPhone6 iOS8.1.1</code> 的对比结果下图所示（左边 <code class="highlighter-rouge">iPhone4</code>，右边 <code class="highlighter-rouge">iPhone6</code>）。可以看出两者 <code class="highlighter-rouge">backboardd</code> 进程的 <code class="highlighter-rouge">CPU</code> 耗时差别在 <code class="highlighter-rouge">100ms</code> 左右，但是应用的 <code class="highlighter-rouge">CPU</code> 耗时差距十分明显，<code class="highlighter-rouge">Core Animation</code> 应用 <code class="highlighter-rouge">CPU</code> 耗时接近于0。</li>
+</ul>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/12/9-2.jpg?raw=true" alt="" /></p>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/12/9-3.jpg?raw=true" alt="" /></p>
+
+<ul>
+  <li>结论如下图所示。<code class="highlighter-rouge">Core Animation</code> 优点为：①单独进程运行 ②不会阻塞主线程。缺点为：①复杂动画效果要写冗长的代码 ②手势驱动动画比较复杂。 <code class="highlighter-rouge">pop</code> 的优点为：①丰富的 API ②内置很多的动画 缺点为：①在主线程上执行 ②动画过程可能卡顿 ③消耗更高的 <code class="highlighter-rouge">CPU</code></li>
+</ul>
+
+<p><img src="https://github.com/southpeak/iOS-tech-set/blob/master/images/2017/12/9-4.jpg?raw=true" alt="" /></p>
+
+  </div><a class="u-url" href="/2017/12/01/CoreAnimation-%E4%B8%8E-pop-%E7%9A%84%E5%AF%B9%E6%AF%94.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer>
+  <div class="site-footer">
+    <div class="site-footer-item-box">
+      <p class="site-footer-item site-footer-item-title">合作伙伴</p>
+      <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" target="_black" href="https://lefex.github.io/">超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">致谢</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://lefex.github.io/">主题样式来自超越技术</a></p>
+    </div>
+    <div class="site-footer-item-line"></div>
+    <div class="site-footer-item-box">
+        <p class="site-footer-item site-footer-item-title">联系我</p>
+        <p class="site-footer-item site-footer-item-subtitle"><a class="site-footer-item-subtitle" href="https://mp.weixin.qq.com/s/0hr2cTnGBBf3hbZFVNlAcg">关注知识小集公众号</a></p>
+    </div>
+  </div>
+
+</footer>
+</body>
+
+</html>
